@@ -1,1 +1,10 @@
+// ABSTRACTS
+@import 'abstracts/variables';
+
+// VENDORS
 @import 'vendors/normalize';
+
+// BASE
+@import
+  'base/base',
+  'base/typography';
