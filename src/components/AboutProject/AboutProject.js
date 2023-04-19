@@ -1,5 +1,8 @@
 import React from "react";
 
+import AboutProjectArticle from "../AboutProjectArticle/AboutProjectArticle";
+import ProgressBar from "../ProgressBar/ProgressBar";
+
 export default function AboutProject() {
   return (
     <section className="about-project">
@@ -7,20 +10,17 @@ export default function AboutProject() {
         <h2>О проекте</h2>
         <div className="about-project__wrapper">
           <div className="layout-2-column">
-            <article className="about-project__article">
-              <h3>Дипломный проект включал 5 этапов</h3>
-              <p>Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.</p>
-            </article>
-            <article className="about-project__article">
-              <h3>На выполнение диплома ушло 5 недель</h3>
-              <p>У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
-            </article>
+            <AboutProjectArticle
+              heading={'Дипломный проект включал 5 этапов'}
+              paragraph={'Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.'}
+            />
+            <AboutProjectArticle
+              heading={'На выполнение диплома ушло 5 недель'}
+              paragraph={'У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.'}
+            />
           </div>
-          <div className="progress-bar">
-            <span className="progress-bar__stage-1">1 неделя</span>
-            <span className="progress-bar__stage-2">4 недели</span>
-          </div>
-          <div className="web-dovelopment">
+          <ProgressBar />
+          <div className="about-project__web-development">
             <span>Back-end</span>
             <span>Front-end</span>
           </div>
