@@ -12,10 +12,3 @@ $Raleway: (
 		src: url(./base/fonts/#{$font}.ttf) format('truetype');
 	}
 }
-
-h1 {
-  font-size: 5rem;
-  line-height: calc(5.8rem / 5rem);
-  text-align: center;
-  letter-spacing: -4%; // TODO
-}

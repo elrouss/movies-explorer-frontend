@@ -1,0 +1,19 @@
+.nav {
+  max-width: 325px;
+
+  &__list {
+    display: flex;
+  }
+
+  &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 96px;
+    height: 36px;
+    margin: 0 5px;
+
+    background-color: $color-background-additional;
+    border-radius: 10px;
+  }
+}
