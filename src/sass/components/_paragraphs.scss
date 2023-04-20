@@ -18,6 +18,12 @@
   text-decoration: none;
 
   color: inherit;
+
+  @extend %animation;
+
+  &:hover {
+    opacity: $opacity-medium;
+  }
 }
 
 .techs__paragraph {

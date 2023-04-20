@@ -12,18 +12,32 @@
   @extend %animation;
 
   &:hover {
-    opacity: 70%;
+    opacity: $opacity-medium;
   }
 
   &_color_accent {
     color: $color-text-accent;
 
     &:hover {
-      opacity: 80%;
+      opacity: $opacity-strong;
     }
   }
 }
 
 .portfolio__link {
   @extend %flex-row;
+}
+
+.footer__links {
+  grid-area: links;
+  justify-self: end;
+  display: flex;
+  column-gap: 20px;
+}
+
+.footer__link {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
 }

@@ -1,12 +1,12 @@
+// VENDORS
+@import
+  'vendors/normalize';
+
 // ABSTRACTS
 @import
   'abstracts/mixins',
   'abstracts/placeholders',
   'abstracts/variables';
-
-// VENDORS
-@import
-  'vendors/normalize';
 
 // BASE
 @import
@@ -24,7 +24,8 @@
   'layout/diploma-work',
   'layout/techs',
   'layout/about-me',
-  'layout/portfolio';
+  'layout/portfolio',
+  'layout/footer';
 
 // COMPONENTS
 @import

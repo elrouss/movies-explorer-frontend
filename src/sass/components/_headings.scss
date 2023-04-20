@@ -56,3 +56,19 @@
     $letter-spacing: -0.12rem
   );
 }
+
+.footer__heading {
+  $font-size: 1.3rem;
+  $space-between: 20px;
+
+  grid-area: heading;
+  width: 100%;
+  margin: 0;
+  margin-bottom: $space-between;
+  padding-bottom: $space-between;
+
+  text-align: center;
+  color: $color-text-additional-1;
+
+  @include border-bottom($color: $color-border-dark);
+}

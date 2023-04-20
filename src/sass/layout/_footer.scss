@@ -1,0 +1,24 @@
+.footer {
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 36% 28% 36%;
+    grid-template-areas:
+      "heading heading heading"
+      "copyright . links";
+    padding: 62px 0 20px;
+
+    > * {
+      $font-size: 1.3rem;
+
+      @include font(
+        $size: $font-size,
+        $line-height: calc(1.6rem / $font-size),
+        $letter-spacing: 0
+      );
+    }
+  }
+
+  &__copyright {
+    grid-area: copyright;
+  }
+}
