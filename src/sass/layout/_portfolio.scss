@@ -1,0 +1,21 @@
+.portfolio {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    padding: 50px 0 125px;
+  }
+
+  &__project {
+    height: 69px;
+
+    &:not(:last-child) {
+      @include border-bottom($color: $color-border-dark);
+    }
+  }
+
+  &__project-arrow {
+    padding-top: 6px;
+    padding-right: 6px;
+  }
+}

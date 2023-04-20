@@ -5,6 +5,12 @@
   align-items: center;
 }
 
+%flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 %animation {
   transition: all 0.3s ease-in;
 }

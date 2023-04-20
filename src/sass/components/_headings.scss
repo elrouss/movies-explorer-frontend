@@ -18,7 +18,7 @@
     $letter-spacing: -0.1rem
   );
 
-  border-bottom: 1px solid $color-border;
+  @include border-bottom();
 }
 
 .about-me__subheading {
@@ -26,10 +26,33 @@
   padding-top: 18px;
 
   @include font(
-    $family: 'Inter-Medium',
+    $family: "Inter-Medium",
     $weight: 500,
     $size: 1.8rem,
     $line-height: calc(2rem / 1.8rem),
     $letter-spacing: 0
+  );
+}
+
+.portfolio__heading {
+  $font: 1.8rem;
+
+  margin: 0;
+
+  @include font(
+    $size: $font,
+    $line-height: calc(2rem / $font),
+    $letter-spacing: 0
+  );
+  color: $color-text-additional-1;
+}
+
+.portfolio__project-heading {
+  margin: 0;
+
+  @include font(
+    $size: $font-size-l,
+    $line-height: calc(5rem / $font-size-l),
+    $letter-spacing: -0.12rem
   );
 }

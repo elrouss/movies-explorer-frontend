@@ -6,8 +6,8 @@ function Portfolio() {
   return (
     <section className="portfolio">
       <div className="wrapper">
-        <h2>Портфолио</h2>
-        <ul className="portfolio__wrapper">
+        <h2 className="portfolio__heading">Портфолио</h2>
+        <ul className="portfolio__wrapper list">
           <PortfolioProject
             url={"https://github.com/elrouss/how-to-learn"}
             heading={"Статичный сайт"}

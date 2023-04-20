@@ -41,7 +41,7 @@ function AboutMe() {
             <p className="about-me__subheading">Фронтенд-разработчик, {calculateAge()}</p>
             <p className="paragraph about-me__paragraph">
               Я живу в Санкт-Петербурге, окончил исторический факультет СПбГУ. С
-              2022 года я увлекся программированием. Прошёл курс по
+              2022 года увлекся программированием. Прошёл курс по
               веб-разработке Яндекс Практикума, где прохожу сейчас
               специализированный курс по React, осваиваю также курс
               &laquo;JavaScript/Front-end&raquo; сообщества The Rolling Scopes.

@@ -22,3 +22,7 @@
     flex-basis: $width;
   }
 }
+
+@mixin border-bottom($width: 1px, $style: solid, $color: $color-border-light) {
+  border-bottom: $width $style $color;
+}
