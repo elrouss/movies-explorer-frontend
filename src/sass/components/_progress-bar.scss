@@ -6,7 +6,7 @@
 
   background-color: $color-background-additional;
 
-  >* {
+  > * {
     padding: 9px 0;
 
     @include font($size: 1.4rem, $line-height: calc(1.7rem / 1.4rem));

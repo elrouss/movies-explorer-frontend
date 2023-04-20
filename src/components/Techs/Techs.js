@@ -5,14 +5,17 @@ import TechsList from "../TechsList/TechsList";
 export default function Techs() {
   return (
     <section className="techs" id="technologies">
-      <div className="wrapper wrapper__section">
+      <div className="wrapper wrapper__section techs__wrapper">
         <h2 className="section-heading">Технологии</h2>
-        <div className="techs__wrapper">
-          <h3>7 технологий</h3>
-          <p>На курсе веб-разработки мы освоили технологии, которые применили в дипломном проекте.</p>
+        <div className="techs__list">
+          <h3 className="section-heading-main">7 технологий</h3>
+          <p className="paragraph techs__paragraph">
+            На курсе веб-разработки мы освоили технологии, которые применили в
+            дипломном проекте.
+          </p>
           <TechsList />
         </div>
       </div>
     </section>
-  )
+  );
 }

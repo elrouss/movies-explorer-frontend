@@ -6,5 +6,5 @@ export default function ProgressBar() {
       <span className="progress-bar__stage-1">1 неделя</span>
       <span className="progress-bar__stage-2">4 недели</span>
     </div>
-  )
+  );
 }

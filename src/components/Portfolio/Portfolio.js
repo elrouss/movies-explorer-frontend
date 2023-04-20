@@ -9,21 +9,21 @@ function Portfolio() {
         <h2>Портфолио</h2>
         <ul className="portfolio__wrapper">
           <PortfolioProject
-            url={'https://github.com/elrouss/how-to-learn'}
-            heading={'Статичный сайт'}
+            url={"https://github.com/elrouss/how-to-learn"}
+            heading={"Статичный сайт"}
           />
           <PortfolioProject
-            url={'https://github.com/elrouss/russian-travel'}
-            heading={'Адаптивный сайт'}
+            url={"https://github.com/elrouss/russian-travel"}
+            heading={"Адаптивный сайт"}
           />
           <PortfolioProject
-            url={'https://github.com/elrouss/react-mesto-api-full-gha'}
-            heading={'Одностраничное приложение'}
+            url={"https://github.com/elrouss/react-mesto-api-full-gha"}
+            heading={"Одностраничное приложение"}
           />
         </ul>
       </div>
     </section>
-  )
+  );
 }
 
 export default Portfolio;

@@ -1,15 +1,17 @@
 .about-project {
-  padding-bottom: 110px;
+  &__wrapper {
+    padding-bottom: 110px;
+  }
 
   &__web-development {
     display: flex;
     margin-top: 14px;
 
-    >:first-child {
+    > :first-child {
       flex-grow: 1;
     }
 
-    >:nth-child(2) {
+    > :nth-child(2) {
       flex-grow: 5.2;
     }
   }

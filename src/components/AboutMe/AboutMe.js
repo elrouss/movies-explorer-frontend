@@ -15,13 +15,17 @@ function AboutMe() {
 
     let years = String(age);
     if (years >= 11 && years <= 14) {
-      years = 'лет';
-    } else if (years.endsWith('1')) {
-      years = 'год';
-    } else if (years.endsWith('2') || years.endsWith('3') || years.endsWith('4')) {
-      years = 'года';
+      years = "лет";
+    } else if (years.endsWith("1")) {
+      years = "год";
+    } else if (
+      years.endsWith("2") ||
+      years.endsWith("3") ||
+      years.endsWith("4")
+    ) {
+      years = "года";
     } else {
-      years = 'лет';
+      years = "лет";
     }
 
     return `${age} ${years}`;
@@ -33,16 +37,32 @@ function AboutMe() {
         <h2 className="section-heading">Студент</h2>
         <div className="about-me__wrapper">
           <div className="about-me__biography">
-            <h3>Борис</h3>
+            <h3 className="section-heading-main">Борис</h3>
             <p>Фронтенд-разработчик, {calculateAge()}</p>
-            <p>Я живу в Санкт-Петербурге, окончил исторический факультет СПбГУ. С 2022 года я увлекся программированием. Прошёл курс по веб-разработке Яндекс Практикума, где прохожу сейчас специализированный курс по React, осваиваю также курс &laquo;JavaScript/Front-end&raquo; сообщества The Rolling Scopes.</p>
-            <a href="https://github.com/elrouss" rel="noreferrer" target="_blank">Github</a>
+            <p>
+              Я живу в Санкт-Петербурге, окончил исторический факультет СПбГУ. С
+              2022 года я увлекся программированием. Прошёл курс по
+              веб-разработке Яндекс Практикума, где прохожу сейчас
+              специализированный курс по React, осваиваю также курс
+              &laquo;JavaScript/Front-end&raquo; сообщества The Rolling Scopes.
+            </p>
+            <a
+              href="https://github.com/elrouss"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Github
+            </a>
           </div>
-          <img className="avatar" src={avatar} alt="Борис Зашляпин, веб-разработчик, молодой человек в очках с оранжевыми стеклами, с вьющимися волосами и приоткрытым ртом, в белой футболке и накинутом сверху розовом худи" />
+          <img
+            className="avatar"
+            src={avatar}
+            alt="Борис Зашляпин, веб-разработчик, молодой человек в очках с оранжевыми стеклами, с вьющимися волосами и приоткрытым ртом, в белой футболке и накинутом сверху розовом худи"
+          />
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 export default AboutMe;

@@ -1,5 +1,17 @@
 .paragraph {
   margin: 0;
 
-  @include font ($size: 1.4rem, $line-height: calc(2rem / 1.4rem), $letter-spacing: 0)
+  @include font(
+    $size: 1.4rem,
+    $line-height: calc(2rem / 1.4rem),
+    $letter-spacing: 0
+  );
+}
+
+.techs__paragraph {
+  max-width: 460px;
+  padding: 26px 0 100px;
+
+  letter-spacing: -0.05rem;
+  text-align: center;
 }

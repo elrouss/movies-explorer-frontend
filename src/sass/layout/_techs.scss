@@ -1,0 +1,12 @@
+.techs {
+  background-color: $color-background-secondary;
+
+  &__wrapper {
+    padding-top: 100px;
+  }
+
+  &__list {
+    @extend %flex-column;
+    padding: 90px 0 100px;
+  }
+}

@@ -1,0 +1,22 @@
+.section-heading-main {
+  margin: 0;
+
+  @include font(
+    $size: $font-size-xl,
+    $line-height: calc(5.8rem / $font-size-xl),
+    $letter-spacing: -0.2rem
+  );
+}
+
+.section-heading {
+  margin: 0;
+  padding-bottom: 23px;
+
+  @include font(
+    $size: $font-size-m,
+    $line-height: calc(2.7rem / $font-size-m),
+    $letter-spacing: -0.1rem
+  );
+
+  border-bottom: 1px solid $color-border;
+}

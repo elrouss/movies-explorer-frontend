@@ -1,0 +1,20 @@
+.techs-list {
+  display: flex;
+  column-gap: 10px;
+  width: 60.5%;
+
+  @include font(
+    $size: 1.4rem,
+    $line-height: calc(1.7rem / 1.4rem),
+    $letter-spacing: 0
+  );
+
+  &__item {
+    @extend %flex-column;
+    width: 90px;
+    height: 60px;
+
+    background-color: $color-background-additional;
+    border-radius: 10px;
+  }
+}

@@ -15,19 +15,21 @@
 
 // LAYOUT
 @import
+  'layout/wrapper',
   'layout/header',
-  'layout/layout-2-column',
+  'layout/promo',
   'layout/nav',
-  'layout/wrapper';
+  'layout/about-project',
+  'layout/layout-2-column',
+  'layout/diploma-work',
+  'layout/techs';
 
 // COMPONENTS
 @import
-  'components/about-project',
-  'components/buttons',
-  'components/diploma-work',
-  'components/links',
+  'components/headings',
   'components/paragraphs',
+  'components/text-additional-1',
+  'components/buttons',
+  'components/links',
   'components/progress-bar',
-  'components/promo',
-  'components/techs',
-  'components/text-additional-1';
+  'components/techs-list';

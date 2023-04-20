@@ -7,6 +7,10 @@
   &__heading {
     margin: 0;
 
-    @include font ($size: 2rem, $line-height: calc(2.4rem / 2rem), $letter-spacing: -.08rem);
+    @include font(
+      $size: 2rem,
+      $line-height: calc(2.4rem / 2rem),
+      $letter-spacing: -0.08rem
+    );
   }
 }

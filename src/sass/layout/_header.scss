@@ -1,10 +1,9 @@
 .header {
-  padding: 18px 0;
-
   &__wrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 18px 0;
   }
 
   &__auth {

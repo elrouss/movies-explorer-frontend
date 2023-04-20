@@ -6,16 +6,20 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 export default function AboutProject() {
   return (
     <section className="about-project" id="diploma">
-      <div className="wrapper wrapper__section">
+      <div className="wrapper wrapper__section about-project__wrapper">
         <h2 className="section-heading">О проекте</h2>
         <div className="layout-2-column">
           <AboutProjectArticle
-            heading={'Дипломный проект включал 5 этапов'}
-            paragraph={'Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.'}
+            heading={"Дипломный проект включал 5 этапов"}
+            paragraph={
+              "Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки."
+            }
           />
           <AboutProjectArticle
-            heading={'На выполнение диплома ушло 5 недель'}
-            paragraph={'У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.'}
+            heading={"На выполнение диплома ушло 5 недель"}
+            paragraph={
+              "У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься."
+            }
           />
         </div>
         <ProgressBar />
@@ -25,5 +29,5 @@ export default function AboutProject() {
         </div>
       </div>
     </section>
-  )
+  );
 }
