@@ -1,15 +1,26 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
 
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
 import Footer from "../Footer/Footer.js";
 
+import PageNotFound from "../PageNotFound/PageNotFound.js";
+
 export default function App() {
   return (
-    <>
-      <Header />
-      <Main />
-      <Footer />
-    </>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <Header />
+            <Main />
+            <Footer />
+          </>
+        }
+      ></Route>
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
 }

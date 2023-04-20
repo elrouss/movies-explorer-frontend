@@ -39,3 +39,16 @@
 
   padding: 26px 0 99px;
 }
+
+// NOT FOUND PAGE
+.not-found__paragraph {
+  $font-size: 1.6rem;
+
+  margin: 0;
+
+  @include font(
+    $size: $font-size,
+    $line-height: calc(1.9rem / $font-size),
+    $letter-spacing: 0
+  )
+}

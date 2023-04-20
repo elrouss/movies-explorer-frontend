@@ -338,7 +338,7 @@ template {
   display: none;
 }
 
-.techs-list__item, .techs__list, .nav__link, .promo__wrapper {
+.techs-list__item, .not-found__description, .not-found__wrapper, .not-found, .techs__list, .nav__link, .promo__wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -530,6 +530,14 @@ html {
   grid-area: copyright;
 }
 
+.not-found__wrapper {
+  row-gap: 185px;
+  padding-top: 246px;
+}
+.not-found__description {
+  row-gap: 5px;
+}
+
 .section-heading-main {
   margin: 0;
   font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
@@ -595,6 +603,16 @@ html {
   border-bottom: 1px solid #424242;
 }
 
+.not-found__heading {
+  margin: 0;
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 14rem;
+  line-height: 1.2071428571;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
 .paragraph {
   margin: 0;
   font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
@@ -629,6 +647,16 @@ html {
 .about-me__paragraph {
   line-height: 1.5714285714;
   padding: 26px 0 99px;
+}
+
+.not-found__paragraph {
+  margin: 0;
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.6rem;
+  line-height: 1.1875;
+  font-weight: 400;
+  letter-spacing: 0;
 }
 
 .text-additional-1 {
@@ -675,6 +703,16 @@ html {
   font-weight: inherit;
   font-size: inherit;
   line-height: inherit;
+}
+
+.not-found__link {
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.4rem;
+  line-height: 1.2142857143;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #4285f4;
 }
 
 .btn-auth {

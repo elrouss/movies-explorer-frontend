@@ -72,3 +72,14 @@
 
   @include border-bottom($color: $color-border-dark);
 }
+
+// NOT FOUND PAGE
+.not-found__heading {
+  margin: 0;
+
+  @include font(
+    $size: $font-size-xxl,
+    $line-height: calc(16.9rem / $font-size-xxl),
+    $letter-spacing: 0
+  );
+}

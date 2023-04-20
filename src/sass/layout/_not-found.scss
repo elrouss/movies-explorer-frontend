@@ -1,0 +1,14 @@
+.not-found {
+  @extend %flex-column;
+
+  &__wrapper {
+    @extend %flex-column;
+    row-gap: 185px;
+    padding-top: 246px;
+  }
+
+  &__description {
+    @extend %flex-column;
+    row-gap: 5px;
+  }
+}
