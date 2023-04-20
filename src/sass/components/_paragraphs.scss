@@ -2,10 +2,22 @@
   margin: 0;
 
   @include font(
-    $size: 1.4rem,
-    $line-height: calc(2rem / 1.4rem),
+    $size: $font-size-s,
+    $line-height: calc(2rem / $font-size-s),
     $letter-spacing: 0
   );
+}
+
+.paragraph-s {
+  @include font(
+    $family: "Inter-Medium",
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0
+  );
+  text-decoration: none;
+
+  color: inherit;
 }
 
 .techs__paragraph {
@@ -14,4 +26,10 @@
 
   letter-spacing: -0.05rem;
   text-align: center;
+}
+
+.about-me__paragraph {
+  line-height: calc(2.2rem / $font-size-s);
+
+  padding: 26px 0 99px;
 }

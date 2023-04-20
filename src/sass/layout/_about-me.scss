@@ -1,0 +1,12 @@
+.about-me {
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 52.6% max-content;
+    justify-content: space-between;
+    padding: 66px 0 100px;
+  }
+
+  &__biography {
+    max-width: 600px;
+  }
+}

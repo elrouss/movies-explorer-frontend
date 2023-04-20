@@ -38,8 +38,8 @@ function AboutMe() {
         <div className="about-me__wrapper">
           <div className="about-me__biography">
             <h3 className="section-heading-main">Борис</h3>
-            <p>Фронтенд-разработчик, {calculateAge()}</p>
-            <p>
+            <p className="about-me__subheading">Фронтенд-разработчик, {calculateAge()}</p>
+            <p className="paragraph about-me__paragraph">
               Я живу в Санкт-Петербурге, окончил исторический факультет СПбГУ. С
               2022 года я увлекся программированием. Прошёл курс по
               веб-разработке Яндекс Практикума, где прохожу сейчас
@@ -47,6 +47,7 @@ function AboutMe() {
               &laquo;JavaScript/Front-end&raquo; сообщества The Rolling Scopes.
             </p>
             <a
+              className="paragraph-s"
               href="https://github.com/elrouss"
               rel="noreferrer"
               target="_blank"

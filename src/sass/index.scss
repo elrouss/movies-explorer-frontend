@@ -22,14 +22,16 @@
   'layout/about-project',
   'layout/layout-2-column',
   'layout/diploma-work',
-  'layout/techs';
+  'layout/techs',
+  'layout/about-me';
 
 // COMPONENTS
 @import
   'components/headings',
   'components/paragraphs',
   'components/text-additional-1',
-  'components/buttons',
   'components/links',
+  'components/buttons',
   'components/progress-bar',
-  'components/techs-list';
+  'components/techs-list',
+  'components/avatar';

@@ -20,3 +20,16 @@
 
   border-bottom: 1px solid $color-border;
 }
+
+.about-me__subheading {
+  margin: 0;
+  padding-top: 18px;
+
+  @include font(
+    $family: 'Inter-Medium',
+    $weight: 500,
+    $size: 1.8rem,
+    $line-height: calc(2rem / 1.8rem),
+    $letter-spacing: 0
+  );
+}

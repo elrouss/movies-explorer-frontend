@@ -410,7 +410,7 @@ html {
   padding: 160px 235px 30px;
   box-sizing: border-box;
   background-color: #272727;
-  border-radius: 10px;
+  border-radius: 1rem;
 }
 .promo__heading {
   max-width: 730px;
@@ -428,7 +428,7 @@ html {
   height: 36px;
   margin: 0 5px;
   background-color: #303030;
-  border-radius: 10px;
+  border-radius: 1rem;
 }
 
 .about-project__wrapper {
@@ -479,6 +479,16 @@ html {
   padding: 90px 0 100px;
 }
 
+.about-me__wrapper {
+  display: grid;
+  grid-template-columns: 52.6% max-content;
+  justify-content: space-between;
+  padding: 66px 0 100px;
+}
+.about-me__biography {
+  max-width: 600px;
+}
+
 .section-heading-main {
   margin: 0;
   font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
@@ -501,6 +511,17 @@ html {
   border-bottom: 1px solid #dadada;
 }
 
+.about-me__subheading {
+  margin: 0;
+  padding-top: 18px;
+  font-family: "Inter-Medium", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.8rem;
+  line-height: 1.1111111111;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
 .paragraph {
   margin: 0;
   font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
@@ -511,11 +532,27 @@ html {
   letter-spacing: 0;
 }
 
+.paragraph-s {
+  font-family: "Inter-Medium", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.4rem;
+  line-height: 1.2142857143;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-decoration: none;
+  color: inherit;
+}
+
 .techs__paragraph {
   max-width: 460px;
   padding: 26px 0 100px;
   letter-spacing: -0.05rem;
   text-align: center;
+}
+
+.about-me__paragraph {
+  line-height: 1.5714285714;
+  padding: 26px 0 99px;
 }
 
 .text-additional-1 {
@@ -527,12 +564,6 @@ html {
   letter-spacing: 0;
   color: #8b8b8b;
   text-align: center;
-}
-
-.btn-auth {
-  padding: 8px 20px;
-  background-color: #3ddc84;
-  border-radius: 3px;
 }
 
 .link {
@@ -553,6 +584,12 @@ html {
 }
 .link_color_accent:hover {
   opacity: 80%;
+}
+
+.btn-auth {
+  padding: 8px 20px;
+  background-color: #3ddc84;
+  border-radius: 3px;
 }
 
 .progress-bar {
@@ -596,5 +633,13 @@ html {
   width: 90px;
   height: 60px;
   background-color: #303030;
-  border-radius: 10px;
+  border-radius: 1rem;
+}
+
+.avatar {
+  width: 270px;
+  height: 327px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1rem;
 }/*# sourceMappingURL=index.css.map */
