@@ -16,12 +16,18 @@
 // LAYOUT
 @import
   'layout/header',
+  'layout/layout-2-column',
   'layout/nav',
   'layout/wrapper';
 
 // COMPONENTS
 @import
+  'components/about-project',
   'components/buttons',
+  'components/diploma-work',
   'components/links',
+  'components/paragraphs',
+  'components/progress-bar',
   'components/promo',
-  'components/techs';
+  'components/techs',
+  'components/text-additional-1';

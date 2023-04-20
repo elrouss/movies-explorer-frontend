@@ -29,8 +29,8 @@ function AboutMe() {
 
   return (
     <section className="about-me" id="student">
-      <div className="wrapper">
-        <h2>Студент</h2>
+      <div className="wrapper wrapper__section">
+        <h2 className="section-heading">Студент</h2>
         <div className="about-me__wrapper">
           <div className="about-me__biography">
             <h3>Борис</h3>

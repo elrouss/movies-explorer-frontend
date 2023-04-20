@@ -12,3 +12,12 @@ $Raleway: (
 		src: url(./base/fonts/#{$font}.ttf) format('truetype');
 	}
 }
+
+.section-heading {
+  margin: 0;
+  padding-bottom: 23px;
+
+  @include font($size: 2.2rem, $line-height: calc(2.7rem / 2.2rem), $letter-spacing: -.1rem);
+
+  border-bottom: 1px solid $color-border;
+}

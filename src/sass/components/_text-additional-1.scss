@@ -1,0 +1,5 @@
+.text-additional-1 {
+  @include font ($family: 'Inter-Medium', $size: 1.4rem, $line-height: calc(1.7rem / 1.4rem), $weight: 500, $letter-spacing: 0);
+  color: $color-text-additional-1;
+  text-align: center;
+}

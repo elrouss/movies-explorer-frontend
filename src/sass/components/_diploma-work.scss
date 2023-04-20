@@ -1,0 +1,12 @@
+.diploma-work {
+  display: flex;
+  flex-direction: column;
+  row-gap: 26px;
+  margin: 70px 0 110px;
+
+  &__heading {
+    margin: 0;
+
+    @include font ($size: 2rem, $line-height: calc(2.4rem / 2rem), $letter-spacing: -.08rem);
+  }
+}

@@ -373,6 +373,18 @@ html {
   font-display: swap;
   src: url(./base/fonts/Suisse-Intl-Regular.ttf) format("truetype");
 }
+.section-heading {
+  margin: 0;
+  padding-bottom: 23px;
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 2.2rem;
+  line-height: 1.2272727273;
+  font-weight: 400;
+  letter-spacing: -0.1rem;
+  border-bottom: 1px solid #dadada;
+}
+
 .header {
   padding: 18px 0;
 }
@@ -387,6 +399,14 @@ html {
   -moz-column-gap: 30px;
        column-gap: 30px;
   max-width: 183px;
+}
+
+.layout-2-column {
+  display: flex;
+  justify-content: space-between;
+}
+.layout-2-column > * {
+  flex-basis: 48.3%;
 }
 
 .nav {
@@ -410,11 +430,44 @@ html {
   max-width: 1140px;
   margin: 0 auto;
 }
+.wrapper__section {
+  padding-top: 110px;
+}
+
+.about-project {
+  padding-bottom: 110px;
+}
+.about-project__web-development {
+  display: flex;
+  margin-top: 14px;
+}
+.about-project__web-development > :first-child {
+  flex-grow: 1;
+}
+.about-project__web-development > :nth-child(2) {
+  flex-grow: 5.2;
+}
 
 .btn-auth {
   padding: 8px 20px;
   background-color: #3ddc84;
   border-radius: 3px;
+}
+
+.diploma-work {
+  display: flex;
+  flex-direction: column;
+  row-gap: 26px;
+  margin: 70px 0 110px;
+}
+.diploma-work__heading {
+  margin: 0;
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 400;
+  letter-spacing: -0.08rem;
 }
 
 .link {
@@ -435,6 +488,41 @@ html {
 }
 .link_color_accent:hover {
   opacity: 80%;
+}
+
+.paragraph {
+  margin: 0;
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.4rem;
+  line-height: 1.4285714286;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.progress-bar {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  background-color: #303030;
+}
+.progress-bar > * {
+  padding: 9px 0;
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.4rem;
+  line-height: 1.2142857143;
+  font-weight: 400;
+  letter-spacing: -0.2rem;
+  letter-spacing: 0;
+}
+.progress-bar__stage-1 {
+  flex-grow: 1;
+  color: #000000;
+  background-color: #3ddc84;
+}
+.progress-bar__stage-2 {
+  flex-grow: 5.05;
 }
 
 .promo__wrapper {
@@ -464,4 +552,15 @@ html {
 
 .techs {
   background-color: #272727;
+}
+
+.text-additional-1 {
+  font-family: "Inter-Medium", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.4rem;
+  line-height: 1.2142857143;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: #8b8b8b;
+  text-align: center;
 }/*# sourceMappingURL=index.css.map */

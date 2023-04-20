@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 function AboutProjectArticle({ heading, paragraph }) {
   return (
-    <article className="about-project__article">
-      <h3>{heading}</h3>
-      <p>{paragraph}</p>
+    <article className="diploma-work">
+      <h3 className="diploma-work__heading">{heading}</h3>
+      <p className="paragraph">{paragraph}</p>
     </article>
   )
 }
