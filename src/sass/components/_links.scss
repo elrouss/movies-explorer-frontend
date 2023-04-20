@@ -1,0 +1,19 @@
+.link {
+  @include font($family: 'Inter-Medium', $size: 1.2rem, $line-height: calc(1.6rem / 1.2rem), $weight: 500);
+  color: inherit;
+  text-decoration: none;
+
+  @extend %animation;
+
+  &:hover {
+    opacity: 70%;
+  }
+
+  &_color_accent {
+    color: $color-text-accent;
+
+    &:hover {
+      opacity: 80%;
+    }
+  }
+}

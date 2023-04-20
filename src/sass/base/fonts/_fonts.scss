@@ -1,0 +1,21 @@
+$Raleway: (
+  Inter-Regular,
+  Inter-Medium,
+  Suisse-Intl-Regular
+);
+
+@each $font in $Raleway{
+	@font-face{
+		font-family: #{$font};
+    font-style: normal;
+		font-display: swap;
+		src: url(./base/fonts/#{$font}.ttf) format('truetype');
+	}
+}
+
+h1 {
+  font-size: 5rem;
+  line-height: calc(5.8rem / 5rem);
+  text-align: center;
+  letter-spacing: -4%; // TODO
+}

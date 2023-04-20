@@ -5,12 +5,12 @@ import Logo from "../Logo/Logo";
 
 export default function Header() {
   return (
-    <header>
-      <div className="wrapper">
+    <header className="header">
+      <div className="wrapper header__wrapper">
         <Logo />
-        <div className="auth">
-          <Link>Регистрация</Link>
-          <Link className="btn-auth">Войти</Link>
+        <div className="header__auth">
+          <Link className="link">Регистрация</Link>
+          <Link className="link link_color_accent btn-auth">Войти</Link>
         </div>
       </div>
     </header>

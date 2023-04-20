@@ -28,7 +28,7 @@ function AboutMe() {
   }
 
   return (
-    <section className="about-me">
+    <section className="about-me" id="student">
       <div className="wrapper">
         <h2>Студент</h2>
         <div className="about-me__wrapper">

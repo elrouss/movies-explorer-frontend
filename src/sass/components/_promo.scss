@@ -1,0 +1,9 @@
+.promo {
+  &__wrapper {
+    max-width: $promo-width;
+    margin: 0 auto;
+
+    background-color: $color-background-secondary;
+    border-radius: 10px;
+  }
+}

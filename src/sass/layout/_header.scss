@@ -1,0 +1,16 @@
+.header {
+  padding: 18px 0;
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__auth {
+    display: flex;
+    align-items: center;
+    column-gap: 30px;
+    max-width: 183px;
+  }
+}

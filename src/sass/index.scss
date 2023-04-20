@@ -1,10 +1,26 @@
 // ABSTRACTS
-@import 'abstracts/variables';
+@import
+  'abstracts/mixins',
+  'abstracts/placeholders',
+  'abstracts/variables';
 
 // VENDORS
-@import 'vendors/normalize';
+@import
+  'vendors/normalize';
 
 // BASE
 @import
   'base/base',
-  'base/typography';
+  'base/fonts/fonts';
+
+// LAYOUT
+@import
+  'layout/header',
+  'layout/wrapper';
+
+// COMPONENTS
+@import
+  'components/buttons',
+  'components/links',
+  'components/promo',
+  'components/techs';

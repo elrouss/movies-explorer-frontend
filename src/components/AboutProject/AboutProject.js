@@ -5,7 +5,7 @@ import ProgressBar from "../ProgressBar/ProgressBar";
 
 export default function AboutProject() {
   return (
-    <section className="about-project">
+    <section className="about-project" id="diploma">
       <div className="wrapper">
         <h2>О проекте</h2>
         <div className="about-project__wrapper">

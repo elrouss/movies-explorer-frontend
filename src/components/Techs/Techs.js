@@ -4,7 +4,7 @@ import TechsList from "../TechsList/TechsList";
 
 export default function Techs() {
   return (
-    <section className="techs">
+    <section className="techs" id="technologies">
       <div className="wrapper">
         <h2>Технологии</h2>
         <div className="techs__wrapper">
