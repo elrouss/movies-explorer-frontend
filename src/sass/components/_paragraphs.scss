@@ -40,6 +40,16 @@
   padding: 26px 0 99px;
 }
 
+// ENTRY
+.entry__paragraph {
+  margin: 16px 0 0;
+
+  @extend %paragraph-s;
+  letter-spacing: 0.02rem;
+  color: $color-text-additional-1;
+  text-align: center;
+}
+
 // NOT FOUND PAGE
 .not-found__paragraph {
   $font-size: 1.6rem;

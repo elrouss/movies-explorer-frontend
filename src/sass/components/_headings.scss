@@ -73,6 +73,21 @@
   @include border-bottom($color: $color-border-dark);
 }
 
+// REGISTATION, AUTHORIZATION, PERSONAL ACCOUNT
+.entry__heading {
+  $font-size: 2.4rem;
+
+  margin: 0;
+  padding: 40px 0;
+
+  @include font(
+    $family: "Inter-Medium",
+    $size: $font-size,
+    $line-height: calc(2.9rem / $font-size),
+    $letter-spacing: 0
+  )
+}
+
 // NOT FOUND PAGE
 .not-found__heading {
   margin: 0;

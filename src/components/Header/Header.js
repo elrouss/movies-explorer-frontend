@@ -9,8 +9,8 @@ export default function Header() {
       <div className="wrapper header__wrapper">
         <Logo />
         <div className="header__auth">
-          <Link className="link">Регистрация</Link>
-          <Link className="link link_color_accent btn-auth">Войти</Link>
+          <Link className="link" to={'/signup'}>Регистрация</Link>
+          <Link className="link link_color_accent btn-auth" to={"/signin"}>Войти</Link>
         </div>
       </div>
     </header>

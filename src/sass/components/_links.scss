@@ -22,6 +22,15 @@
       opacity: $opacity-strong;
     }
   }
+
+  &_type_inner-nav {
+    @include font(
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0.05rem
+  );
+    color: $color-accent-2;
+  }
 }
 
 .portfolio__link {
@@ -44,10 +53,6 @@
 
 // NOT FOUND PAGE
 .not-found__link {
-  @include font(
-    $size: $font-size-s,
-    $line-height: calc(1.7rem / $font-size-s),
-    $letter-spacing: 0
-  );
+  @extend %paragraph-s;
   color: $color-accent-2;
 }

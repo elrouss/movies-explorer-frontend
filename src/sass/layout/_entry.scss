@@ -1,0 +1,34 @@
+.entry {
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: $entry-form-width;
+    margin: 0 auto;
+    padding: 70px 0;
+  }
+
+  &__form {
+    $font-size: 1rem;
+
+    display: flex;
+    flex-direction: column;
+
+    @include font(
+      $size: $font-size,
+      $line-height: calc(1.2rem / $font-size),
+      $letter-spacing: 0
+    );
+    color: $color-text-additional-1;
+  }
+
+  &__fieldset {
+    padding: 0;
+    margin: 0 0 125px;
+
+    border: none;
+
+    &_margin_big {
+      margin-bottom: 194px;
+    }
+  }
+}
