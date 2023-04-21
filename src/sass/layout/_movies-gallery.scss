@@ -1,0 +1,9 @@
+.movies-gallery {
+  &__wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, auto));
+    gap: 30px 24px;
+    justify-items: center;
+    margin-top: 85px;
+  }
+}
