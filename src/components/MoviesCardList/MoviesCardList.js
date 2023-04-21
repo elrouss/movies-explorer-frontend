@@ -12,9 +12,18 @@ function MoviesCardList() {
       aria-label="Галерея с карточками фильмов"
     >
       <div className="wrapper movies-gallery__wrapper">
-        {cards.map((card) => (
-          <MoviesCard key={card.movieId} card={card} />
-        ))}
+        <div className="movies-gallery__movies">
+          {cards.map((card) => (
+            <MoviesCard key={card.movieId} card={card} />
+          ))}
+        </div>
+        <button
+          className="btn movies-gallery__btn-more"
+          type="button"
+          aria-label="Отображение новых карточек с фильмами в галерее"
+        >
+          Ещё
+        </button>
       </div>
     </section>
   );

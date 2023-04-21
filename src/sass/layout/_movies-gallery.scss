@@ -1,9 +1,15 @@
 .movies-gallery {
   &__wrapper {
+    @extend %flex-column;
+    margin-bottom: 95px;
+  }
+
+  &__movies {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, auto));
     gap: 30px 24px;
     justify-items: center;
+    width: 100%;
     margin-top: 85px;
   }
 }
