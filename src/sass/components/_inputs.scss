@@ -12,9 +12,7 @@
   );
   color: $color-text-primary;
 
-  background-color: transparent;
-  outline: none;
-  border: none;
+  @extend %input;
   @include border-bottom($color: $color-border-dark);
 
   @extend %animation;

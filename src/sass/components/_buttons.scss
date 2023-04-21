@@ -1,4 +1,6 @@
 .btn {
+  cursor: pointer;
+
   @extend %animation;
 
   &:hover {
@@ -32,6 +34,19 @@
   background-color: $color-accent-2;
   border: none;
   border-radius: $border-radius-s;
+}
 
-  cursor: pointer;
+.btn-search {
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+
+  background-color: $color-accent-2;
+  border: none;
+  border-radius: 50%;
+
+  &::before {
+    content: url(../assets/icons/icon-find.svg);
+  }
 }

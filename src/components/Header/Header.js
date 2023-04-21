@@ -10,7 +10,7 @@ export default function Header() {
         <Logo />
         <div className="header__auth">
           <Link className="link" to={'/signup'}>Регистрация</Link>
-          <Link className="link link_color_accent btn-auth" to={"/signin"}>Войти</Link>
+          <Link className="link link_color_accent btn-auth" to={"/movies"}>Войти</Link>
         </div>
       </div>
     </header>

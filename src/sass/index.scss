@@ -27,7 +27,9 @@
   'layout/portfolio',
   'layout/footer',
   'layout/entry',
-  'layout/not-found';
+  'layout/search',
+  'layout/not-found',
+  'layout/forms';
 
 // COMPONENTS
 @import
@@ -36,6 +38,7 @@
   'components/text-additional-1',
   'components/links',
   'components/inputs',
+  'components/checkboxes',
   'components/buttons',
   'components/logo',
   'components/progress-bar',
