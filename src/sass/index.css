@@ -1019,6 +1019,9 @@ html {
   margin: 14px 0 14px 14px;
 }
 .movies-card__heading {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   margin: 0;
   font-family: "Inter-Medium", "Arial", "Helvetica", sans-serif;
   font-style: normal;

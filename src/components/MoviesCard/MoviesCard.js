@@ -2,11 +2,23 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function MoviesCard({ card: { nameRU, duration, image } }) {
+  function countTime(duration) {
+    const time = duration / 60;
+    const hours = Math.floor(time);
+    const minutes = duration - hours * 60;
+
+    if (hours && minutes) return `${hours}ч ${minutes}м`;
+
+    return hours ? `${hours}ч` : `${minutes}м`;
+  }
+
+  console.log(countTime(duration));
+
   return (
     <article className="movies-card">
       <div className="movies-card__description">
         <h2 className="movies-card__heading">{nameRU}</h2>
-        <span className="movies-card__duration">{duration}</span>
+        <span className="movies-card__duration">{countTime(duration)}</span>
       </div>
       <button
         className="btn movies-card__btn-favourite"
@@ -38,7 +50,7 @@ function MoviesCard({ card: { nameRU, duration, image } }) {
 MoviesCard.propTypes = {
   card: PropTypes.object.isRequired,
   nameRU: PropTypes.string,
-  duration: PropTypes.string,
+  duration: PropTypes.number,
   image: PropTypes.string,
 };
 
