@@ -25,10 +25,10 @@
 
   &_type_inner-nav {
     @include font(
-    $size: $font-size-s,
-    $line-height: calc(1.7rem / $font-size-s),
-    $letter-spacing: 0.05rem
-  );
+      $size: $font-size-s,
+      $line-height: calc(1.7rem / $font-size-s),
+      $letter-spacing: 0.05rem
+    );
     color: $color-accent-2;
   }
 }
@@ -49,6 +49,18 @@
   font-weight: inherit;
   font-size: inherit;
   line-height: inherit;
+}
+
+.nav__link {
+  $font-size: 1.3rem;
+
+  @include font(
+    $family: "Inter-Regular",
+    $weight: 400,
+    $size: $font-size,
+    $line-height: calc(1.8rem / $font-size),
+    $letter-spacing: 0
+  );
 }
 
 // NOT FOUND PAGE

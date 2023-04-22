@@ -338,14 +338,14 @@ template {
   display: none;
 }
 
-.techs-list__item, .not-found__description, .not-found__wrapper, .not-found, .movies-gallery__wrapper, .techs__list, .nav__link, .promo__wrapper {
+.techs-list__item, .btn-profile::before, .not-found__description, .not-found__wrapper, .not-found, .movies-gallery__wrapper, .techs__list, .nav-tab__link, .promo__wrapper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.portfolio__link {
+.portfolio__link, .nav__list, .layout-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -411,8 +411,9 @@ html {
 
 .header__wrapper {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  -moz-column-gap: 44px;
+       column-gap: 44px;
   padding: 18px 0;
 }
 .header__auth {
@@ -438,18 +439,26 @@ html {
   text-align: center;
 }
 
-.nav {
+.layout-nav {
+  width: 100%;
+}
+
+.nav-tab {
   max-width: 325px;
 }
-.nav__list {
+.nav-tab__list {
   display: flex;
 }
-.nav__link {
+.nav-tab__link {
   width: 96px;
   height: 36px;
   margin: 0 5px;
   background-color: #303030;
   border-radius: 1rem;
+}
+
+.nav__list {
+  width: 212px;
 }
 
 .about-project__wrapper {
@@ -814,6 +823,15 @@ html {
   line-height: inherit;
 }
 
+.nav__link {
+  font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.3rem;
+  line-height: 1.3846153846;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
 .not-found__link {
   color: #4285f4;
 }
@@ -901,6 +919,31 @@ html {
   padding: 8px 20px;
   background-color: #3ddc84;
   border-radius: 3px;
+}
+
+.btn-profile {
+  position: relative;
+  width: 100px;
+  height: 30px;
+  font-family: "Inter-Medium", "Arial", "Helvetica", sans-serif;
+  font-style: normal;
+  font-size: 1.4rem;
+  line-height: 1.1428571429;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-align: start;
+  color: inherit;
+  background-color: transparent;
+}
+.btn-profile::before {
+  content: url(../assets/icons/icon-user.svg);
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  background-color: #313131;
+  border-radius: 0.6rem;
 }
 
 .btn-entry {

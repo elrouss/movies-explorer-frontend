@@ -1,17 +1,6 @@
 .nav {
-  max-width: 325px;
-
   &__list {
-    display: flex;
-  }
-
-  &__link {
-    @extend %flex-column;
-    width: 96px;
-    height: 36px;
-    margin: 0 5px;
-
-    background-color: $color-background-additional;
-    border-radius: $border-radius;
+    @extend %flex-row;
+    width: 212px;
   }
 }

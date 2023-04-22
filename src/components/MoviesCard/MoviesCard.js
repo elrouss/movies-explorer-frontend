@@ -12,8 +12,6 @@ function MoviesCard({ card: { nameRU, duration, image } }) {
     return hours ? `${hours}ч` : `${minutes}м`;
   }
 
-  console.log(countTime(duration));
-
   return (
     <article className="movies-card">
       <div className="movies-card__description">

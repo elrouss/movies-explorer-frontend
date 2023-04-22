@@ -1,8 +1,9 @@
 .header {
   &__wrapper {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
+    column-gap: 44px;
     padding: 18px 0;
   }
 
