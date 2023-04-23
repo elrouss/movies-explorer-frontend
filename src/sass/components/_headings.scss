@@ -232,4 +232,13 @@
     $line-height: calc(16.9rem / $font-size-xxl),
     $letter-spacing: 0
   );
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    $font-size-mobile: 8rem;
+
+    font-size: calc(
+      $font-size-mobile + (60 + 60 * 0.7) * (100vw - $media-mobile-s) / 767
+    );
+    line-height: calc(9.7rem / $font-size-mobile);
+  }
 }
