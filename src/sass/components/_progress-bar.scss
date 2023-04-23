@@ -23,5 +23,9 @@
 
   &__stage-2 {
     flex-grow: 5.05;
+
+    @media screen and (max-width: $media-laptop) {
+      flex-grow: 5.8;
+    }
   }
 }

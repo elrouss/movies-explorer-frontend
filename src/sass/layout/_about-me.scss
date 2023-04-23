@@ -4,6 +4,10 @@
     grid-template-columns: 52.6% max-content;
     justify-content: space-between;
     padding: 66px 0 100px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-bottom: 91px;
+    }
   }
 
   &__biography {

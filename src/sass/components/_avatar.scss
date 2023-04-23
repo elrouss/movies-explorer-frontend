@@ -4,4 +4,9 @@
   object-fit: cover;
 
   border-radius: $border-radius;
+
+  @media screen and (max-width: $media-laptop) {
+    width: 255px;
+    height: 307px;
+  }
 }

@@ -4,6 +4,11 @@
     flex-direction: column;
     row-gap: 20px;
     padding: 50px 0 125px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 47px;
+      padding-bottom: 90px;
+    }
   }
 
   &__project {
@@ -11,6 +16,10 @@
 
     &:not(:last-child) {
       @include border-bottom($color: $color-border-dark);
+
+      @media screen and (max-width: $media-laptop) {
+        border-color: $color-border-adaptive;
+      }
     }
   }
 

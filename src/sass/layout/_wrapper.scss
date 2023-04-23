@@ -4,5 +4,14 @@
 
   &__section {
     padding-top: 110px;
+
+    @media screen and (max-width: $media-desktop) {
+      padding-top: calc(90px + (20 + 20 * .7) * (100vw - $media-tablet) / 1279);
+    }
+  }
+
+  @media screen and (max-width: $media-desktop) {
+    margin-right: calc(50px + (20 + 20 * .7) * (100vw - $media-tablet) / 1279);
+    margin-left: calc(50px + (20 + 20 * .7) * (100vw - $media-tablet) / 1279);
   }
 }

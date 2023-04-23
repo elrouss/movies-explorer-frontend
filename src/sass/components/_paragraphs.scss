@@ -6,6 +6,13 @@
     $line-height: calc(2rem / $font-size-s),
     $letter-spacing: 0
   );
+
+  @media screen and (max-width: $media-laptop) {
+    $font-size: 1.2rem;
+
+    font-size: $font-size;
+    line-height: calc(1.8rem / $font-size);
+  }
 }
 
 .paragraph-s {
@@ -32,15 +39,26 @@
 
   letter-spacing: -0.05rem;
   text-align: center;
+
+  @media screen and (max-width: $media-laptop) {
+    padding-top: 22px;
+    padding-bottom: 83px;
+  }
 }
 
 .about-me__paragraph {
+  padding: 26px 0 99px;
+
   line-height: calc(2.2rem / $font-size-s);
 
-  padding: 26px 0 99px;
+  @media screen and (max-width: $media-laptop) {
+    padding-top: 20px;
+    padding-bottom: 87px;
+
+    line-height: calc(1.8rem / 1.2rem);
+  }
 }
 
-// ENTRY
 .entry__paragraph {
   margin: 16px 0 0;
 
@@ -50,7 +68,6 @@
   text-align: center;
 }
 
-// NOT FOUND PAGE
 .not-found__paragraph {
   $font-size: 1.6rem;
 
@@ -60,5 +77,5 @@
     $size: $font-size,
     $line-height: calc(1.9rem / $font-size),
     $letter-spacing: 0
-  )
+  );
 }

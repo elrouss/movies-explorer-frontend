@@ -11,16 +11,12 @@ $color-text-additional-2: #a0a0a0;
 $color-text-accent: #000000;
 $color-border-light: #dadada;
 $color-border-dark: #424242;
+$color-border-adaptive: #e6e6e6;
 $color-filter-checkbox-disabled: #ebebeb;
 $color-filter-checkbox-circle-disabled: #f5f5f5;
 $color-accent-1: #3ddc84;
 $color-accent-2: #4285f4;
 $color-accent-3: #ee3465;
-
-// CONTENT
-$content-width: 1140px;
-$promo-width: 1200px;
-$entry-form-width: 396px;
 
 // FONTS
 $font-size-xxl: 14rem;
@@ -28,6 +24,18 @@ $font-size-xl: 5rem;
 $font-size-l: 3rem;
 $font-size-m: 2.2rem;
 $font-size-s: 1.4rem;
+
+// MEDIA QUERIES
+$media-desktop: 1279px;
+$media-laptop: 1024px;
+$media-tablet: 768px;
+$media-mobile-l: 480px;
+$media-mobile-s: 320px;
+
+// CONTENT
+$content-width: 1140px;
+$promo-width: 1200px;
+$entry-form-width: 396px;
 
 // DECORATIVE
 $opacity-strong: 80%;

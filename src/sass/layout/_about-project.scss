@@ -1,6 +1,10 @@
 .about-project {
   &__wrapper {
     padding-bottom: 110px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-bottom: 90px;
+    }
   }
 
   &__web-development {
@@ -13,6 +17,10 @@
 
     > :nth-child(2) {
       flex-grow: 5.2;
+
+      @media screen and (max-width: $media-laptop) {
+        flex-grow: 5.9;
+      }
     }
   }
 }

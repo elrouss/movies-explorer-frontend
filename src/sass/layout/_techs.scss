@@ -3,10 +3,19 @@
 
   &__wrapper {
     padding-top: 100px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 90px;
+    }
   }
 
   &__list {
     @extend %flex-column;
     padding: 90px 0 100px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 80px;
+      padding-bottom: 90px;
+    }
   }
 }

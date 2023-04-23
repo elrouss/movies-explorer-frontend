@@ -13,4 +13,10 @@
       $letter-spacing: -0.08rem
     );
   }
+
+  @media screen and (max-width: $media-laptop) {
+    row-gap: 22px;
+    margin-top: 68px;
+    margin-bottom: 93px;
+  }
 }

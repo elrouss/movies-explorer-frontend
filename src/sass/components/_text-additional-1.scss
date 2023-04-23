@@ -8,4 +8,9 @@
   );
   color: $color-text-additional-1;
   text-align: center;
+
+  @media screen and (max-width: $media-laptop) {
+    font-family: "Suisse-Intl-Regular", Arial, Helvetica, sans-serif;
+    font-weight: 400;
+  }
 }

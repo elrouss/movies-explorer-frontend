@@ -5,16 +5,17 @@
     max-width: $promo-width;
     margin: 0 auto;
     margin-top: 20px;
-    padding: 160px 235px 30px;
+    padding: 160px 0 30px;
     box-sizing: border-box;
 
     background-color: $color-background-secondary;
     border-radius: $border-radius;
-  }
 
-  &__heading {
-    max-width: 730px;
-
-    text-align: center;
+    @media screen and (max-width: $media-desktop) {
+      row-gap: calc(314px + (-163 - 163 * .7) * (100vw - $media-tablet) / 1279);
+      margin-right: calc(20px + (20 + 20 * .7) * (100vw - $media-tablet) / 1279);
+      margin-left: calc(20px + (20 + 20 * .7) * (100vw - $media-tablet) / 1279);
+      padding-top: calc(350px + (-190 - 190 * .7) * (100vw - $media-tablet) / 1279);
+    }
   }
 }
