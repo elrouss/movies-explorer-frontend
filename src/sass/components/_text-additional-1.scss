@@ -13,4 +13,11 @@
     font-family: "Suisse-Intl-Regular", Arial, Helvetica, sans-serif;
     font-weight: 400;
   }
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.1rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.3rem / $font-size-mobile);
+  }
 }

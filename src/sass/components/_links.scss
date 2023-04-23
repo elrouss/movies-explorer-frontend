@@ -23,6 +23,13 @@
     }
   }
 
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size: 1rem;
+
+    font-size: $font-size;
+    line-height: calc(1.6rem / $font-size);
+  }
+
   &_type_inner-nav {
     @include font(
       $size: $font-size-s,
@@ -42,6 +49,18 @@
   justify-self: end;
   display: flex;
   column-gap: 20px;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    justify-self: auto;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 12px;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
 }
 
 .footer__link {

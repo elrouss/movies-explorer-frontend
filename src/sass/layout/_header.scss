@@ -14,6 +14,15 @@
         30px + (40 + 40 * 0.7) * (100vw - $media-tablet) / 1279
       );
     }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      margin-right: calc(
+        14px + (16 + 16 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      margin-left: calc(
+        14px + (16 + 16 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
   }
 
   &__auth {
@@ -21,5 +30,9 @@
     align-items: center;
     column-gap: 30px;
     max-width: 183px;
+
+    @media screen and (max-width: $media-mobile-l) {
+      column-gap: 14px;
+    }
   }
 }

@@ -6,6 +6,15 @@
     $line-height: calc(5.8rem / $font-size-xl),
     $letter-spacing: -0.2rem
   );
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    font-size: calc(3rem + (20 + 20 * 0.7) * (100vw - $media-mobile-s) / 767);
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    line-height: calc(3.7rem / 3rem);
+    letter-spacing: -0.1rem;
+  }
 }
 
 .section-heading {
@@ -19,6 +28,16 @@
   );
 
   @include border-bottom();
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.8rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(2.2rem / $font-size-mobile);
+    letter-spacing: -0.07rem;
+
+    padding-bottom: 28px;
+  }
 }
 
 .promo__heading {
@@ -38,6 +57,21 @@
   @media screen and (max-width: $media-laptop) {
     line-height: calc(5.2rem / $font-size-laptop);
   }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    $font-size-mobile: 2.9rem;
+
+    font-size: calc(
+      $font-size-mobile + (14 + 14 * 0.7) * (100vw - $media-mobile-s) / 767
+    );
+    line-height: calc(3.7rem / $font-size-mobile);
+  }
+}
+
+.techs__heading {
+  @media screen and (max-width: $media-mobile-l) {
+    border-bottom-color: $color-text-accent;
+  }
 }
 
 .about-me__heading {
@@ -51,6 +85,10 @@
 
   @media screen and (max-width: $media-laptop) {
     line-height: calc(4rem / $font-size-laptop);
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    padding-top: 35px;
   }
 }
 
@@ -74,6 +112,15 @@
     font-size: $font-size;
     line-height: calc(1.8rem / $font-size);
   }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    $font-size-mobile: 1.1rem;
+
+    padding-top: 22px;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.6rem / $font-size-mobile);
+  }
 }
 
 .portfolio__heading {
@@ -90,6 +137,15 @@
 
   @media screen and (max-width: $media-laptop) {
     color: $color-text-additional-2;
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    $font-size-mobile: 1.4rem;
+
+    font-size: calc(
+      $font-size-mobile + (4 + 4 * 0.7) * (100vw - $media-mobile-s) / 767
+    );
+    line-height: calc(2rem / $font-size-mobile);
   }
 }
 
@@ -108,6 +164,19 @@
     font-size: $font-size;
     line-height: calc(5rem / $font-size);
   }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    $font-size-mobile: 1.8rem;
+
+    font-size: calc(
+      $font-size-mobile + (10 + 10 * 0.7) * (100vw - $media-mobile-s) / 767
+    );
+    line-height: calc(2.8rem / $font-size-mobile);
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    letter-spacing: -0.07rem;
+  }
 }
 
 .footer__heading {
@@ -124,6 +193,15 @@
   color: $color-text-additional-1;
 
   @include border-bottom($color: $color-border-dark);
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    margin-bottom: 32px;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
 }
 
 .entry__heading {

@@ -33,7 +33,7 @@ function AboutMe() {
 
   return (
     <section className="about-me" id="student">
-      <div className="wrapper wrapper__section">
+      <div className="wrapper wrapper__section wrapper__section_indent_s">
         <h2 className="section-heading">Студент</h2>
         <div className="about-me__wrapper">
           <div className="about-me__biography">

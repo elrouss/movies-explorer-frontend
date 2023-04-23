@@ -9,6 +9,11 @@
       padding-top: 47px;
       padding-bottom: 90px;
     }
+
+    @media screen and (max-width: $media-mobile-l) {
+      padding-top: 40px;
+      padding-bottom: 68px;
+    }
   }
 
   &__project {
@@ -21,10 +26,21 @@
         border-color: $color-border-adaptive;
       }
     }
+
+    @media screen and (max-width: $media-mobile-l) {
+      height: 47px;
+    }
   }
 
   &__project-arrow {
     padding-top: 6px;
     padding-right: 6px;
+
+    @media screen and (max-width: $media-mobile-l) {
+      width: 12px;
+      padding-top: 0px;
+      padding-right: 4px;
+      padding-bottom: 2px;
+    }
   }
 }

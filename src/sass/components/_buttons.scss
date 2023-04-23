@@ -18,6 +18,10 @@
 
   background-color: $color-accent-1;
   border-radius: 3px;
+
+  @media screen and (max-width: $media-mobile-l) {
+    padding: 5px 12px;
+  }
 }
 
 .btn-entry {

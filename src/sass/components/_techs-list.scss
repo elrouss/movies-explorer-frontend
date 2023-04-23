@@ -21,6 +21,17 @@
     $line-height: calc(1.5rem / $font-size);
   }
 
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    justify-content: space-between;
+    width: calc(100% - 106px);
+  }
+
   &__item {
     @extend %flex-column;
     width: 90px;
@@ -28,5 +39,10 @@
 
     background-color: $color-background-additional;
     border-radius: $border-radius;
+
+    @media screen and (max-width: calc($media-mobile-l)) {
+      width: 84px;
+      height: 57px;
+    }
   }
 }

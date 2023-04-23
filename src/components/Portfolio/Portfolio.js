@@ -5,7 +5,7 @@ import PortfolioProject from "../PortfolioProject/PortfolioProject";
 function Portfolio() {
   return (
     <section className="portfolio">
-      <div className="wrapper">
+      <div className="wrapper wrapper_indent_s">
         <h2 className="portfolio__heading">Портфолио</h2>
         <ul className="portfolio__wrapper list">
           <PortfolioProject

@@ -6,7 +6,7 @@ export default function Techs() {
   return (
     <section className="techs" id="technologies">
       <div className="wrapper wrapper__section techs__wrapper">
-        <h2 className="section-heading">Технологии</h2>
+        <h2 className="section-heading techs__heading">Технологии</h2>
         <div className="techs__list">
           <h3 className="section-heading-main">7 технологий</h3>
           <p className="paragraph techs__paragraph">
