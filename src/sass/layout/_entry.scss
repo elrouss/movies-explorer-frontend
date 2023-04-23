@@ -4,7 +4,20 @@
     flex-direction: column;
     max-width: $entry-form-width;
     margin: 0 auto;
-    padding: 70px 0;
+    padding: 5.5% 0;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 30%;
+      padding-bottom: 30%;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      align-items: center;
+      max-width: 260px;
+
+      padding-top: 18%;
+      padding-bottom: 18%;
+    }
   }
 
   &__form {
@@ -27,8 +40,16 @@
 
     border: none;
 
+    @media screen and (max-width: $media-mobile-l) {
+      margin-bottom: 216px;
+    }
+
     &_margin_big {
       margin-bottom: 194px;
+
+      @media screen and (max-width: $media-mobile-l) {
+        margin-bottom: 285px;
+      }
     }
   }
 }

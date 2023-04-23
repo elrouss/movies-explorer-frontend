@@ -217,6 +217,11 @@
     $line-height: calc(2.9rem / $font-size),
     $letter-spacing: 0
   );
+
+  @media screen and (max-width: $media-mobile-l) {
+    padding-top: 46px;
+    padding-bottom: 80px;
+  }
 }
 
 .not-found__heading {

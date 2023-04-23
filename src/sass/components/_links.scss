@@ -37,6 +37,13 @@
       $letter-spacing: 0.05rem
     );
     color: $color-accent-2;
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.2rem;
+
+      font-size: $font-size-mobile;
+      line-height: calc(1.5rem / $font-size-mobile);
+    }
   }
 }
 

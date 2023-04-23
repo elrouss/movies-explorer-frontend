@@ -90,6 +90,13 @@
   letter-spacing: 0.02rem;
   color: $color-text-additional-1;
   text-align: center;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
 }
 
 .not-found__paragraph {
