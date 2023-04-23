@@ -63,8 +63,57 @@
   );
 }
 
-// NOT FOUND PAGE
+.nav__link-active {
+  font-family: "Inter-Medium";
+  font-weight: 500;
+
+  &:hover {
+    opacity: 100%;
+
+    cursor: default;
+  }
+}
+
+.link-profile {
+  position: relative;
+
+  @extend %flex-row;
+  width: 100px;
+  height: 30px;
+
+  @include font(
+    $family: "Inter-Medium",
+    $weight: 500,
+    $size: $font-size-s,
+    $line-height: calc(1.6rem / $font-size-s),
+    $letter-spacing: 0
+  );
+  text-align: start;
+  color: inherit;
+
+  background-color: transparent;
+
+  &::before {
+    content: url(../assets/icons/icon-user.svg);
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    @extend %flex-column;
+
+    width: 30px;
+    height: 30px;
+
+    background-color: $color-icon;
+    border-radius: $border-radius-m;
+  }
+}
+
 .not-found__link {
-  @extend %paragraph-s;
+  @include font(
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0
+  );
   color: $color-accent-2;
 }

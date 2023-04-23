@@ -53,11 +53,24 @@
     justify-self: end;
     width: 30px;
     height: 30px;
+
     margin-top: 20px;
     margin-right: $distance-border;
 
     background-color: $color-icon;
     border-radius: 50%;
+
+    &_active {
+      background-color: $color-accent-1;
+
+      & > svg {
+        fill: $color-text-primary;
+
+        & > path {
+          stroke: inherit;
+        }
+      }
+    }
   }
 
   &__photo {

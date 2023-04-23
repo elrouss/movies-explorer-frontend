@@ -82,6 +82,7 @@
 
   @include font(
     $family: "Inter-Medium",
+    $weight: 500,
     $size: $font-size,
     $line-height: calc(2.9rem / $font-size),
     $letter-spacing: 0

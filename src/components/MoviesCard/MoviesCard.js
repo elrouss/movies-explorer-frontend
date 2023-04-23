@@ -12,6 +12,9 @@ function MoviesCard({ card: { nameRU, duration, image } }) {
     return hours ? `${hours}ч` : `${minutes}м`;
   }
 
+  // TODO: ДЛЯ СТАТИЧНОГО МАКЕТА
+  let isFavouriteCard = false;
+
   return (
     <article className="movies-card">
       <div className="movies-card__description">
@@ -19,8 +22,10 @@ function MoviesCard({ card: { nameRU, duration, image } }) {
         <span className="movies-card__duration">{countTime(duration)}</span>
       </div>
       <button
-        className="btn movies-card__btn-favourite"
-        type="submit"
+        className={`btn movies-card__btn-favourite ${
+          isFavouriteCard && "movies-card__btn-favourite_active"
+        }`}
+        type="button"
         aria-label="Добавление карточки с фильмом в избранные"
       >
         <svg

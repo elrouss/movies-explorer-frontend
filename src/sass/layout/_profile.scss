@@ -1,0 +1,84 @@
+.profile {
+  &__wrapper {
+    @extend %flex-column;
+    margin-top: 74px;
+  }
+
+  &__heading {
+    $font-size: 2.4rem;
+
+    max-width: 204px;
+    margin: 0;
+    padding-bottom: 123px;
+
+    @include font(
+      $family: "Inter-Medium",
+      $weight: 500,
+      $size: $font-size,
+      $line-height: calc(2.9rem / $font-size),
+      $letter-spacing: 0
+    );
+  }
+
+  &__form {
+    @extend %flex-column;
+    max-width: 410px;
+    width: 100%;
+  }
+
+  &__fieldset {
+    @extend %flex-column;
+    row-gap: 17px;
+    width: inherit;
+    margin: 0;
+    padding: 0 0 220px;
+
+    border: none;
+  }
+
+  &__input-wrapper {
+    position: relative;
+
+    width: inherit;
+
+    &:first-child {
+      padding-bottom: 16px;
+      @include border-bottom($color: $color-border-dark);
+    }
+  }
+
+  &__label {
+    $font-size: 1.1rem;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    @include font(
+      $family: "Inter-Medium",
+      $weight: 500,
+      $size: $font-size,
+      $line-height: calc(1.3rem / $font-size),
+      $letter-spacing: 0
+    );
+  }
+
+  &__input {
+    $font-size: 1.1rem;
+
+    width: inherit;
+    margin: 0;
+    padding: 0;
+
+    @include font(
+      $size: $font-size,
+      $line-height: calc(1.3rem / $font-size),
+      $letter-spacing: 0
+    );
+    color: $color-text-primary;
+    text-align: end;
+
+    @extend %input;
+    box-sizing: border-box;
+  }
+}

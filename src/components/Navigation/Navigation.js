@@ -1,26 +1,39 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Navigation() {
+  const links = [
+    {
+      path: "/movies",
+      label: "Фильмы",
+    },
+    {
+      path: "/saved-movies",
+      label: "Сохранённые фильмы",
+    },
+  ];
+
   return (
     <div className="layout-nav">
       <nav className="nav">
         <ul className="list nav__list">
-          <li>
-            <NavLink className="link nav__link">Фильмы</NavLink>
-          </li>
-          <li>
-            <NavLink className="link nav__link">Сохранённые фильмы</NavLink>
-          </li>
+          {links.map(({ path, label }) => (
+            <li key={label}>
+              <NavLink
+                className={({ isActive }) =>
+                  `link nav__link ${isActive && "nav__link-active"}`
+                }
+                to={path}
+              >
+                {label}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
-      <button
-        className="btn btn-profile"
-        type="button"
-        aria-label="Личный кабинет с обновлением данных профиля"
-      >
+      <Link className="link link-profile" to={"/profile"}>
         Аккаунт
-      </button>
+      </Link>
     </div>
   );
 }
