@@ -1693,6 +1693,35 @@ html {
   background-color: transparent;
 }
 
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 23px;
+  margin-right: 8px;
+  margin-bottom: 2px;
+  background-color: transparent;
+}
+@media screen and (max-width: 480px) {
+  .hamburger {
+    width: 22px;
+    height: 20.5px;
+    margin-right: 9px;
+  }
+}
+.hamburger__line {
+  display: inline-block;
+  width: 100%;
+  height: 3px;
+  background-color: #fff;
+}
+@media screen and (max-width: 480px) {
+  .hamburger__line {
+    height: 2.5px;
+  }
+}
+
 .logo {
   width: 38px;
   height: 38px;

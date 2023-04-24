@@ -1,0 +1,29 @@
+.hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 23px;
+  margin-right: 8px;
+  margin-bottom: 2px;
+
+  background-color: transparent;
+
+  @media screen and (max-width: $media-mobile-l) {
+    width: 22px;
+    height: 20.5px;
+    margin-right: 9px;
+  }
+
+  &__line {
+    display: inline-block;
+    width: 100%;
+    height: 3px;
+
+    background-color: $color-text-primary;
+
+    @media screen and (max-width: $media-mobile-l) {
+      height: 2.5px;
+    }
+  }
+}
