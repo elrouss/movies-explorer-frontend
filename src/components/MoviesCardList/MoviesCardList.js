@@ -1,11 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import MoviesCard from "../MoviesCard/MoviesCard";
 
 // ДЛЯ СТАТИЧНОЙ ОТРИСОВКИ
 import { cards } from "./cardsDataTemporary";
 
-function MoviesCardList() {
+function MoviesCardList({ icon }) {
   return (
     <section
       className="movies-gallery"
@@ -14,7 +15,7 @@ function MoviesCardList() {
       <div className="wrapper movies-gallery__wrapper">
         <div className="movies-gallery__movies">
           {cards.map((card) => (
-            <MoviesCard key={card.movieId} card={card} />
+            <MoviesCard key={card.movieId} card={card} icon={icon} />
           ))}
         </div>
         <button
@@ -28,5 +29,9 @@ function MoviesCardList() {
     </section>
   );
 }
+
+MoviesCardList.propTypes = {
+  icon: PropTypes.element,
+};
 
 export default MoviesCardList;

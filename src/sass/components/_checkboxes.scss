@@ -6,11 +6,28 @@
   align-items: center;
   column-gap: 14px;
 
+  @media screen and (max-width: $media-tablet) {
+    flex-direction: row-reverse;
+    justify-content: end;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    justify-content: center;
+  }
+
   &__wrapper {
     position: relative;
     bottom: 28px;
 
     margin-top: 60px;
+
+    @media screen and (max-width: $media-tablet) {
+      margin-top: 57px;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      margin-top: 69px;
+    }
   }
 
   &__input {
@@ -66,5 +83,14 @@
       $line-height: calc(1.8rem / $font-size),
       $letter-spacing: 0
     );
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.1rem;
+
+      padding-top: 10px;
+
+      font-size: $font-size-mobile;
+      line-height: calc(1.8rem / $font-size-mobile);
+    }
   }
 }

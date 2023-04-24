@@ -54,6 +54,17 @@
   &::before {
     content: url(../assets/icons/icon-find.svg);
   }
+
+  @media screen and (max-width: $media-mobile-l) {
+    position: relative;
+    bottom: 6px;
+
+    width: 38px;
+
+    &::before {
+      content: url(../assets/icons/icon-find_small.svg);
+    }
+  }
 }
 
 .movies-gallery__btn-more {
@@ -74,6 +85,10 @@
 
   background-color: $color-btn-additional-1;
   border-radius: 0.6rem;
+
+  @media screen and (max-width: $media-mobile-l) {
+    width: 240px;
+  }
 }
 
 .btn-profile {

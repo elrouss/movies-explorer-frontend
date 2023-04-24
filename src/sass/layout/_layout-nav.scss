@@ -1,4 +1,8 @@
 .layout-nav {
   @extend %flex-row;
   width: 100%;
+
+  @media screen and (max-width: $media-tablet) {
+    display: none;
+  }
 }

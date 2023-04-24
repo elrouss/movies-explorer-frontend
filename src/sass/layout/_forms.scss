@@ -26,5 +26,12 @@
     &::placeholder {
       color: $color-text-additional-1;
     }
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.8rem;
+
+      font-size: $font-size-mobile;
+      line-height: calc(2.2rem / $font-size-mobile);
+    }
   }
 }

@@ -11,6 +11,14 @@
   background-color: $color-background-card;
   filter: drop-shadow(0px 4px 30px rgba(0, 0, 0, 0.08));
 
+  @media screen and (max-width: $media-laptop) {
+    width: 339px;
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    width: 300px;
+  }
+
   &__description {
     grid-area: description;
     display: flex;

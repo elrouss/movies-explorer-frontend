@@ -514,6 +514,11 @@ html {
 .layout-nav {
   width: 100%;
 }
+@media screen and (max-width: 768px) {
+  .layout-nav {
+    display: none;
+  }
+}
 
 .nav-tab {
   max-width: 325px;
@@ -836,6 +841,19 @@ html {
 .movies-gallery__wrapper {
   margin-bottom: 95px;
 }
+@media screen and (max-width: 1279px) {
+  .movies-gallery__wrapper {
+    margin-right: calc(30px + 68 * (100vw - 768px) / 1279);
+    margin-left: calc(30px + 68 * (100vw - 768px) / 1279);
+    margin-bottom: 98px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .movies-gallery__wrapper {
+    margin-right: calc(10px + 34 * (100vw - 320px) / 767);
+    margin-left: calc(10px + 34 * (100vw - 320px) / 767);
+  }
+}
 .movies-gallery__movies {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(364px, auto));
@@ -844,9 +862,49 @@ html {
   width: 100%;
   margin-top: 85px;
 }
+@media screen and (max-width: 1024px) {
+  .movies-gallery__movies {
+    grid-template-columns: repeat(auto-fill, minmax(339px, auto));
+    gap: 36px 30px;
+    margin-top: calc(99px + -23.8 * (100vw - 768px) / 1023);
+  }
+}
+@media screen and (max-width: 767px) {
+  .movies-gallery__movies {
+    grid-template-columns: repeat(auto-fill, minmax(300px, auto));
+    gap: 16px 10px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .movies-gallery__movies {
+    margin-top: 60px;
+  }
+}
 
 .search {
   padding-top: 67px;
+}
+@media screen and (max-width: 1024px) {
+  .search {
+    padding-top: 77px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .search {
+    padding-top: 87px;
+  }
+}
+@media screen and (max-width: 1279px) {
+  .search__wrapper {
+    margin-right: calc(30px + 68 * (100vw - 768px) / 1279);
+    margin-left: calc(30px + 68 * (100vw - 768px) / 1279);
+  }
+}
+@media screen and (max-width: 767px) {
+  .search__wrapper {
+    margin-right: calc(14px + 27.2 * (100vw - 320px) / 767);
+    margin-left: calc(14px + 27.2 * (100vw - 320px) / 767);
+  }
 }
 
 .profile__wrapper {
@@ -961,6 +1019,12 @@ html {
 }
 .search-film__input::placeholder {
   color: #8b8b8b;
+}
+@media screen and (max-width: 480px) {
+  .search-film__input {
+    font-size: 1.8rem;
+    line-height: 1.2222222222;
+  }
 }
 
 .section-heading-main {
@@ -1452,10 +1516,31 @@ html {
   -moz-column-gap: 14px;
        column-gap: 14px;
 }
+@media screen and (max-width: 768px) {
+  .filter-checkbox {
+    flex-direction: row-reverse;
+    justify-content: end;
+  }
+}
+@media screen and (max-width: 480px) {
+  .filter-checkbox {
+    justify-content: center;
+  }
+}
 .filter-checkbox__wrapper {
   position: relative;
   bottom: 28px;
   margin-top: 60px;
+}
+@media screen and (max-width: 768px) {
+  .filter-checkbox__wrapper {
+    margin-top: 57px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .filter-checkbox__wrapper {
+    margin-top: 69px;
+  }
 }
 .filter-checkbox__input {
   visibility: hidden;
@@ -1495,6 +1580,13 @@ html {
   line-height: 1.3846153846;
   font-weight: 400;
   letter-spacing: 0;
+}
+@media screen and (max-width: 480px) {
+  .filter-checkbox__span {
+    padding-top: 10px;
+    font-size: 1.1rem;
+    line-height: 1.6363636364;
+  }
 }
 
 .btn {
@@ -1544,6 +1636,16 @@ html {
 .btn-search::before {
   content: url(../assets/icons/icon-find.svg);
 }
+@media screen and (max-width: 480px) {
+  .btn-search {
+    position: relative;
+    bottom: 6px;
+    width: 38px;
+  }
+  .btn-search::before {
+    content: url(../assets/icons/icon-find_small.svg);
+  }
+}
 
 .movies-gallery__btn-more {
   width: 320px;
@@ -1558,6 +1660,11 @@ html {
   color: inherit;
   background-color: #2f2f2f;
   border-radius: 0.6rem;
+}
+@media screen and (max-width: 480px) {
+  .movies-gallery__btn-more {
+    width: 240px;
+  }
 }
 
 .btn-profile {
@@ -1710,6 +1817,16 @@ html {
   width: 364px;
   background-color: #222222;
   filter: drop-shadow(0px 4px 30px rgba(0, 0, 0, 0.08));
+}
+@media screen and (max-width: 1024px) {
+  .movies-card {
+    width: 339px;
+  }
+}
+@media screen and (max-width: 767px) {
+  .movies-card {
+    width: 300px;
+  }
 }
 .movies-card__description {
   grid-area: description;
