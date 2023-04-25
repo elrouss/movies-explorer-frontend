@@ -87,6 +87,18 @@
     $line-height: calc(1.8rem / $font-size),
     $letter-spacing: 0
   );
+
+  @media screen and (max-width: $media-tablet) {
+    $font-size-mobile: 1.8rem;
+
+    @include font(
+      $family: "Inter-Medium",
+      $weight: 500,
+      $size: $font-size-mobile,
+      $line-height: calc(2.2rem / $font-size-mobile),
+      $letter-spacing: 0
+    );
+  }
 }
 
 .nav__link-active {
@@ -97,6 +109,15 @@
     opacity: 100%;
 
     cursor: default;
+  }
+
+  @media screen and (max-width: $media-tablet) {
+    padding-bottom: 4px;
+    @include border-bottom($width: 2px, $color: $color-text-primary);
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    padding-bottom: 6px;
   }
 }
 

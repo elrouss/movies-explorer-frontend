@@ -1,0 +1,24 @@
+.hamburger-menu {
+  width: 0;
+  height: 100%;
+
+  background-color: $color-background-page;
+
+  transition: width 0.6s ease;
+
+  &__wrapper {
+    padding: 159px 17.3% 92px;
+
+    @media screen and (max-width: $media-mobile-l) {
+      padding: 145px 3% 47px;
+    }
+  }
+
+  &_opened {
+    width: 67.7%;
+
+    @media screen and (max-width: $media-mobile-l) {
+      width: 100%;
+    }
+  }
+}

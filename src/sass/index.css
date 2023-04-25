@@ -401,6 +401,10 @@ html {
   font-display: swap;
   src: url("./base/fonts/Suisse-Intl-Regular.ttf") format("truetype");
 }
+.page_no-scroll {
+  overflow: hidden;
+}
+
 .wrapper {
   max-width: 1140px;
   margin: 0 auto;
@@ -516,7 +520,14 @@ html {
 }
 @media screen and (max-width: 768px) {
   .layout-nav {
-    display: none;
+    flex-direction: column;
+    row-gap: 60.5vh;
+  }
+}
+@media screen and (max-width: 480px) {
+  .layout-nav {
+    flex-direction: column;
+    row-gap: 57.5vh;
   }
 }
 
@@ -544,6 +555,18 @@ html {
 
 .nav__list {
   width: 212px;
+}
+@media screen and (max-width: 768px) {
+  .nav__list {
+    flex-direction: column;
+    row-gap: 28px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .nav__list {
+    flex-direction: column;
+    row-gap: 24px;
+  }
 }
 
 .about-project__wrapper {
@@ -1027,6 +1050,24 @@ html {
   }
 }
 
+.modal-window {
+  position: fixed;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.9s ease;
+}
+.modal-window_opened {
+  opacity: 1;
+  visibility: visible;
+}
+
 .section-heading-main {
   margin: 0;
   font-family: "Inter-Regular", "Arial", "Helvetica", sans-serif;
@@ -1092,7 +1133,7 @@ html {
 
 @media screen and (max-width: 480px) {
   .techs__heading {
-    border-bottom-color: #000000;
+    border-bottom-color: #000;
   }
 }
 
@@ -1381,7 +1422,7 @@ html {
   opacity: 70%;
 }
 .link_color_accent {
-  color: #000000;
+  color: #000;
 }
 .link_color_accent:hover {
   opacity: 80%;
@@ -1441,6 +1482,16 @@ html {
   font-weight: 400;
   letter-spacing: 0;
 }
+@media screen and (max-width: 768px) {
+  .nav__link {
+    font-family: "Inter-Medium", "Arial", "Helvetica", sans-serif;
+    font-style: normal;
+    font-size: 1.8rem;
+    line-height: 1.2222222222;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+}
 
 .nav__link-active {
   font-family: "Inter-Medium";
@@ -1449,6 +1500,17 @@ html {
 .nav__link-active:hover {
   opacity: 100%;
   cursor: default;
+}
+@media screen and (max-width: 768px) {
+  .nav__link-active {
+    padding-bottom: 4px;
+    border-bottom: 2px solid #fff;
+  }
+}
+@media screen and (max-width: 480px) {
+  .nav__link-active {
+    padding-bottom: 6px;
+  }
 }
 
 .link-profile {
@@ -1694,6 +1756,8 @@ html {
 }
 
 .hamburger {
+  position: relative;
+  z-index: 2000;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -1703,12 +1767,39 @@ html {
   margin-bottom: 2px;
   background-color: transparent;
 }
+.hamburger:hover {
+  opacity: 100%;
+}
 @media screen and (max-width: 480px) {
   .hamburger {
     width: 22px;
     height: 20.5px;
     margin-right: 9px;
   }
+}
+.hamburger > * {
+  transition: all 0.6s ease;
+}
+.hamburger_clicked {
+  width: 22px;
+  height: 21px;
+  margin-right: -3px;
+  margin-bottom: 1px;
+}
+@media screen and (max-width: 480px) {
+  .hamburger_clicked {
+    margin-right: 4px;
+    margin-bottom: 19px;
+  }
+}
+.hamburger_clicked > .hamburger__line:nth-child(1) {
+  transform: translateY(9px) rotate(-45deg);
+}
+.hamburger_clicked > .hamburger__line:nth-child(2) {
+  opacity: 0;
+}
+.hamburger_clicked > .hamburger__line:nth-child(3) {
+  transform: translateY(-9px) rotate(45deg);
 }
 .hamburger__line {
   display: inline-block;
@@ -1719,6 +1810,29 @@ html {
 @media screen and (max-width: 480px) {
   .hamburger__line {
     height: 2.5px;
+  }
+}
+
+.hamburger-menu {
+  width: 0;
+  height: 100%;
+  background-color: #202020;
+  transition: width 0.6s ease;
+}
+.hamburger-menu__wrapper {
+  padding: 159px 17.3% 92px;
+}
+@media screen and (max-width: 480px) {
+  .hamburger-menu__wrapper {
+    padding: 145px 3% 47px;
+  }
+}
+.hamburger-menu_opened {
+  width: 67.7%;
+}
+@media screen and (max-width: 480px) {
+  .hamburger-menu_opened {
+    width: 100%;
   }
 }
 
@@ -1753,7 +1867,7 @@ html {
 }
 .progress-bar__stage-1 {
   flex-grow: 1;
-  color: #000000;
+  color: #000;
   background-color: #3ddc84;
 }
 .progress-bar__stage-2 {

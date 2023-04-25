@@ -1,7 +1,12 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import PropTypes from "prop-types";
 
-function Navigation() {
+import useWindowDimensions from "../../hooks/useWindowDimensions.js";
+
+function Navigation({ onCloseModalWindow }) {
+  const isMobileWidth = useWindowDimensions() <= 768;
+
   const links = [
     {
       path: "/movies",
@@ -13,22 +18,27 @@ function Navigation() {
     },
   ];
 
+  function createNavLink(path, label) {
+    return (
+      <li key={label}>
+        <NavLink
+          className={({ isActive }) =>
+            `link nav__link ${isActive && "nav__link-active"}`
+          }
+          to={path}
+        >
+          {label}
+        </NavLink>
+      </li>
+    );
+  }
+
   return (
-    <div className="layout-nav">
+    <div className="layout-nav" onClick={onCloseModalWindow}>
       <nav className="nav">
         <ul className="list nav__list">
-          {links.map(({ path, label }) => (
-            <li key={label}>
-              <NavLink
-                className={({ isActive }) =>
-                  `link nav__link ${isActive && "nav__link-active"}`
-                }
-                to={path}
-              >
-                {label}
-              </NavLink>
-            </li>
-          ))}
+          {isMobileWidth && createNavLink("/", "Главная")}
+          {links.map(({ path, label }) => createNavLink(path, label))}
         </ul>
       </nav>
       <Link className="link link-profile" to={"/profile"}>
@@ -37,5 +47,9 @@ function Navigation() {
     </div>
   );
 }
+
+Navigation.propTypes = {
+  onCloseModalWindow: PropTypes.func,
+};
 
 export default Navigation;

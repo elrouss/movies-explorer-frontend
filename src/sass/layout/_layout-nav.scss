@@ -3,6 +3,12 @@
   width: 100%;
 
   @media screen and (max-width: $media-tablet) {
-    display: none;
+    flex-direction: column;
+    row-gap: 60.5vh;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    flex-direction: column;
+    row-gap: 57.5vh;
   }
 }

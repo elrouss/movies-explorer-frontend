@@ -2,5 +2,15 @@
   &__list {
     @extend %flex-row;
     width: 212px;
+
+    @media screen and (max-width: $media-tablet) {
+      flex-direction: column;
+      row-gap: 28px;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      flex-direction: column;
+      row-gap: 24px;
+    }
   }
 }
