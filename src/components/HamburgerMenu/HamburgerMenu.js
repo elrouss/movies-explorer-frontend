@@ -4,19 +4,28 @@ import PropTypes from "prop-types";
 import ModalWindow from "../ModalWindow/ModalWindow.js";
 import Navigation from "../Navigation/Navigation.js";
 
-function HamburgerMenu({ isModalWindowOpened, onCloseModalWindow }) {
+function HamburgerMenu({
+  isModalWindowOpened,
+  isHamburgerMenuOpened,
+  closeModalWindow,
+  closeHamburgerMenuOnOutsideAndNavClick,
+}) {
   return (
     <ModalWindow
       isModalWindowOpened={isModalWindowOpened}
-      onCloseModalWindow={onCloseModalWindow}
+      isHamburgerMenuOpened={isHamburgerMenuOpened}
+      closeModalWindow={closeModalWindow}
+      closeHamburgerMenuOnOutsideAndNavClick={
+        closeHamburgerMenuOnOutsideAndNavClick
+      }
     >
       <div
         className={`hamburger-menu ${
-          isModalWindowOpened && "hamburger-menu_opened"
+          isHamburgerMenuOpened && "hamburger-menu_opened"
         }`}
       >
         <div className="hamburger-menu__wrapper">
-          <Navigation onCloseModalWindow={onCloseModalWindow} />
+          <Navigation />
         </div>
       </div>
     </ModalWindow>
@@ -25,7 +34,9 @@ function HamburgerMenu({ isModalWindowOpened, onCloseModalWindow }) {
 
 HamburgerMenu.propTypes = {
   isModalWindowOpened: PropTypes.bool,
-  onCloseModalWindow: PropTypes.func,
+  isHamburgerMenuOpened: PropTypes.bool,
+  closeModalWindow: PropTypes.func,
+  closeHamburgerMenuOnOutsideAndNavClick: PropTypes.func,
 };
 
 export default HamburgerMenu;

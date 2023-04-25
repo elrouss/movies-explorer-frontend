@@ -10,10 +10,13 @@ import Navigation from "../Navigation/Navigation.js";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu.js";
 
 function Header({
-  openHamburgerMenu,
+  toggleHamburgerMenu,
   isModalWindowOpened,
-  onCloseModalWindow,
+  isHamburgerMenuOpened,
+  closeModalWindow,
+  closeHamburgerMenuOnOutsideAndNavClick,
 }) {
+  // ВРЕМЕННОЕ РЕШЕНИЕ ДЛЯ СТАТИЧНОЙ ВЕРСТКИ (НА 3-М ЭТАПЕ ПЕРЕДЕЛАТЬ ПОД АВТОРИЗАЦИЮ)
   const href = useMatch({ path: `${window.location.pathname}`, end: false });
   const isRootHref = href.pathnameBase === "/";
 
@@ -24,11 +27,11 @@ function Header({
       return (
         <button
           className={`btn hamburger ${
-            isModalWindowOpened && "hamburger_clicked"
+            isHamburgerMenuOpened && "hamburger_clicked"
           }`}
           type="button"
           aria-label="Гамбургер-меню с навигацией по приложению"
-          onClick={() => openHamburgerMenu()}
+          onClick={() => toggleHamburgerMenu()}
         >
           <span className="hamburger__line"></span>
           <span className="hamburger__line"></span>
@@ -65,7 +68,11 @@ function Header({
       {isMobileWidth && (
         <HamburgerMenu
           isModalWindowOpened={isModalWindowOpened}
-          onCloseModalWindow={onCloseModalWindow}
+          isHamburgerMenuOpened={isHamburgerMenuOpened}
+          closeModalWindow={closeModalWindow}
+          closeHamburgerMenuOnOutsideAndNavClick={
+            closeHamburgerMenuOnOutsideAndNavClick
+          }
         />
       )}
     </>
@@ -73,9 +80,11 @@ function Header({
 }
 
 Header.propTypes = {
-  openHamburgerMenu: PropTypes.func,
+  toggleHamburgerMenu: PropTypes.func,
   isModalWindowOpened: PropTypes.bool,
-  onCloseModalWindow: PropTypes.func,
+  isHamburgerMenuOpened: PropTypes.bool,
+  closeModalWindow: PropTypes.func,
+  closeHamburgerMenuOnOutsideAndNavClick: PropTypes.func,
 };
 
 export default Header;

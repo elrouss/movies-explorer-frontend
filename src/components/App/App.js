@@ -15,14 +15,23 @@ import Profile from "../Profile/Profile.js";
 import PageNotFound from "../PageNotFound/PageNotFound.js";
 
 export default function App() {
+  const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
 
-  function openHamburgerMenu() {
+  function openModalWindow() {
+    setIsModalWindowOpened(true);
+  }
+
+  function toggleHamburgerMenu() {
+    if (!isModalWindowOpened) {
+      openModalWindow();
+    }
+
     setIsHamburgerMenuOpened(!isHamburgerMenuOpened);
   }
 
   // TODO: при открытии гамбургер-меню и растягивании экрана > 768px
-  // модальное окно исчезает, но overflow: scroll не убирается
+  // модальное окно исчезает, но overflow: scroll не убирается,
   // хук useWindowDimension работает через 1px при растягивании
   useEffect(() => {
     const body = document.body;
@@ -30,17 +39,21 @@ export default function App() {
     body.classList.contains("page_no-scroll")
       ? body.classList.remove("page_no-scroll")
       : body.classList.add("page_no-scroll");
-  }, [openHamburgerMenu]);
+  }, [isModalWindowOpened]);
 
   const closeModalWindow = useCallback(() => {
+    setIsModalWindowOpened(false);
+  }, []);
+
+  const closeHamburgerMenu = useCallback(() => {
     setIsHamburgerMenuOpened(false);
   }, []);
 
-  function closeModalWindowOnOutsideClick({ target }) {
+  function closeHamburgerMenuOnOutsideAndNavClick({ target }) {
     const checkSelector = (selector) => target.classList.contains(selector);
 
     if (checkSelector("modal-window_opened") || checkSelector("link")) {
-      closeModalWindow();
+      closeHamburgerMenu();
     }
   }
 
@@ -50,9 +63,13 @@ export default function App() {
         path="/"
         element={
           <Header
-            openHamburgerMenu={openHamburgerMenu}
-            isModalWindowOpened={isHamburgerMenuOpened}
-            onCloseModalWindow={closeModalWindowOnOutsideClick}
+            toggleHamburgerMenu={toggleHamburgerMenu}
+            isModalWindowOpened={isModalWindowOpened}
+            isHamburgerMenuOpened={isHamburgerMenuOpened}
+            closeModalWindow={closeModalWindow}
+            closeHamburgerMenuOnOutsideAndNavClick={
+              closeHamburgerMenuOnOutsideAndNavClick
+            }
           />
         }
       >
