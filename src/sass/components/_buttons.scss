@@ -105,6 +105,13 @@
   color: inherit;
 
   background-color: transparent;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
 }
 
 .btn-profile-exit {
@@ -123,4 +130,11 @@
   color: $color-accent-3;
 
   background-color: transparent;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
 }

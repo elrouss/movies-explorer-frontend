@@ -2,6 +2,16 @@
   &__wrapper {
     @extend %flex-column;
     margin-top: 74px;
+
+    @media screen and (max-width: $media-desktop) {
+      margin-top: calc(
+        233px + (-159 - 159 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      margin-top: 70px;
+    }
   }
 
   &__heading {
@@ -18,12 +28,26 @@
       $line-height: calc(2.9rem / $font-size),
       $letter-spacing: 0
     );
+
+    @media screen and (max-width: $media-desktop) {
+      padding-bottom: calc(
+        97px + (26 + 26 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      padding-bottom: 79px;
+    }
   }
 
   &__form {
     @extend %flex-column;
     max-width: 410px;
     width: 100%;
+
+    @media screen and (max-width: $media-mobile-l) {
+      max-width: 260px;
+    }
   }
 
   &__fieldset {
@@ -34,6 +58,14 @@
     padding: 0 0 220px;
 
     border: none;
+
+    @media screen and (max-width: $media-desktop) {
+      padding-bottom: 212px;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      padding-bottom: 38vh;
+    }
   }
 
   &__input-wrapper {

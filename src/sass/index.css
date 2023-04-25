@@ -933,6 +933,16 @@ html {
 .profile__wrapper {
   margin-top: 74px;
 }
+@media screen and (max-width: 1279px) {
+  .profile__wrapper {
+    margin-top: calc(233px + -270.3 * (100vw - 768px) / 1279);
+  }
+}
+@media screen and (max-width: 480px) {
+  .profile__wrapper {
+    margin-top: 70px;
+  }
+}
 .profile__heading {
   max-width: 204px;
   margin: 0;
@@ -944,9 +954,24 @@ html {
   font-weight: 500;
   letter-spacing: 0;
 }
+@media screen and (max-width: 1279px) {
+  .profile__heading {
+    padding-bottom: calc(97px + 44.2 * (100vw - 768px) / 1279);
+  }
+}
+@media screen and (max-width: 480px) {
+  .profile__heading {
+    padding-bottom: 79px;
+  }
+}
 .profile__form {
   max-width: 410px;
   width: 100%;
+}
+@media screen and (max-width: 480px) {
+  .profile__form {
+    max-width: 260px;
+  }
 }
 .profile__fieldset {
   row-gap: 17px;
@@ -954,6 +979,16 @@ html {
   margin: 0;
   padding: 0 0 220px;
   border: none;
+}
+@media screen and (max-width: 1279px) {
+  .profile__fieldset {
+    padding-bottom: 212px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .profile__fieldset {
+    padding-bottom: 38vh;
+  }
 }
 .profile__input-wrapper {
   position: relative;
@@ -1741,6 +1776,12 @@ html {
   color: inherit;
   background-color: transparent;
 }
+@media screen and (max-width: 480px) {
+  .btn-profile {
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+}
 
 .btn-profile-exit {
   margin: 0;
@@ -1753,6 +1794,12 @@ html {
   letter-spacing: 0;
   color: #ee3465;
   background-color: transparent;
+}
+@media screen and (max-width: 480px) {
+  .btn-profile-exit {
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
 }
 
 .hamburger {
