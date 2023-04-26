@@ -18,8 +18,8 @@ function Entry({ children, heading, name, btn, btnAriaLabel }) {
         <h1 className="entry__heading">{heading}</h1>
         <form className="entry__form" name={name}>
           <fieldset
-            className={`entry__fieldset ${
-              isLoginHref && "entry__fieldset_margin_big"
+            className={`entry__fieldset${
+              (isLoginHref && " entry__fieldset_margin_big") || ""
             }`}
           >
             {inputs}

@@ -26,8 +26,8 @@ function Header({
     if (!isRootHref && isMobileWidth) {
       return (
         <button
-          className={`btn hamburger ${
-            isHamburgerMenuOpened && "hamburger_clicked"
+          className={`btn hamburger${
+            (isHamburgerMenuOpened && " hamburger_clicked") || ""
           }`}
           type="button"
           aria-label="Гамбургер-меню с навигацией по приложению"

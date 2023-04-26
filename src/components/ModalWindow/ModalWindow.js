@@ -10,9 +10,9 @@ function ModalWindow({
 }) {
   return (
     <div
-      className={`modal-window ${
-        isModalWindowOpened && "modal-window_opened"
-      } ${isHamburgerMenuOpened && "modal-window_bg-color_dark"}`}
+      className={`modal-window${
+        (isModalWindowOpened && " modal-window_opened") || ""
+      }${(isHamburgerMenuOpened && " modal-window_bg-color_dark") || ""}`}
       onClick={closeHamburgerMenuOnOutsideAndNavClick}
       onTransitionEnd={({ propertyName, target }) => {
         if (

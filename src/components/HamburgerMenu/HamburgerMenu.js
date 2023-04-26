@@ -20,8 +20,8 @@ function HamburgerMenu({
       }
     >
       <div
-        className={`hamburger-menu ${
-          isHamburgerMenuOpened && "hamburger-menu_opened"
+        className={`hamburger-menu${
+          (isHamburgerMenuOpened && " hamburger-menu_opened") || ""
         }`}
       >
         <div className="hamburger-menu__wrapper">

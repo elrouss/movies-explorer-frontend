@@ -22,7 +22,7 @@ function Navigation() {
       <li key={label}>
         <NavLink
           className={({ isActive }) =>
-            `link nav__link ${isActive && "nav__link-active"}`
+            `link nav__link${(isActive && " nav__link-active") || ""}`
           }
           to={path}
         >
