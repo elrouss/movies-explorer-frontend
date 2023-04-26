@@ -1,0 +1,119 @@
+.paragraph {
+  margin: 0;
+
+  @include font(
+    $size: $font-size-s,
+    $line-height: calc(2rem / $font-size-s),
+    $letter-spacing: 0
+  );
+
+  @media screen and (max-width: $media-laptop) {
+    $font-size: 1.2rem;
+
+    font-size: $font-size;
+    line-height: calc(1.8rem / $font-size);
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    $font-size-mobile: 1.1rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.6rem / $font-size-mobile);
+  }
+}
+
+.paragraph-s {
+  @include font(
+    $family: "Inter-Medium",
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0
+  );
+  text-decoration: none;
+
+  color: inherit;
+
+  @extend %animation;
+
+  &:hover {
+    opacity: $opacity-medium;
+  }
+}
+
+.techs__paragraph {
+  max-width: 460px;
+  padding: 26px 0 100px;
+
+  letter-spacing: -0.05rem;
+  text-align: center;
+
+  @media screen and (max-width: $media-laptop) {
+    padding-top: 22px;
+    padding-bottom: 83px;
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    $font-size: 1.1rem;
+
+    font-size: $font-size;
+    line-height: calc(1.6rem / $font-size);
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    padding-bottom: 52px;
+  }
+}
+
+.about-me__paragraph {
+  padding: 26px 0 99px;
+
+  line-height: calc(2.2rem / $font-size-s);
+
+  @media screen and (max-width: $media-laptop) {
+    padding-top: 20px;
+    padding-bottom: 87px;
+
+    line-height: calc(1.8rem / 1.2rem);
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    padding-bottom: 42px;
+
+    line-height: calc(1.6rem / 1.1rem);
+  }
+}
+
+.entry__paragraph {
+  margin: 16px 0 0;
+
+  @extend %paragraph-s;
+  letter-spacing: 0.02rem;
+  color: $color-text-additional-1;
+  text-align: center;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
+}
+
+.not-found__paragraph {
+  $font-size: 1.6rem;
+
+  margin: 0;
+
+  @include font(
+    $size: $font-size,
+    $line-height: calc(1.9rem / $font-size),
+    $letter-spacing: 0
+  );
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
+}

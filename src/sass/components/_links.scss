@@ -1,0 +1,173 @@
+.link {
+  @include font(
+    $family: "Inter-Medium",
+    $size: 1.2rem,
+    $line-height: calc(1.6rem / 1.2rem),
+    $weight: 500,
+    $letter-spacing: 0
+  );
+  color: inherit;
+  text-decoration: none;
+
+  @extend %animation;
+
+  &:hover {
+    opacity: $opacity-medium;
+  }
+
+  &_color_accent {
+    color: $color-text-accent;
+
+    &:hover {
+      opacity: $opacity-strong;
+    }
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size: 1rem;
+
+    font-size: $font-size;
+    line-height: calc(1.6rem / $font-size);
+  }
+
+  &_type_inner-nav {
+    @include font(
+      $size: $font-size-s,
+      $line-height: calc(1.7rem / $font-size-s),
+      $letter-spacing: 0.05rem
+    );
+    color: $color-accent-2;
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.2rem;
+
+      font-size: $font-size-mobile;
+      line-height: calc(1.5rem / $font-size-mobile);
+    }
+  }
+}
+
+.portfolio__link {
+  @extend %flex-row;
+}
+
+.footer__links {
+  grid-area: links;
+  justify-self: end;
+  display: flex;
+  column-gap: 20px;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    justify-self: auto;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 12px;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
+}
+
+.footer__link {
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.nav__link {
+  $font-size: 1.3rem;
+
+  @include font(
+    $family: "Inter-Regular",
+    $weight: 400,
+    $size: $font-size,
+    $line-height: calc(1.8rem / $font-size),
+    $letter-spacing: 0
+  );
+
+  @media screen and (max-width: $media-tablet) {
+    $font-size-mobile: 1.8rem;
+
+    @include font(
+      $family: "Inter-Medium",
+      $weight: 500,
+      $size: $font-size-mobile,
+      $line-height: calc(2.2rem / $font-size-mobile),
+      $letter-spacing: 0
+    );
+  }
+}
+
+.nav__link-active {
+  font-family: "Inter-Medium";
+  font-weight: 500;
+
+  &:hover {
+    opacity: 100%;
+
+    cursor: default;
+  }
+
+  @media screen and (max-width: $media-tablet) {
+    padding-bottom: 4px;
+    @include border-bottom($width: 2px, $color: $color-text-primary);
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    padding-bottom: 6px;
+  }
+}
+
+.link-profile {
+  position: relative;
+
+  @extend %flex-row;
+  width: 100px;
+  height: 30px;
+
+  @include font(
+    $family: "Inter-Medium",
+    $weight: 500,
+    $size: $font-size-s,
+    $line-height: calc(1.6rem / $font-size-s),
+    $letter-spacing: 0
+  );
+  text-align: start;
+  color: inherit;
+
+  background-color: transparent;
+
+  &::before {
+    content: url(../assets/icons/icon-user.svg);
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    @extend %flex-column;
+
+    width: 30px;
+    height: 30px;
+
+    background-color: $color-icon;
+    border-radius: $border-radius-m;
+  }
+}
+
+.not-found__link {
+  @include font(
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0
+  );
+  color: $color-accent-2;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size: 1.2rem;
+
+    font-size: $font-size;
+    line-height: calc(1.5rem / $font-size);
+  }
+}

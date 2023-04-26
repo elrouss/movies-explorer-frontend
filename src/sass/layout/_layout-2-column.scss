@@ -1,0 +1,9 @@
+.layout-2-column {
+  @include columns($width: 48.3%);
+
+  @media screen and (max-width: $media-mobile-l) {
+    flex-direction: column;
+    row-gap: 56px;
+    margin: 60px 0;
+  }
+}

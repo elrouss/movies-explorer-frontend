@@ -1,0 +1,96 @@
+.filter-checkbox {
+  $width: 36px;
+  $height: 20px;
+
+  display: flex;
+  align-items: center;
+  column-gap: 14px;
+
+  @media screen and (max-width: $media-tablet) {
+    flex-direction: row-reverse;
+    justify-content: end;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    justify-content: center;
+  }
+
+  &__wrapper {
+    position: relative;
+    bottom: 28px;
+
+    margin-top: 60px;
+
+    @media screen and (max-width: $media-tablet) {
+      margin-top: 57px;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      margin-top: 69px;
+    }
+  }
+
+  &__input {
+    width: $width;
+    height: $height;
+
+    visibility: hidden;
+
+    &:checked + .filter-checkbox__label {
+      background-color: $color-accent-1;
+    }
+
+    &:checked + .filter-checkbox__label::after {
+      left: 18px;
+    }
+  }
+
+  &__label {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: $width;
+    height: $height;
+
+    background-color: $color-filter-checkbox-disabled;
+    border-radius: 20px;
+
+    @extend %animation;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+
+      width: 16px;
+      height: 16px;
+
+      background-color: $color-filter-checkbox-circle-disabled;
+      border-radius: 50%;
+
+      @extend %animation;
+    }
+  }
+
+  &__span {
+    $font-size: 1.3rem;
+
+    @include font(
+      $size: $font-size,
+      $line-height: calc(1.8rem / $font-size),
+      $letter-spacing: 0
+    );
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.1rem;
+
+      padding-top: 10px;
+
+      font-size: $font-size-mobile;
+      line-height: calc(1.8rem / $font-size-mobile);
+    }
+  }
+}

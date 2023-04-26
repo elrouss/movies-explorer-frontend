@@ -1,0 +1,10 @@
+$Raleway: ("Inter-Regular", "Inter-Medium", "Suisse-Intl-Regular");
+
+@each $font in $Raleway {
+  @font-face {
+    font-family: #{$font};
+    font-style: normal;
+    font-display: swap;
+    src: url("./base/fonts/#{$font}.ttf") format("truetype");
+  }
+}

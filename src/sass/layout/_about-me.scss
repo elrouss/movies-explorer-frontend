@@ -1,0 +1,26 @@
+.about-me {
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 52.6% max-content;
+    justify-content: space-between;
+    padding: 66px 0 100px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-bottom: 91px;
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      grid-template-columns: 1fr;
+      justify-items: center;
+      padding-bottom: 69px;
+    }
+  }
+
+  &__biography {
+    max-width: 600px;
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      order: 2;
+    }
+  }
+}

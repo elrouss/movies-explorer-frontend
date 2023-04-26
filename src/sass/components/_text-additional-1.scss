@@ -1,0 +1,23 @@
+.text-additional-1 {
+  @include font(
+    $family: "Inter-Medium",
+    $size: 1.4rem,
+    $line-height: calc(1.7rem / 1.4rem),
+    $weight: 500,
+    $letter-spacing: 0
+  );
+  color: $color-text-additional-1;
+  text-align: center;
+
+  @media screen and (max-width: $media-laptop) {
+    font-family: "Suisse-Intl-Regular", Arial, Helvetica, sans-serif;
+    font-weight: 400;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.1rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.3rem / $font-size-mobile);
+  }
+}

@@ -1,0 +1,34 @@
+.about-project {
+  &__wrapper {
+    padding-bottom: 110px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-bottom: 90px;
+    }
+  }
+
+  &__web-development {
+    display: flex;
+    margin-top: 14px;
+
+    > :first-child {
+      flex-grow: 1;
+    }
+
+    > :nth-child(2) {
+      flex-grow: 5.2;
+
+      @media screen and (max-width: $media-laptop) {
+        flex-grow: 5.9;
+      }
+
+      @media screen and (max-width: $media-mobile-l) {
+        flex-grow: 2.7;
+      }
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      margin-top: 9px;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+%flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+%flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+%paragraph-s {
+  $font-size-s: 1.4rem;
+
+  @include font(
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0
+  );
+}
+
+%input {
+  background-color: transparent;
+  outline: none;
+  border: none;
+}
+
+%animation {
+  transition: all 0.3s ease-in;
+}

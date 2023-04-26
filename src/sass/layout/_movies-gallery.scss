@@ -1,0 +1,51 @@
+.movies-gallery {
+  &__wrapper {
+    @extend %flex-column;
+    margin-bottom: 95px;
+
+    @media screen and (max-width: $media-desktop) {
+      margin-right: calc(
+        30px + (40 + 40 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+      margin-left: calc(
+        30px + (40 + 40 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+      margin-bottom: 98px;
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      margin-right: calc(
+        10px + (20 + 20 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      margin-left: calc(
+        10px + (20 + 20 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
+  }
+
+  &__movies {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(364px, auto));
+    gap: 30px 24px;
+    justify-items: center;
+    width: 100%;
+    margin-top: 85px;
+
+    @media screen and (max-width: $media-laptop) {
+      grid-template-columns: repeat(auto-fill, minmax(339px, auto));
+      gap: 36px 30px;
+      margin-top: calc(
+        99px + (-14 - 14 * 0.7) * (100vw - $media-tablet) / 1023
+      );
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      grid-template-columns: repeat(auto-fill, minmax(300px, auto));
+      gap: 16px 10px;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      margin-top: 60px;
+    }
+  }
+}

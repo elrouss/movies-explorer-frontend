@@ -1,0 +1,38 @@
+.diploma-work {
+  display: flex;
+  flex-direction: column;
+  row-gap: 26px;
+  margin: 70px 0 110px;
+
+  &__heading {
+    flex-grow: 1;
+    margin: 0;
+
+    @include font(
+      $size: 2rem,
+      $line-height: calc(2.4rem / 2rem),
+      $letter-spacing: -0.08rem
+    );
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      $font-size-mobile: 1.8rem;
+
+      font-size: calc(
+        $font-size-mobile + (2 + 2 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      line-height: calc(2.2rem / $font-size-mobile);
+      letter-spacing: -0.07rem;
+    }
+  }
+
+  @media screen and (max-width: $media-laptop) {
+    row-gap: 22px;
+    margin-top: 68px;
+    margin-bottom: 93px;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    row-gap: 16px;
+    margin: 0;
+  }
+}

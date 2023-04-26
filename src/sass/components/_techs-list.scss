@@ -1,0 +1,48 @@
+.techs-list {
+  @extend %flex-row;
+  column-gap: 10px;
+  width: calc(100% - 450px);
+
+  @include font(
+    $size: 1.4rem,
+    $line-height: calc(1.7rem / 1.4rem),
+    $letter-spacing: 0
+  );
+
+  @media screen and (max-width: $media-desktop) {
+    width: calc(100% - 225px);
+  }
+
+  @media screen and (max-width: $media-laptop) {
+    $font-size: 1.2rem;
+
+    width: calc(100% - 20px);
+    font-size: $font-size;
+    $line-height: calc(1.5rem / $font-size);
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    justify-content: space-between;
+    width: calc(100% - 106px);
+  }
+
+  &__item {
+    @extend %flex-column;
+    width: 90px;
+    height: 60px;
+
+    background-color: $color-background-additional;
+    border-radius: $border-radius;
+
+    @media screen and (max-width: calc($media-mobile-l)) {
+      width: 84px;
+      height: 57px;
+    }
+  }
+}

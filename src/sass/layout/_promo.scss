@@ -1,0 +1,47 @@
+.promo {
+  &__wrapper {
+    @extend %flex-column;
+    row-gap: 151px;
+    max-width: $promo-width;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 160px 0 30px;
+    box-sizing: border-box;
+
+    background-color: $color-background-secondary;
+    border-radius: $border-radius;
+
+    @media screen and (max-width: $media-desktop) {
+      row-gap: calc(
+        314px + (-163 - 163 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+      margin-right: calc(
+        20px + (20 + 20 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+      margin-left: calc(
+        20px + (20 + 20 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+      padding-top: calc(
+        350px + (-190 - 190 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      row-gap: calc(
+        212px + (102 + 102 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      margin-right: calc(
+        14px + (6 + 6 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      margin-left: calc(14px + (6 + 6 * 0.7) * (100vw - $media-mobile-s) / 767);
+      padding-top: calc(
+        220px + (130 + 130 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      margin-top: 12px;
+      padding-bottom: 17px;
+    }
+  }
+}

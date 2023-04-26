@@ -1,0 +1,14 @@
+html {
+  color: $color-text-primary;
+  font-size: 10px;
+  background-color: $color-background-page;
+
+  scroll-behavior: smooth;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+
+  list-style-type: none;
+}

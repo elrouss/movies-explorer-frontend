@@ -1,0 +1,25 @@
+.input {
+  width: 100%;
+  height: 32px;
+  margin-bottom: 24px;
+  padding: 0;
+
+  @include font(
+    $family: 'Inter-Medium',
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0
+  );
+  color: $color-text-primary;
+
+  @extend %input;
+  @include border-bottom($color: $color-border-dark);
+
+  @extend %animation;
+
+  &:focus {
+    border-bottom-color: $color-accent-2;
+  }
+}
+
+

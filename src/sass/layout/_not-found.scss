@@ -1,0 +1,39 @@
+.not-found {
+  @extend %flex-column;
+
+  &__wrapper {
+    @extend %flex-column;
+    row-gap: 185px;
+    padding-top: 246px;
+    padding-bottom: 30px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 408px;
+      padding-bottom: 222px;
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      padding-top: calc(
+        330px + (-116 - 116 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      padding-bottom: calc(
+        30px + (192 + 192 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      row-gap: calc(
+        282px + (-97 - 97 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
+  }
+
+  &__description {
+    @extend %flex-column;
+    row-gap: 5px;
+
+    @media screen and (max-width: $media-mobile-l) {
+      row-gap: 10px;
+    }
+  }
+}

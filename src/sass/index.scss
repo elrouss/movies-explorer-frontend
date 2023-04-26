@@ -1,0 +1,56 @@
+// VENDORS
+@import
+  'vendors/normalize';
+
+// ABSTRACTS
+@import
+  'abstracts/mixins',
+  'abstracts/placeholders',
+  'abstracts/variables';
+
+// BASE
+@import
+  'base/base',
+  'base/fonts/fonts';
+
+// LAYOUT
+@import
+  'layout/page',
+  'layout/body',
+  'layout/wrapper',
+  'layout/header',
+  'layout/promo',
+  'layout/layout-nav',
+  'layout/nav-tab',
+  'layout/nav',
+  'layout/about-project',
+  'layout/layout-2-column',
+  'layout/diploma-work',
+  'layout/techs',
+  'layout/about-me',
+  'layout/portfolio',
+  'layout/footer',
+  'layout/entry',
+  'layout/movies-gallery',
+  'layout/search',
+  'layout/profile',
+  'layout/not-found',
+  'layout/forms',
+  'layout/modal-window';
+
+// COMPONENTS
+@import
+  'components/headings',
+  'components/paragraphs',
+  'components/text-additional-1',
+  'components/links',
+  'components/inputs',
+  'components/checkboxes',
+  'components/buttons',
+  'components/hamburger',
+  'components/hamburger-menu',
+  'components/logo',
+  'components/progress-bar',
+  'components/techs-list',
+  'components/avatar',
+  'components/movies-card';

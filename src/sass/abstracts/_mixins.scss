@@ -1,0 +1,28 @@
+@mixin font(
+  $family: "Inter-Regular",
+  $style: normal,
+  $size,
+  $line-height,
+  $weight: 400,
+  $letter-spacing: -0.2rem
+) {
+  font-family: ($family, "Arial", "Helvetica", sans-serif);
+  font-style: $style;
+  font-size: $size;
+  line-height: $line-height;
+  font-weight: $weight;
+  letter-spacing: $letter-spacing;
+}
+
+@mixin columns($width) {
+  display: flex;
+  justify-content: space-between;
+
+  > * {
+    flex-basis: $width;
+  }
+}
+
+@mixin border-bottom($width: 1px, $style: solid, $color: $color-border-light) {
+  border-bottom: $width $style $color;
+}

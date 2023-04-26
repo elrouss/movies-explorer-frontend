@@ -1,0 +1,35 @@
+.techs {
+  background-color: $color-background-secondary;
+
+  @media screen and (max-width: $media-mobile-l) {
+    background-color: inherit;
+  }
+
+  &__wrapper {
+    padding-top: 100px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 90px;
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      padding-top: calc(
+        51px + (39 + 39 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
+  }
+
+  &__list {
+    @extend %flex-column;
+    padding: 90px 0 100px;
+
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 80px;
+      padding-bottom: 90px;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      padding-top: 59px;
+    }
+  }
+}

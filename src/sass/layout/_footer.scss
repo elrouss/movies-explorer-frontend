@@ -1,0 +1,61 @@
+.footer {
+  &__wrapper {
+    display: grid;
+    grid-template-columns: 36% 28% 36%;
+    grid-template-areas:
+      "heading heading heading"
+      "copyright . links";
+    padding: 62px 0 20px;
+
+    @media screen and (max-width: $media-desktop) {
+      margin-right: calc(
+        30px + (40 + 40 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+      margin-left: calc(
+        30px + (40 + 40 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      margin-right: calc(
+        10px + (20 + 20 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      margin-left: calc(
+        10px + (20 + 20 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "heading"
+        "links"
+        "copyright";
+      justify-items: center;
+    }
+
+    > * {
+      $font-size: 1.3rem;
+
+      @include font(
+        $size: $font-size,
+        $line-height: calc(1.6rem / $font-size),
+        $letter-spacing: 0
+      );
+    }
+  }
+
+  &__copyright {
+    grid-area: copyright;
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.2rem;
+
+      padding-top: 30px;
+
+      font-size: $font-size-mobile;
+      line-height: calc(1.5rem / $font-size-mobile);
+      color: $color-text-additional-1;
+    }
+  }
+}

@@ -1,0 +1,45 @@
+.progress-bar {
+  display: flex;
+  width: 100%;
+
+  text-align: center;
+
+  background-color: $color-background-additional;
+
+  > * {
+    padding: 9px 0;
+
+    @include font($size: 1.4rem, $line-height: calc(1.7rem / 1.4rem));
+    letter-spacing: 0;
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.1rem;
+
+      padding-top: 11px;
+      padding-bottom: 11px;
+
+      font-size: $font-size-mobile;
+      line-height: calc(1.3rem / $font-size-mobile);
+    }
+  }
+
+  &__stage-1 {
+    flex-grow: 1;
+
+    color: $color-text-accent;
+
+    background-color: $color-accent-1;
+  }
+
+  &__stage-2 {
+    flex-grow: 5.05;
+
+    @media screen and (max-width: $media-laptop) {
+      flex-grow: 5.8;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      flex-grow: 2.6;
+    }
+  }
+}

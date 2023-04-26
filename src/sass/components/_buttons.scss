@@ -1,0 +1,140 @@
+.btn {
+  margin: 0;
+  padding: 0;
+
+  border: none;
+
+  cursor: pointer;
+
+  @extend %animation;
+
+  &:hover {
+    opacity: $opacity-strong;
+  }
+}
+
+.btn-auth {
+  padding: 8px 20px;
+
+  background-color: $color-accent-1;
+  border-radius: 3px;
+
+  @media screen and (max-width: $media-mobile-l) {
+    padding: 5px 12px;
+  }
+}
+
+.btn-entry {
+  width: 100%;
+  height: 45px;
+  box-sizing: border-box;
+
+  @include font(
+    $family: "Inter-Medium",
+    $weight: 500,
+    $size: $font-size-s,
+    $line-height: calc(1.7rem / $font-size-s),
+    $letter-spacing: 0
+  );
+  color: $color-text-primary;
+
+  background-color: $color-accent-2;
+  border-radius: $border-radius-s;
+}
+
+.btn-search {
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+
+  background-color: $color-accent-2;
+  border-radius: 50%;
+
+  &::before {
+    content: url(../assets/icons/icon-find.svg);
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    position: relative;
+    bottom: 6px;
+
+    width: 38px;
+
+    &::before {
+      content: url(../assets/icons/icon-find_small.svg);
+    }
+  }
+}
+
+.movies-gallery__btn-more {
+  $font-size: 1.2rem;
+
+  width: 320px;
+  height: 36px;
+  margin-top: 80px;
+
+  @include font(
+    $family: "Inter-Medium",
+    $weight: 500,
+    $size: $font-size,
+    $line-height: calc(1.5rem / $font-size),
+    $letter-spacing: 0
+  );
+  color: inherit;
+
+  background-color: $color-btn-additional-1;
+  border-radius: 0.6rem;
+
+  @media screen and (max-width: $media-mobile-l) {
+    width: 240px;
+  }
+}
+
+.btn-profile {
+  $font-size: 1.3rem;
+
+  margin: 0 0 16px;
+  padding: 0;
+
+  @include font(
+    $size: $font-size,
+    $line-height: calc(1.6rem / $font-size),
+    $letter-spacing: 0
+  );
+  color: inherit;
+
+  background-color: transparent;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
+}
+
+.btn-profile-exit {
+  $font-size: 1.3rem;
+
+  margin: 0;
+  padding: 0;
+
+  @include font(
+    $family: "Inter-Medium",
+    $weight: 500,
+    $size: $font-size,
+    $line-height: calc(1.6rem / $font-size),
+    $letter-spacing: 0
+  );
+  color: $color-accent-3;
+
+  background-color: transparent;
+
+  @media screen and (max-width: $media-mobile-l) {
+    $font-size-mobile: 1.2rem;
+
+    font-size: $font-size-mobile;
+    line-height: calc(1.5rem / $font-size-mobile);
+  }
+}

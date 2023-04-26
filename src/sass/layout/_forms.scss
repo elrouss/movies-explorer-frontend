@@ -1,0 +1,43 @@
+.search-film {
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+
+  @include border-bottom($color: $color-border-dark);
+
+  @extend %animation;
+
+  &:focus-within {
+    border-bottom-color: $color-accent-2;
+  }
+
+  &__input {
+    $font-size: 2.8rem;
+
+    width: 96%;
+    padding-bottom: 13px;
+
+    @include font(
+      $family: "Inter-Medium",
+      $weight: 500,
+      $size: $font-size,
+      $line-height: calc(3.4rem / $font-size),
+      $letter-spacing: 0
+    );
+    color: $color-text-primary;
+
+    @extend %input;
+
+    &::placeholder {
+      color: $color-text-additional-1;
+    }
+
+    @media screen and (max-width: $media-mobile-l) {
+      $font-size-mobile: 1.8rem;
+
+      font-size: $font-size-mobile;
+      line-height: calc(2.2rem / $font-size-mobile);
+    }
+  }
+}

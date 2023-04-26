@@ -1,0 +1,31 @@
+.search {
+  padding-top: 67px;
+
+  @media screen and (max-width: $media-laptop) {
+    padding-top: 77px;
+  }
+
+  @media screen and (max-width: $media-mobile-l) {
+    padding-top: 87px;
+  }
+
+  &__wrapper {
+    @media screen and (max-width: $media-desktop) {
+      margin-right: calc(
+        30px + (40 + 40 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+      margin-left: calc(
+        30px + (40 + 40 * 0.7) * (100vw - $media-tablet) / 1279
+      );
+    }
+
+    @media screen and (max-width: calc($media-tablet - 1px)) {
+      margin-right: calc(
+        14px + (16 + 16 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+      margin-left: calc(
+        14px + (16 + 16 * 0.7) * (100vw - $media-mobile-s) / 767
+      );
+    }
+  }
+}

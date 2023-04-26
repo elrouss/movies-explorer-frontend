@@ -1,0 +1,18 @@
+.avatar {
+  width: 270px;
+  height: 327px;
+  object-fit: cover;
+
+  border-radius: $border-radius;
+
+  @media screen and (max-width: $media-laptop) {
+    width: 255px;
+    height: 307px;
+  }
+
+  @media screen and (max-width: calc($media-tablet - 1px)) {
+    order: 1;
+    width: 292px;
+    height: 352px;
+  }
+}
