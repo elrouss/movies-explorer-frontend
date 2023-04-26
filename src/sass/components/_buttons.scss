@@ -52,7 +52,7 @@
   border-radius: 50%;
 
   &::before {
-    content: url(../assets/icons/icon-find.svg);
+    content: url(../../assets/icons/icon-find.svg);
   }
 
   @media screen and (max-width: $media-mobile-l) {
@@ -62,7 +62,7 @@
     width: 38px;
 
     &::before {
-      content: url(../assets/icons/icon-find_small.svg);
+      content: url(../../assets/icons/icon-find_small.svg);
     }
   }
 }
