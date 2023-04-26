@@ -425,25 +425,26 @@ html {
     margin-left: calc(14px + 61.2 * (100vw - 320px) / 767);
   }
 }
-.wrapper__section {
+
+.section-wrapper {
   padding-top: 110px;
 }
 @media screen and (max-width: 1279px) {
-  .wrapper__section {
+  .section-wrapper {
     padding-top: calc(90px + 34 * (100vw - 768px) / 1279);
   }
 }
 @media screen and (max-width: 767px) {
-  .wrapper__section {
+  .section-wrapper {
     padding-top: calc(70px + 34 * (100vw - 320px) / 767);
   }
-  .wrapper__section_indent_s {
+  .section-wrapper_indent_s {
     margin-right: calc(14px + 61.2 * (100vw - 320px) / 767);
     margin-left: calc(14px + 61.2 * (100vw - 320px) / 767);
   }
 }
 @media screen and (max-width: 767px) and (max-width: 480px) {
-  .wrapper__section_indent_s {
+  .section-wrapper_indent_s {
     padding-top: 50px;
   }
 }
