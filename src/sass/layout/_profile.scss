@@ -45,6 +45,14 @@
     max-width: 410px;
     width: 100%;
 
+    & > .profile__fieldset > .profile__input-wrapper {
+      @extend %animation;
+    }
+
+    &:focus-within > .profile__fieldset > .profile__input-wrapper {
+      border-bottom-color: $color-accent-2;
+    }
+
     @media screen and (max-width: $media-mobile-l) {
       max-width: 260px;
     }

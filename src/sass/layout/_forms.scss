@@ -6,6 +6,12 @@
 
   @include border-bottom($color: $color-border-dark);
 
+  @extend %animation;
+
+  &:focus-within {
+    border-bottom-color: $color-accent-2;
+  }
+
   &__input {
     $font-size: 2.8rem;
 

@@ -31,10 +31,10 @@
   }
 
   &__input {
-    visibility: hidden;
-
     width: $width;
     height: $height;
+
+    visibility: hidden;
 
     &:checked + .filter-checkbox__label {
       background-color: $color-accent-1;
