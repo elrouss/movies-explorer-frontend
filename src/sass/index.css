@@ -528,7 +528,7 @@ html {
 @media screen and (max-width: 480px) {
   .layout-nav {
     flex-direction: column;
-    row-gap: 57.5vh;
+    row-gap: 57vh;
   }
 }
 
@@ -991,7 +991,7 @@ html {
 }
 @media screen and (max-width: 480px) {
   .profile__fieldset {
-    padding-bottom: 38vh;
+    padding-bottom: 48.7vh;
   }
 }
 .profile__input-wrapper {
