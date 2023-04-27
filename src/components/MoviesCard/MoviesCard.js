@@ -1,7 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function MoviesCard({ card: { nameRU, duration, image }, icon }) {
+function MoviesCard({
+  movie: {
+    nameRU,
+    duration,
+    trailerLink,
+    image: { url },
+  },
+  icon,
+}) {
   function countTime(duration) {
     const time = duration / 60;
     const hours = Math.floor(time);
@@ -30,20 +38,29 @@ function MoviesCard({ card: { nameRU, duration, image }, icon }) {
       >
         {icon}
       </button>
-      <img
-        className="movies-card__photo"
-        src={image}
-        alt={`Карточка с фильмом, называющимся "${nameRU}"`}
-      />
+      <a
+        className="link movies-card__link"
+        href={trailerLink}
+        rel="noreferrer"
+        target="_blank"
+      >
+        <img
+          className="movies-card__photo"
+          src={`https://api.nomoreparties.co/${url}`}
+          alt={`Карточка с фильмом, называющимся "${nameRU}"`}
+        />
+      </a>
     </article>
   );
 }
 
 MoviesCard.propTypes = {
-  card: PropTypes.object.isRequired,
+  movie: PropTypes.object,
   nameRU: PropTypes.string,
   duration: PropTypes.number,
-  image: PropTypes.string,
+  trailerLink: PropTypes.string,
+  image: PropTypes.object,
+  url: PropTypes.string,
   icon: PropTypes.element,
 };
 

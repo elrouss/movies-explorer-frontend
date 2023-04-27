@@ -3,10 +3,7 @@ import PropTypes from "prop-types";
 
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-// ДЛЯ СТАТИЧНОЙ ОТРИСОВКИ
-import { cards } from "./cardsDataTemporary";
-
-function MoviesCardList({ icon }) {
+function MoviesCardList({ movies, icon }) {
   return (
     <section
       className="movies-gallery"
@@ -14,8 +11,8 @@ function MoviesCardList({ icon }) {
     >
       <div className="wrapper movies-gallery__wrapper">
         <div className="movies-gallery__movies">
-          {cards.map((card) => (
-            <MoviesCard key={card.movieId} card={card} icon={icon} />
+          {movies.map((movie) => (
+            <MoviesCard key={movie.id} movie={movie} icon={icon} />
           ))}
         </div>
         <button
@@ -32,6 +29,7 @@ function MoviesCardList({ icon }) {
 
 MoviesCardList.propTypes = {
   icon: PropTypes.element,
+  movies: PropTypes.array,
 };
 
 export default MoviesCardList;

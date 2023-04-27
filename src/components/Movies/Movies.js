@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 
-function Movies() {
+function Movies({ movies }) {
   const icon = (
     <svg
       width="10"
@@ -24,11 +25,15 @@ function Movies() {
     <>
       <main>
         <SearchForm />
-        <MoviesCardList icon={icon} />
+        <MoviesCardList movies={movies} icon={icon} />
       </main>
       <Footer />
     </>
   );
 }
+
+Movies.propTypes = {
+  movies: PropTypes.array,
+};
 
 export default Movies;

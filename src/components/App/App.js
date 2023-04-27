@@ -14,7 +14,11 @@ import Profile from "../Profile/Profile.js";
 
 import PageNotFound from "../PageNotFound/PageNotFound.js";
 
+import { getMovies } from "../../utils/MoviesApi.js";
+
 export default function App() {
+  const [movies, setMovies] = useState([]);
+
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
 
@@ -57,6 +61,16 @@ export default function App() {
     }
   }
 
+  // API
+  // TODO: перемешивать фотографии рандомно
+  useEffect(() => {
+    getMovies()
+      .then((movies) => setMovies(movies))
+      .catch((err) =>
+        console.log(`Ошибка в процессе получения карточек с сервера: ${err}`)
+      );
+  }, []);
+
   return (
     <Routes>
       <Route
@@ -74,7 +88,7 @@ export default function App() {
         }
       >
         <Route index element={<Main />} />
-        <Route path="/movies" element={<Movies />} />
+        <Route path="/movies" element={<Movies movies={movies} />} />
         <Route path="/saved-movies" element={<SavedMovies />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
