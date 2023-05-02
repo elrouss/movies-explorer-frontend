@@ -10,5 +10,5 @@ function checkResponse(res) {
 
 export function getMovies() {
   return fetch(BEATFILM_MOVIES_URL)
-  .then((res) => checkResponse(res))
+    .then((res) => checkResponse(res))
 }
