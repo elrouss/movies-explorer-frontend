@@ -5,7 +5,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 
-function Movies({ movies }) {
+function Movies({ movies, onSearch }) {
   const icon = (
     <svg
       width="10"
@@ -24,7 +24,7 @@ function Movies({ movies }) {
   return (
     <>
       <main>
-        <SearchForm />
+        <SearchForm onSearch={onSearch} />
         <MoviesCardList movies={movies} icon={icon} />
       </main>
       <Footer />
@@ -34,6 +34,7 @@ function Movies({ movies }) {
 
 Movies.propTypes = {
   movies: PropTypes.array,
+  onSearch: PropTypes.func,
 };
 
 export default Movies;

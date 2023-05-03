@@ -18,6 +18,8 @@ import { getMovies } from "../../utils/MoviesApi.js";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
+  const [isSearchFormNotEmpty, setIsSearchFormNotEmpty] = useState(false);
+  console.log(movies);
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
@@ -61,15 +63,19 @@ export default function App() {
     }
   }
 
+  const searchMovie = (data) => setIsSearchFormNotEmpty(data ? true : false);
+
   // API
   // TODO: перемешивать фотографии рандомно
   useEffect(() => {
+    if (!isSearchFormNotEmpty) return;
+
     getMovies()
       .then((movies) => setMovies(movies))
       .catch((err) =>
         console.log(`Ошибка в процессе получения карточек с сервера: ${err}`)
       );
-  }, []);
+  }, [isSearchFormNotEmpty]);
 
   return (
     <Routes>
@@ -88,7 +94,10 @@ export default function App() {
         }
       >
         <Route index element={<Main />} />
-        <Route path="/movies" element={<Movies movies={movies} />} />
+        <Route
+          path="/movies"
+          element={<Movies movies={movies} onSearch={searchMovie} />}
+        />
         <Route path="/saved-movies" element={<SavedMovies />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
