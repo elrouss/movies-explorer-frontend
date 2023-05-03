@@ -19,9 +19,15 @@ import { getMovies } from "../../utils/MoviesApi.js";
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [searchFormValue, setSearchFormValue] = useState("");
+  const [hasUserSearched, setHasUserSearched] = useState(false);
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
+
+  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [errorMessages, setErrorMessages] = useState({
+    moviesResponse: "",
+  });
 
   function openModalWindow() {
     setIsModalWindowOpened(true);
@@ -70,16 +76,15 @@ export default function App() {
   useEffect(() => {
     if (!searchFormValue) return;
 
+    setIsDataLoading(true);
+
     getMovies()
       .then((movies) => {
-        const data = movies.filter(({ nameRU, nameEN }) => {
+        const data = movies.filter(({ nameRU }) => {
           const isCompliedWithSearchRequest = (data) =>
             data.toLowerCase().replace(/\s/g, "").includes(searchFormValue);
 
-          return (
-            isCompliedWithSearchRequest(nameRU) ||
-            isCompliedWithSearchRequest(nameEN)
-          );
+          return isCompliedWithSearchRequest(nameRU);
         });
 
         // Fisher–Yates shuffle
@@ -91,11 +96,17 @@ export default function App() {
 
         setMovies(data);
       })
-      .catch((err) =>
-        console.log(
-          `Ошибка в процессе получения и сохранения карточек с сервера: ${err}`
-        )
-      );
+      .catch(() =>
+        setErrorMessages({
+          moviesResponse: `Во время запроса произошла ошибка.
+            Возможно, проблема с соединением или сервер недоступен.
+            Подождите немного и попробуйте еще раз`,
+        })
+      )
+      .finally(() => {
+        setIsDataLoading(false);
+        setHasUserSearched(true);
+      });
   }, [searchFormValue]);
 
   return (
@@ -117,7 +128,15 @@ export default function App() {
         <Route index element={<Main />} />
         <Route
           path="/movies"
-          element={<Movies movies={movies} onSearch={searchMovie} />}
+          element={
+            <Movies
+              movies={movies}
+              onSearch={searchMovie}
+              onLoad={isDataLoading}
+              hasUserSearched={hasUserSearched}
+              error={errorMessages}
+            />
+          }
         />
         <Route path="/saved-movies" element={<SavedMovies />} />
         <Route path="/profile" element={<Profile />} />

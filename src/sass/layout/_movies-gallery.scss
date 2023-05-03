@@ -1,6 +1,11 @@
 .movies-gallery {
+  // TODO: подсчитать для планшета и телефона
+  // В принципе отработать стили после логики
+  min-height: 451px;
+
   &__wrapper {
     @extend %flex-column;
+    padding-top: 85px;
     margin-bottom: 95px;
 
     @media screen and (max-width: $media-desktop) {
@@ -29,7 +34,6 @@
     gap: 30px 24px;
     justify-items: center;
     width: 100%;
-    margin-top: 85px;
 
     @media screen and (max-width: $media-laptop) {
       grid-template-columns: repeat(auto-fill, minmax(339px, auto));
