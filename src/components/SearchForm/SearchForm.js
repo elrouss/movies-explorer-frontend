@@ -19,9 +19,7 @@ function SearchForm({ onSearch }) {
     setIsSearchFormValid(trim ? true : false);
 
     if (trim) {
-      onSearch({
-        movieName: trim.replace(/\s+/g, " "),
-      });
+      onSearch(trim.toLowerCase().replace(/\s/g, ""));
     } else {
       return;
     }

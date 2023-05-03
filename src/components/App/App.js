@@ -18,8 +18,7 @@ import { getMovies } from "../../utils/MoviesApi.js";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
-  const [isSearchFormNotEmpty, setIsSearchFormNotEmpty] = useState(false);
-  console.log(movies);
+  const [searchFormValue, setSearchFormValue] = useState("");
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
@@ -63,19 +62,41 @@ export default function App() {
     }
   }
 
-  const searchMovie = (data) => setIsSearchFormNotEmpty(data ? true : false);
+  function searchMovie(data) {
+    setSearchFormValue(data);
+  }
 
   // API
-  // TODO: перемешивать фотографии рандомно
   useEffect(() => {
-    if (!isSearchFormNotEmpty) return;
+    if (!searchFormValue) return;
 
     getMovies()
-      .then((movies) => setMovies(movies))
+      .then((movies) => {
+        const data = movies.filter(({ nameRU, nameEN }) => {
+          const isCompliedWithSearchRequest = (data) =>
+            data.toLowerCase().replace(/\s/g, "").includes(searchFormValue);
+
+          return (
+            isCompliedWithSearchRequest(nameRU) ||
+            isCompliedWithSearchRequest(nameEN)
+          );
+        });
+
+        // Fisher–Yates shuffle
+        for (let i = 0; i < data.length; i++) {
+          let j = Math.floor(Math.random() * (i + 1));
+
+          [data[i], data[j]] = [data[j], data[i]];
+        }
+
+        setMovies(data);
+      })
       .catch((err) =>
-        console.log(`Ошибка в процессе получения карточек с сервера: ${err}`)
+        console.log(
+          `Ошибка в процессе получения и сохранения карточек с сервера: ${err}`
+        )
       );
-  }, [isSearchFormNotEmpty]);
+  }, [searchFormValue]);
 
   return (
     <Routes>
