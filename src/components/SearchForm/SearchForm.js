@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
-function SearchForm({ onSearch }) {
+function SearchForm({ onSearch, onFilter }) {
   const [isSearchFormValid, setIsSearchFormValid] = useState(true);
   const [movieName, setMovieName] = useState("");
 
@@ -18,8 +18,8 @@ function SearchForm({ onSearch }) {
 
     setIsSearchFormValid(trim ? true : false);
 
-    if (trim) {
-      onSearch(trim.toLowerCase().replace(/\s/g, ""));
+    if (isSearchFormValid) {
+      onSearch(movieName);
     } else {
       return;
     }
@@ -55,7 +55,7 @@ function SearchForm({ onSearch }) {
             Нужно ввести ключевое слово
           </span>
         </form>
-        <FilterCheckbox />
+        <FilterCheckbox onFilter={onFilter} />
       </div>
     </section>
   );
@@ -63,6 +63,7 @@ function SearchForm({ onSearch }) {
 
 SearchForm.propTypes = {
   onSearch: PropTypes.func,
+  onFilter: PropTypes.func,
 };
 
 export default SearchForm;

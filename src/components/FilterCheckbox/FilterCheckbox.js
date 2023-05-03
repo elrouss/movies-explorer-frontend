@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-function FilterCheckbox() {
+function FilterCheckbox({ onFilter }) {
   // TODO: добавить переключение чекбокса с клавиатуры на 3-м этапе
 
   return (
@@ -10,6 +11,7 @@ function FilterCheckbox() {
           className="filter-checkbox__input"
           id="filter-films"
           type="checkbox"
+          onChange={(evt) => onFilter(evt)}
         />
         <label
           className="filter-checkbox__label"
@@ -21,5 +23,9 @@ function FilterCheckbox() {
     </div>
   );
 }
+
+FilterCheckbox.propTypes = {
+  onFilter: PropTypes.func,
+};
 
 export default FilterCheckbox;

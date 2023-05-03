@@ -5,7 +5,14 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 
-function Movies({ movies, onSearch, onLoad, hasUserSearched, error }) {
+function Movies({
+  movies,
+  onSearch,
+  hasUserSearched,
+  onFilter,
+  onLoad,
+  error,
+}) {
   const icon = (
     <svg
       width="10"
@@ -24,7 +31,7 @@ function Movies({ movies, onSearch, onLoad, hasUserSearched, error }) {
   return (
     <>
       <main>
-        <SearchForm onSearch={onSearch} />
+        <SearchForm onSearch={onSearch} onFilter={onFilter} />
         <MoviesCardList
           movies={movies}
           icon={icon}
@@ -42,6 +49,7 @@ Movies.propTypes = {
   movies: PropTypes.array,
   onSearch: PropTypes.func,
   hasUserSearched: PropTypes.bool,
+  onFilter: PropTypes.func,
   onLoad: PropTypes.bool,
   error: PropTypes.object,
 };

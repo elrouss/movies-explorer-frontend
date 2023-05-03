@@ -18,8 +18,10 @@ import { getMovies } from "../../utils/MoviesApi.js";
 
 export default function App() {
   const [movies, setMovies] = useState([]);
+
   const [searchFormValue, setSearchFormValue] = useState("");
   const [hasUserSearched, setHasUserSearched] = useState(false);
+  const [isFilterCheckboxChecked, setIsFilterCheckboxChecked] = useState(false);
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
@@ -72,6 +74,10 @@ export default function App() {
     setSearchFormValue(data);
   }
 
+  function toggleFilterCheckbox({ target: { checked } }) {
+    setIsFilterCheckboxChecked(checked ? true : false);
+  }
+
   // API
   useEffect(() => {
     if (!searchFormValue) return;
@@ -82,7 +88,12 @@ export default function App() {
       .then((movies) => {
         const data = movies.filter(({ nameRU }) => {
           const isCompliedWithSearchRequest = (data) =>
-            data.toLowerCase().replace(/\s/g, "").includes(searchFormValue);
+            data
+              .toLowerCase()
+              .replace(/\s/g, "")
+              .includes(
+                searchFormValue.toLowerCase().trim().replace(/\s/g, "")
+              );
 
           return isCompliedWithSearchRequest(nameRU);
         });
@@ -94,7 +105,18 @@ export default function App() {
           [data[i], data[j]] = [data[j], data[i]];
         }
 
+        setHasUserSearched(true);
         setMovies(data);
+
+        localStorage.setItem("searchRequest", searchFormValue || "");
+        localStorage.setItem(
+          "isFilterCheckboxChecked",
+          isFilterCheckboxChecked
+        );
+        localStorage.setItem(
+          "movies",
+          data.length ? JSON.stringify(data) : null
+        );
       })
       .catch(() =>
         setErrorMessages({
@@ -105,7 +127,6 @@ export default function App() {
       )
       .finally(() => {
         setIsDataLoading(false);
-        setHasUserSearched(true);
       });
   }, [searchFormValue]);
 
@@ -132,8 +153,9 @@ export default function App() {
             <Movies
               movies={movies}
               onSearch={searchMovie}
-              onLoad={isDataLoading}
               hasUserSearched={hasUserSearched}
+              onFilter={toggleFilterCheckbox}
+              onLoad={isDataLoading}
               error={errorMessages}
             />
           }
