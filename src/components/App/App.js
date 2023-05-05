@@ -82,9 +82,9 @@ export default function App() {
 
   useEffect(() => {
     setMovies(JSON.parse(localStorage.getItem("movies")) || []);
-    setSearchFormValue(localStorage.getItem("searchRequest") || "");
+    setSearchFormValue("" || localStorage.getItem("searchRequest"));
     setIsFilterCheckboxChecked(
-      JSON.parse(localStorage.getItem("isFilterCheckboxChecked")) || false
+      false || JSON.parse(localStorage.getItem("isFilterCheckboxChecked"))
     );
   }, []);
 
@@ -121,7 +121,7 @@ export default function App() {
         localStorage.setItem("searchRequest", searchFormValue || "");
         localStorage.setItem(
           "isFilterCheckboxChecked",
-          isFilterCheckboxChecked
+          JSON.stringify(isFilterCheckboxChecked)
         );
         localStorage.setItem(
           "movies",

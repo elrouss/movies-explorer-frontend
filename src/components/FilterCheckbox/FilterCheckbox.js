@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 
 function FilterCheckbox({ onFilter, isFilterCheckboxChecked }) {
   // TODO: добавить переключение чекбокса с клавиатуры на 3-м этапе
-  console.log(typeof isFilterCheckboxChecked, isFilterCheckboxChecked)
 
   return (
     <div className="filter-checkbox">
