@@ -1,27 +1,32 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 
-function SearchForm({ onSearch, onFilter }) {
+function SearchForm({
+  onSearch,
+  setIsSearchRequestInProgress,
+  searchFormValue,
+  onFilter,
+  isFilterCheckboxChecked,
+}) {
+  const movie = useRef("");
   const [isSearchFormValid, setIsSearchFormValid] = useState(true);
-  const [movieName, setMovieName] = useState("");
-
-  function getMovieName({ target: { value } }) {
-    setMovieName(value);
-  }
+  // TODO: в случае неизменения запроса создавать видимость отправки запроса данных на сервер?
+  //  + сохранять текст ничего не найдено и проч?
+  // TODO: поправить верстку (чекбокс)
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    const trim = movieName.trim();
+    const { value } = movie.current;
 
-    setIsSearchFormValid(trim ? true : false);
-
-    if (isSearchFormValid) {
-      onSearch(movieName);
+    if (!value.trim()) {
+      setIsSearchFormValid(false);
     } else {
-      return;
+      setIsSearchFormValid(true);
+      onSearch(value);
+      setIsSearchRequestInProgress(true);
     }
   }
 
@@ -37,11 +42,11 @@ function SearchForm({ onSearch, onFilter }) {
           <div className="search-film__wrapper">
             <input
               className="search-film__input"
+              ref={movie}
               type="text"
               placeholder="Фильм"
+              defaultValue={searchFormValue}
               required
-              value={movieName || ""}
-              onChange={getMovieName}
             />
             <button
               className="btn btn-search"
@@ -55,7 +60,10 @@ function SearchForm({ onSearch, onFilter }) {
             Нужно ввести ключевое слово
           </span>
         </form>
-        <FilterCheckbox onFilter={onFilter} />
+        <FilterCheckbox
+          onFilter={onFilter}
+          isFilterCheckboxChecked={isFilterCheckboxChecked}
+        />
       </div>
     </section>
   );
@@ -63,7 +71,10 @@ function SearchForm({ onSearch, onFilter }) {
 
 SearchForm.propTypes = {
   onSearch: PropTypes.func,
+  setIsSearchRequestInProgress: PropTypes.func,
+  searchFormValue: PropTypes.string,
   onFilter: PropTypes.func,
+  isFilterCheckboxChecked: PropTypes.bool,
 };
 
 export default SearchForm;

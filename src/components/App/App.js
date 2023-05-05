@@ -20,8 +20,10 @@ export default function App() {
   const [movies, setMovies] = useState([]);
 
   const [searchFormValue, setSearchFormValue] = useState("");
-  const [hasUserSearched, setHasUserSearched] = useState(false);
   const [isFilterCheckboxChecked, setIsFilterCheckboxChecked] = useState(false);
+  const [isUserSearching, setisUserSearching] = useState(false);
+  const [isSearchRequestInProgress, setIsSearchRequestInProgress] =
+    useState(false);
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
@@ -75,12 +77,20 @@ export default function App() {
   }
 
   function toggleFilterCheckbox({ target: { checked } }) {
-    setIsFilterCheckboxChecked(checked ? true : false);
+    setIsFilterCheckboxChecked(checked);
   }
+
+  useEffect(() => {
+    setMovies(JSON.parse(localStorage.getItem("movies")) || []);
+    setSearchFormValue(localStorage.getItem("searchRequest") || "");
+    setIsFilterCheckboxChecked(
+      JSON.parse(localStorage.getItem("isFilterCheckboxChecked")) || false
+    );
+  }, []);
 
   // API
   useEffect(() => {
-    if (!searchFormValue) return;
+    if (!isSearchRequestInProgress) return;
 
     setIsDataLoading(true);
 
@@ -105,7 +115,7 @@ export default function App() {
           [data[i], data[j]] = [data[j], data[i]];
         }
 
-        setHasUserSearched(true);
+        setisUserSearching(true);
         setMovies(data);
 
         localStorage.setItem("searchRequest", searchFormValue || "");
@@ -127,8 +137,9 @@ export default function App() {
       )
       .finally(() => {
         setIsDataLoading(false);
+        setIsSearchRequestInProgress(false);
       });
-  }, [searchFormValue]);
+  }, [isSearchRequestInProgress]);
 
   return (
     <Routes>
@@ -153,8 +164,11 @@ export default function App() {
             <Movies
               movies={movies}
               onSearch={searchMovie}
-              hasUserSearched={hasUserSearched}
+              searchFormValue={searchFormValue}
+              setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+              isUserSearching={isUserSearching}
               onFilter={toggleFilterCheckbox}
+              isFilterCheckboxChecked={isFilterCheckboxChecked}
               onLoad={isDataLoading}
               error={errorMessages}
             />

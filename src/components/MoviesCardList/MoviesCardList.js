@@ -15,7 +15,7 @@ function MoviesCardList({
   movies,
   icon,
   onLoad,
-  hasUserSearched,
+  isUserSearching,
   error: { moviesResponse },
 }) {
   const windowWidth = useWindowDimensions();
@@ -101,11 +101,11 @@ function MoviesCardList({
   function renderResults() {
     if (onLoad) return <Preloader />;
 
-    if (hasUserSearched && !moviesLength && !moviesResponse) {
+    if (isUserSearching && !moviesLength && !moviesResponse) {
       return <p className="paragraph">Ничего не найдено</p>;
     }
 
-    if (hasUserSearched && !moviesLength && moviesResponse) {
+    if (isUserSearching && !moviesLength && moviesResponse) {
       return <p className="paragraph paragraph_type_error">{moviesResponse}</p>;
     }
 
@@ -139,7 +139,7 @@ MoviesCardList.propTypes = {
   icon: PropTypes.element,
   movies: PropTypes.array,
   onLoad: PropTypes.bool,
-  hasUserSearched: PropTypes.bool,
+  isUserSearching: PropTypes.bool,
   error: PropTypes.object,
 };
 

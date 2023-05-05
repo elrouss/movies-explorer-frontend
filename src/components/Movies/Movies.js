@@ -8,8 +8,11 @@ import Footer from "../Footer/Footer";
 function Movies({
   movies,
   onSearch,
-  hasUserSearched,
+  setIsSearchRequestInProgress,
+  searchFormValue,
+  isUserSearching,
   onFilter,
+  isFilterCheckboxChecked,
   onLoad,
   error,
 }) {
@@ -31,12 +34,18 @@ function Movies({
   return (
     <>
       <main>
-        <SearchForm onSearch={onSearch} onFilter={onFilter} />
+        <SearchForm
+          onSearch={onSearch}
+          setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+          searchFormValue={searchFormValue}
+          onFilter={onFilter}
+          isFilterCheckboxChecked={isFilterCheckboxChecked}
+        />
         <MoviesCardList
           movies={movies}
           icon={icon}
           onLoad={onLoad}
-          hasUserSearched={hasUserSearched}
+          isUserSearching={isUserSearching}
           error={error}
         />
       </main>
@@ -48,8 +57,11 @@ function Movies({
 Movies.propTypes = {
   movies: PropTypes.array,
   onSearch: PropTypes.func,
-  hasUserSearched: PropTypes.bool,
+  setIsSearchRequestInProgress: PropTypes.func,
+  searchFormValue: PropTypes.string,
+  isUserSearching: PropTypes.bool,
   onFilter: PropTypes.func,
+  isFilterCheckboxChecked: PropTypes.bool,
   onLoad: PropTypes.bool,
   error: PropTypes.object,
 };
