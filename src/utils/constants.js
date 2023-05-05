@@ -1,4 +1,6 @@
 // URLS
+export const BASE_URL = "https://api.elrouss.movies.nomoredomains.monster";
+export const BASE_URL_LOCAL = "http://localhost:3001";
 export const BEATFILM_MOVIES_URL =
   "https://api.nomoreparties.co/beatfilm-movies";
 

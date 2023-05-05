@@ -4,7 +4,15 @@ import PropTypes from "prop-types";
 
 import Logo from "../Logo/Logo.js";
 
-function Entry({ children, heading, name, btn, btnAriaLabel }) {
+function Entry({
+  children,
+  heading,
+  name,
+  btn,
+  btnAriaLabel,
+  onSubmit,
+  onLoad,
+}) {
   const href = useMatch({ path: `${window.location.pathname}`, end: false });
   const isLoginHref = href.pathname.endsWith("/signin");
 
@@ -16,7 +24,7 @@ function Entry({ children, heading, name, btn, btnAriaLabel }) {
       <div className="entry__wrapper">
         <Logo />
         <h1 className="entry__heading">{heading}</h1>
-        <form className="entry__form" name={name}>
+        <form className="entry__form" name={name} onSubmit={onSubmit}>
           <fieldset
             className={`entry__fieldset${
               (isLoginHref && " entry__fieldset_margin_big") || ""
@@ -29,7 +37,7 @@ function Entry({ children, heading, name, btn, btnAriaLabel }) {
             type="submit"
             aria-label={btnAriaLabel}
           >
-            {btn}
+            {onLoad ? "Подождите..." : btn}
           </button>
         </form>
         {link}
@@ -44,6 +52,8 @@ Entry.propTypes = {
   name: PropTypes.string.isRequired,
   btn: PropTypes.string.isRequired,
   btnAriaLabel: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
+  onLoad: PropTypes.bool,
 };
 
 export default Entry;

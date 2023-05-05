@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 
 import Register from "../Register/Register.js";
 import Login from "../Login/Login.js";
@@ -14,6 +14,7 @@ import Profile from "../Profile/Profile.js";
 
 import PageNotFound from "../PageNotFound/PageNotFound.js";
 
+import { registerUser } from "../../utils/MainApi.js";
 import { getMovies } from "../../utils/MoviesApi.js";
 
 export default function App() {
@@ -28,10 +29,12 @@ export default function App() {
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
 
-  const [isDataLoading, setIsDataLoading] = useState(false);
+  const [isProcessLoading, setIsProcessLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({
     moviesResponse: "",
   });
+
+  const navigate = useNavigate();
 
   function openModalWindow() {
     setIsModalWindowOpened(true);
@@ -89,10 +92,27 @@ export default function App() {
   }, []);
 
   // API
+  // Users' registration
+  function handleUserRegistration({ email, password, name }) {
+    setIsProcessLoading(true);
+
+    registerUser(email, password, name)
+      .then(() => navigate("/movies"))
+      .catch((err) => {
+        console.log(
+          `Ошибка в процессе регистрации пользователя на сайте: ${err}`
+        );
+      })
+      .finally(() => {
+        setIsProcessLoading(false);
+      });
+  }
+
+  // Sending search request to get cards with movies
   useEffect(() => {
     if (!isSearchRequestInProgress) return;
 
-    setIsDataLoading(true);
+    setIsProcessLoading(true);
 
     getMovies()
       .then((movies) => {
@@ -136,7 +156,7 @@ export default function App() {
         })
       )
       .finally(() => {
-        setIsDataLoading(false);
+        setIsProcessLoading(false);
         setIsSearchRequestInProgress(false);
       });
   }, [isSearchRequestInProgress]);
@@ -169,7 +189,7 @@ export default function App() {
               isUserSearching={isUserSearching}
               onFilter={toggleFilterCheckbox}
               isFilterCheckboxChecked={isFilterCheckboxChecked}
-              onLoad={isDataLoading}
+              onLoad={isProcessLoading}
               error={errorMessages}
             />
           }
@@ -178,7 +198,15 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
       </Route>
 
-      <Route path="/signup" element={<Register />} />
+      <Route
+        path="/signup"
+        element={
+          <Register
+            onRegistration={handleUserRegistration}
+            onLoad={isProcessLoading}
+          />
+        }
+      />
       <Route path="/signin" element={<Login />} />
 
       <Route path="*" element={<PageNotFound />} />
