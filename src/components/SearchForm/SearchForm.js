@@ -14,7 +14,7 @@ function SearchForm({
   const [isSearchFormValid, setIsSearchFormValid] = useState(true);
   // TODO: в случае неизменения запроса создавать видимость отправки запроса данных на сервер?
   //  + сохранять текст ничего не найдено и проч?
-  // TODO: поправить верстку (чекбокс)
+  // TODO: запрещать сабмит во время обработки запроса
 
   function handleSubmit(evt) {
     evt.preventDefault();

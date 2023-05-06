@@ -7,6 +7,12 @@ import Input from "../Input/Input.js";
 
 import useFormWithValidation from "../../hooks/useFormWithValidation.js";
 
+import {
+  EMAIL_PATTERN,
+  PASSWORD_PATTERN,
+  USERNAME_PATTERN,
+} from "../../utils/constants.js";
+
 function Register({ onRegistration, onLoad }) {
   const { values, errors, isValid, handleChange } = useFormWithValidation();
 
@@ -30,6 +36,7 @@ function Register({ onRegistration, onLoad }) {
       btnAriaLabel={"Регистрация на сайте"}
       onSubmit={handleSubmit}
       onLoad={onLoad}
+      isValid={isValid}
     >
       <Input
         label={"Имя"}
@@ -37,21 +44,27 @@ function Register({ onRegistration, onLoad }) {
         id={"name"}
         name={"name"}
         type={"text"}
-        minLength={"2"}
-        maxLength={"30"}
         autoComplete={"on"}
         value={values?.name || ""}
         onChange={handleChange}
+        pattern={USERNAME_PATTERN}
+        errorCondition={errors?.name}
+        errorMessage={
+          "Имя должно быть от 2 до 30 симв., содержать только буквы, дефис или пробел"
+        }
       />
       <Input
         label={"E-mail"}
         htmlFor={"email"}
         id={"email"}
         name={"email"}
-        type={"email"}
+        type={"text"}
         autoComplete={"on"}
         value={values?.email || ""}
         onChange={handleChange}
+        pattern={EMAIL_PATTERN}
+        errorCondition={errors?.email}
+        errorMessage={"Требуется ввести электронный адрес"}
       />
       <Input
         htmlFor={"password"}
@@ -59,10 +72,14 @@ function Register({ onRegistration, onLoad }) {
         label={"Пароль"}
         name={"password"}
         type={"password"}
-        minLength={"10"}
         autoComplete={"current-password"}
         value={values?.password || ""}
         onChange={handleChange}
+        pattern={PASSWORD_PATTERN}
+        errorCondition={errors?.password}
+        errorMessage={
+          "Пароль должен быть мин. из 8 симв., включать латиницу, цифру и спецсимв."
+        }
       />
       <p className="entry__paragraph">
         Уже зарегистрированы?&nbsp;

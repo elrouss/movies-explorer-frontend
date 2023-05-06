@@ -11,9 +11,12 @@ function Input({
   maxLength,
   autoComplete,
   onChange,
+  pattern,
+  errorCondition,
+  errorMessage,
 }) {
   return (
-    <>
+    <div className="wrapper-input">
       <label className="label" htmlFor={htmlFor}>
         {label}
       </label>
@@ -27,20 +30,28 @@ function Input({
         autoComplete={autoComplete}
         required
         onChange={onChange}
+        pattern={pattern}
       />
-    </>
+      <span className={`error${(errorCondition && " error_visible") || ""}`}>
+        {errorMessage}
+      </span>
+    </div>
   );
 }
 
 Input.propTypes = {
-  label: PropTypes.string.isRequired,
-  htmlFor: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  htmlFor: PropTypes.string,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
+  type: PropTypes.string,
   minLength: PropTypes.string,
   maxLength: PropTypes.string,
   autoComplete: PropTypes.string,
+  onChange: PropTypes.func,
+  pattern: PropTypes.string,
+  errorCondition: PropTypes.string,
+  errorMessage: PropTypes.string,
 };
 
 export default Input;

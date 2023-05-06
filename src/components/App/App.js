@@ -97,7 +97,9 @@ export default function App() {
     setIsProcessLoading(true);
 
     registerUser(email, password, name)
-      .then(() => navigate("/movies"))
+      .then((res) => {
+        if (res) navigate("/movies");
+      })
       .catch((err) => {
         console.log(
           `Ошибка в процессе регистрации пользователя на сайте: ${err}`

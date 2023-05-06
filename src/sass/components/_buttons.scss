@@ -11,6 +11,11 @@
   &:hover {
     opacity: $opacity-strong;
   }
+
+  &:disabled {
+    opacity: $opacity-btn-disabled;
+    cursor: default;
+  }
 }
 
 .btn-auth {
