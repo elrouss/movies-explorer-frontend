@@ -33,7 +33,6 @@ export default function App() {
   const [errorMessages, setErrorMessages] = useState({
     registrationResponse: "",
     moviesResponse: "",
-    500: "",
   });
 
   const navigate = useNavigate();
