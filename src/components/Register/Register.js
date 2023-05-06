@@ -13,7 +13,7 @@ import {
   USERNAME_PATTERN,
 } from "../../utils/constants.js";
 
-function Register({ onRegistration, onLoad }) {
+function Register({ onRegistration, onLoad, error }) {
   const { values, errors, isValid, handleChange } = useFormWithValidation();
 
   function handleSubmit(evt) {
@@ -37,6 +37,7 @@ function Register({ onRegistration, onLoad }) {
       onSubmit={handleSubmit}
       onLoad={onLoad}
       isValid={isValid}
+      error={error}
     >
       <Input
         label={"Имя"}
@@ -94,6 +95,7 @@ function Register({ onRegistration, onLoad }) {
 Register.propTypes = {
   onRegistration: PropTypes.func,
   onLoad: PropTypes.bool,
+  error: PropTypes.object,
 };
 
 export default Register;

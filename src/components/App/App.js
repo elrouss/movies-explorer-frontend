@@ -31,7 +31,9 @@ export default function App() {
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({
+    registrationResponse: "",
     moviesResponse: "",
+    500: "",
   });
 
   const navigate = useNavigate();
@@ -98,7 +100,19 @@ export default function App() {
 
     registerUser(email, password, name)
       .then((res) => {
-        if (res) navigate("/movies");
+        if (res.ok) {
+          navigate("/movies");
+          setErrorMessages({ registrationResponse: "" });
+        } else {
+          setErrorMessages({
+            registrationResponse:
+              res.status === 500
+                ? "На сервере произошла ошибка"
+                : res.status === 409
+                ? "Пользователь с таким email уже существует"
+                : "При регистрации пользователя произошла ошибка",
+          });
+        }
       })
       .catch((err) => {
         console.log(
@@ -206,6 +220,7 @@ export default function App() {
           <Register
             onRegistration={handleUserRegistration}
             onLoad={isProcessLoading}
+            error={errorMessages}
           />
         }
       />

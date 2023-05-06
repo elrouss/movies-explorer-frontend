@@ -13,6 +13,7 @@ function Entry({
   onSubmit,
   onLoad,
   isValid,
+  error,
 }) {
   const href = useMatch({ path: `${window.location.pathname}`, end: false });
   const isLoginHref = href.pathname.endsWith("/signin");
@@ -38,14 +39,23 @@ function Entry({
           >
             {inputs}
           </fieldset>
-          <button
-            className="btn btn-entry"
-            type="submit"
-            aria-label={btnAriaLabel}
-            disabled={!isValid || onLoad}
-          >
-            {onLoad ? "Подождите..." : btn}
-          </button>
+          <div className="entry__wrapper-btn">
+            <span
+              className={`error${
+                (error?.registrationResponse && " error_visible") || ""
+              } error__server`}
+            >
+              {error?.registrationResponse}
+            </span>
+            <button
+              className="btn btn-entry"
+              type="submit"
+              aria-label={btnAriaLabel}
+              disabled={!isValid || onLoad}
+            >
+              {onLoad ? "Подождите..." : btn}
+            </button>
+          </div>
         </form>
         {link}
       </div>
@@ -62,6 +72,7 @@ Entry.propTypes = {
   onSubmit: PropTypes.func,
   onLoad: PropTypes.bool,
   isValid: PropTypes.bool,
+  error: PropTypes.object,
 };
 
 export default Entry;
