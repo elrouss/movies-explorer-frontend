@@ -17,7 +17,12 @@ import PageNotFound from "../PageNotFound/PageNotFound.js";
 import { registerUser } from "../../utils/MainApi.js";
 import { getMovies } from "../../utils/MoviesApi.js";
 
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+
 export default function App() {
+  // TODO: проверить правильно подключения контекста
+  const [currentUser, setCurrentUser] = useState({});
+
   const [movies, setMovies] = useState([]);
 
   const [searchFormValue, setSearchFormValue] = useState("");
@@ -192,25 +197,27 @@ export default function App() {
           />
         }
       >
-        <Route index element={<Main />} />
-        <Route
-          path="/movies"
-          element={
-            <Movies
-              movies={movies}
-              onSearch={searchMovie}
-              searchFormValue={searchFormValue}
-              setIsSearchRequestInProgress={setIsSearchRequestInProgress}
-              isUserSearching={isUserSearching}
-              onFilter={toggleFilterCheckbox}
-              isFilterCheckboxChecked={isFilterCheckboxChecked}
-              onLoad={isProcessLoading}
-              error={errorMessages}
-            />
-          }
-        />
-        <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile />} />
+        <CurrentUserContext.Provider value={currentUser}>
+          <Route index element={<Main />} />
+          <Route
+            path="/movies"
+            element={
+              <Movies
+                movies={movies}
+                onSearch={searchMovie}
+                searchFormValue={searchFormValue}
+                setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+                isUserSearching={isUserSearching}
+                onFilter={toggleFilterCheckbox}
+                isFilterCheckboxChecked={isFilterCheckboxChecked}
+                onLoad={isProcessLoading}
+                error={errorMessages}
+              />
+            }
+          />
+          <Route path="/saved-movies" element={<SavedMovies />} />
+          <Route path="/profile" element={<Profile />} />
+        </CurrentUserContext.Provider>
       </Route>
 
       <Route
