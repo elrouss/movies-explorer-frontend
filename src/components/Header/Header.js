@@ -1,6 +1,8 @@
-import React from "react";
-import { Outlet, Link, useMatch } from "react-router-dom";
+import React, { useContext } from "react";
+import { Outlet, Link } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 import useWindowDimensions from "../../hooks/useWindowDimensions.js";
 
@@ -16,14 +18,11 @@ function Header({
   closeModalWindow,
   closeHamburgerMenuOnOutsideAndNavClick,
 }) {
-  // ВРЕМЕННОЕ РЕШЕНИЕ ДЛЯ СТАТИЧНОЙ ВЕРСТКИ (НА 3-М ЭТАПЕ ПЕРЕДЕЛАТЬ ПОД АВТОРИЗАЦИЮ)
-  const href = useMatch({ path: `${window.location.pathname}`, end: false });
-  const isRootHref = href.pathnameBase === "/";
-
+  const isUserLoggedIn = useContext(CurrentUserContext);
   const isMobileWidth = useWindowDimensions() <= 768;
 
   function renderHeaderMenu() {
-    if (!isRootHref && isMobileWidth) {
+    if (isMobileWidth) {
       return (
         <button
           className={`btn hamburger${
@@ -40,7 +39,7 @@ function Header({
       );
     }
 
-    if (isRootHref) {
+    if (!isUserLoggedIn) {
       return (
         <div className="header__auth">
           <Link className="link" to={"/signup"}>

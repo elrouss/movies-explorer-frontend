@@ -6,6 +6,8 @@ import Login from "../Login/Login.js";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js";
 
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+
 import Header from "../Header/Header.js";
 
 import Main from "../Main/Main.js";
@@ -22,10 +24,7 @@ import { getContent } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
 
-// import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
-
 export default function App() {
-  // TODO: проверить правильно подключения контекста
   const [isAppLoading, setIsAppLoading] = useState(false);
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
@@ -37,10 +36,9 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState({
     _id: "",
     email: "",
-    password: "",
     name: "",
-    isLoggedIn: false,
   });
+  const [isCurrentUserLoggedIn, setIsCurrentUserLoggedIn] = useState(false);
 
   const [movies, setMovies] = useState([]);
 
@@ -141,10 +139,8 @@ export default function App() {
       });
   }
 
-  console.log(currentUser);
-
   // Users' authorization
-  const handleLoginOn = () => setCurrentUser({ isLoggedIn: true });
+  const handleLoginOn = () => setIsCurrentUserLoggedIn(true);
 
   function handleUserAuthorization({ email, password }) {
     setIsProcessLoading(true);
@@ -153,7 +149,7 @@ export default function App() {
       .then((jwt) => {
         if (jwt) {
           handleLoginOn();
-          navigate("/movies", { replace: false });
+          navigate("/movies", { replace: true });
         }
       })
       .catch((err) => {
@@ -167,17 +163,14 @@ export default function App() {
   }
 
   // Checking token
-  // TODO: не получается возврат из movies на стартовую страницу по кнопке "Назад"
   const checkToken = useCallback(() => {
     const jwt = localStorage.getItem("jwt");
 
     if (jwt) {
       setIsAppLoading(true);
       getContent(jwt)
-        .then((data) => {
-          const { _id, email } = data;
-
-          setCurrentUser(_id, email);
+        .then(({ _id, email, name }) => {
+          setCurrentUser({ _id, email, name });
           handleLoginOn();
           navigate("/movies", { replace: true });
         })
@@ -252,15 +245,19 @@ export default function App() {
       <Route
         path="/"
         element={
-          <Header
-            toggleHamburgerMenu={toggleHamburgerMenu}
-            isModalWindowOpened={isModalWindowOpened}
-            isHamburgerMenuOpened={isHamburgerMenuOpened}
-            closeModalWindow={closeModalWindow}
-            closeHamburgerMenuOnOutsideAndNavClick={
-              closeHamburgerMenuOnOutsideAndNavClick
-            }
-          />
+          <>
+            <CurrentUserContext.Provider value={isCurrentUserLoggedIn}>
+              <Header
+                toggleHamburgerMenu={toggleHamburgerMenu}
+                isModalWindowOpened={isModalWindowOpened}
+                isHamburgerMenuOpened={isHamburgerMenuOpened}
+                closeModalWindow={closeModalWindow}
+                closeHamburgerMenuOnOutsideAndNavClick={
+                  closeHamburgerMenuOnOutsideAndNavClick
+                }
+              />
+            </CurrentUserContext.Provider>
+          </>
         }
       >
         {/* <CurrentUserContext.Provider value={currentUser}> */}
@@ -268,7 +265,7 @@ export default function App() {
         <Route
           path="/movies"
           element={
-            <ProtectedRoute isUserLoggedIn={currentUser.isLoggedIn}>
+            <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
               <Movies
                 movies={movies}
                 onSearch={searchMovie}
@@ -286,7 +283,7 @@ export default function App() {
         <Route
           path="/saved-movies"
           element={
-            <ProtectedRoute isUserLoggedIn={currentUser.isLoggedIn}>
+            <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
               <SavedMovies />
             </ProtectedRoute>
           }
@@ -294,7 +291,7 @@ export default function App() {
         <Route
           path="/profile"
           element={
-            <ProtectedRoute isUserLoggedIn={currentUser.isLoggedIn}>
+            <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
               <Profile />
             </ProtectedRoute>
           }
