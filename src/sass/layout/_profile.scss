@@ -1,6 +1,9 @@
 .profile {
+  @extend %flex-column;
+
   &__wrapper {
     @extend %flex-column;
+    width: 410px;
     margin-top: 74px;
 
     @media screen and (max-width: $media-desktop) {
@@ -10,6 +13,7 @@
     }
 
     @media screen and (max-width: $media-mobile-l) {
+      width: 260px;
       margin-top: 70px;
     }
   }
@@ -17,7 +21,6 @@
   &__heading {
     $font-size: 2.4rem;
 
-    max-width: 204px;
     margin: 0;
     padding-bottom: 123px;
 

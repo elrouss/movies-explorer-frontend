@@ -33,7 +33,6 @@ export default function App() {
     authorizationResponse: "",
     moviesResponse: "",
   });
-  console.log(errorMessages);
 
   const [currentUser, setCurrentUser] = useState({
     _id: "",

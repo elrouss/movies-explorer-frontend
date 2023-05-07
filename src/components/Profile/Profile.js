@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Profile({ setIsCurrentUserLoggedIn }) {
   const navigate = useNavigate();
+  const currentUser = useContext(CurrentUserContext);
+  const { email, name } = currentUser;
 
   function loginOut() {
     localStorage.removeItem("jwt");
@@ -14,7 +17,7 @@ function Profile({ setIsCurrentUserLoggedIn }) {
   return (
     <div className="profile">
       <div className="profile__wrapper">
-        <h1 className="profile__heading">Привет, Виталий!</h1>
+        <h1 className="profile__heading">Привет, {name}!</h1>
         <form className="profile__form" name="profile">
           <fieldset className="profile__fieldset">
             <div className="profile__input-wrapper">
@@ -28,7 +31,7 @@ function Profile({ setIsCurrentUserLoggedIn }) {
                 minLength="2"
                 maxLength="30"
                 autoComplete="on"
-                defaultValue="Виталий"
+                defaultValue={name}
                 required
               />
             </div>
@@ -41,7 +44,7 @@ function Profile({ setIsCurrentUserLoggedIn }) {
                 id="email"
                 type="email"
                 autoComplete="on"
-                defaultValue="pochta@yandex.ru"
+                defaultValue={email}
                 required
               />
             </div>
