@@ -4,7 +4,17 @@ import PropTypes from "prop-types";
 
 import Logo from "../Logo/Logo.js";
 
-function Entry({ children, heading, name, btn, btnAriaLabel }) {
+function Entry({
+  children,
+  heading,
+  name,
+  btn,
+  btnAriaLabel,
+  onSubmit,
+  onLoad,
+  isValid,
+  error,
+}) {
   const href = useMatch({ path: `${window.location.pathname}`, end: false });
   const isLoginHref = href.pathname.endsWith("/signin");
 
@@ -16,7 +26,12 @@ function Entry({ children, heading, name, btn, btnAriaLabel }) {
       <div className="entry__wrapper">
         <Logo />
         <h1 className="entry__heading">{heading}</h1>
-        <form className="entry__form" name={name}>
+        <form
+          className="entry__form"
+          name={name}
+          onSubmit={onSubmit}
+          noValidate
+        >
           <fieldset
             className={`entry__fieldset${
               (isLoginHref && " entry__fieldset_margin_big") || ""
@@ -24,13 +39,23 @@ function Entry({ children, heading, name, btn, btnAriaLabel }) {
           >
             {inputs}
           </fieldset>
-          <button
-            className="btn btn-entry"
-            type="submit"
-            aria-label={btnAriaLabel}
-          >
-            {btn}
-          </button>
+          <div className="entry__wrapper-btn">
+            <span
+              className={`error${
+                (error?.registrationResponse && " error_visible") || ""
+              } error__server`}
+            >
+              {error?.registrationResponse}
+            </span>
+            <button
+              className="btn btn-entry"
+              type="submit"
+              aria-label={btnAriaLabel}
+              disabled={!isValid || onLoad}
+            >
+              {onLoad ? "Подождите..." : btn}
+            </button>
+          </div>
         </form>
         {link}
       </div>
@@ -44,6 +69,10 @@ Entry.propTypes = {
   name: PropTypes.string.isRequired,
   btn: PropTypes.string.isRequired,
   btnAriaLabel: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func,
+  onLoad: PropTypes.bool,
+  isValid: PropTypes.bool,
+  error: PropTypes.object,
 };
 
 export default Entry;

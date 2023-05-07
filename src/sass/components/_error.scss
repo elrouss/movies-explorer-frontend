@@ -2,7 +2,6 @@
   $font-size: 1rem;
 
   display: none;
-  margin-top: 6px;
 
   @include font(
     $size: $font-size,
@@ -13,5 +12,11 @@
 
   &_visible {
     display: inline;
+  }
+
+  &__server {
+    margin-bottom: 20px;
+
+    text-align: center;
   }
 }
