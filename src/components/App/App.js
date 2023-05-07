@@ -241,86 +241,83 @@ export default function App() {
   if (isAppLoading) return null;
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <>
-            <CurrentUserContext.Provider value={isCurrentUserLoggedIn}>
-              <Header
-                toggleHamburgerMenu={toggleHamburgerMenu}
-                isModalWindowOpened={isModalWindowOpened}
-                isHamburgerMenuOpened={isHamburgerMenuOpened}
-                closeModalWindow={closeModalWindow}
-                closeHamburgerMenuOnOutsideAndNavClick={
-                  closeHamburgerMenuOnOutsideAndNavClick
-                }
-              />
-            </CurrentUserContext.Provider>
-          </>
-        }
-      >
-        {/* <CurrentUserContext.Provider value={currentUser}> */}
-        <Route index element={<Main />} />
+    <CurrentUserContext.Provider value={currentUser}>
+      <Routes>
         <Route
-          path="/movies"
+          path="/"
           element={
-            <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-              <Movies
-                movies={movies}
-                onSearch={searchMovie}
-                searchFormValue={searchFormValue}
-                setIsSearchRequestInProgress={setIsSearchRequestInProgress}
-                isUserSearching={isUserSearching}
-                onFilter={toggleFilterCheckbox}
-                isFilterCheckboxChecked={isFilterCheckboxChecked}
-                onLoad={isProcessLoading}
-                error={errorMessages}
-              />
-            </ProtectedRoute>
+            <Header
+              isCurrentUserLoggedIn={isCurrentUserLoggedIn}
+              toggleHamburgerMenu={toggleHamburgerMenu}
+              isModalWindowOpened={isModalWindowOpened}
+              isHamburgerMenuOpened={isHamburgerMenuOpened}
+              closeModalWindow={closeModalWindow}
+              closeHamburgerMenuOnOutsideAndNavClick={
+                closeHamburgerMenuOnOutsideAndNavClick
+              }
+            />
           }
-        />
-        <Route
-          path="/saved-movies"
-          element={
-            <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-              <SavedMovies />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-        {/* </CurrentUserContext.Provider> */}
-      </Route>
-
-      <Route
-        path="/signup"
-        element={
-          <Register
-            onRegistration={handleUserRegistration}
-            onLoad={isProcessLoading}
-            error={errorMessages}
+        >
+          <Route index element={<Main />} />
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                <Movies
+                  movies={movies}
+                  onSearch={searchMovie}
+                  searchFormValue={searchFormValue}
+                  setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+                  isUserSearching={isUserSearching}
+                  onFilter={toggleFilterCheckbox}
+                  isFilterCheckboxChecked={isFilterCheckboxChecked}
+                  onLoad={isProcessLoading}
+                  error={errorMessages}
+                />
+              </ProtectedRoute>
+            }
           />
-        }
-      />
-      <Route
-        path="/signin"
-        element={
-          <Login
-            onAuthorization={handleUserAuthorization}
-            onLoad={isProcessLoading}
-            error={errorMessages}
+          <Route
+            path="/saved-movies"
+            element={
+              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                <SavedMovies />
+              </ProtectedRoute>
+            }
           />
-        }
-      />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
 
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+        <Route
+          path="/signup"
+          element={
+            <Register
+              onRegistration={handleUserRegistration}
+              onLoad={isProcessLoading}
+              error={errorMessages}
+            />
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            <Login
+              onAuthorization={handleUserAuthorization}
+              onLoad={isProcessLoading}
+              error={errorMessages}
+            />
+          }
+        />
+
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </CurrentUserContext.Provider>
   );
 }

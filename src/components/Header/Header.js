@@ -1,8 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Outlet, Link } from "react-router-dom";
 import PropTypes from "prop-types";
-
-import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 import useWindowDimensions from "../../hooks/useWindowDimensions.js";
 
@@ -12,13 +10,13 @@ import Navigation from "../Navigation/Navigation.js";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu.js";
 
 function Header({
+  isCurrentUserLoggedIn,
   toggleHamburgerMenu,
   isModalWindowOpened,
   isHamburgerMenuOpened,
   closeModalWindow,
   closeHamburgerMenuOnOutsideAndNavClick,
 }) {
-  const isUserLoggedIn = useContext(CurrentUserContext);
   const isMobileWidth = useWindowDimensions() <= 768;
 
   function renderHeaderMenu() {
@@ -39,7 +37,7 @@ function Header({
       );
     }
 
-    if (!isUserLoggedIn) {
+    if (!isCurrentUserLoggedIn) {
       return (
         <div className="header__auth">
           <Link className="link" to={"/signup"}>
@@ -79,6 +77,7 @@ function Header({
 }
 
 Header.propTypes = {
+  isCurrentUserLoggedIn: PropTypes.bool,
   toggleHamburgerMenu: PropTypes.func,
   isModalWindowOpened: PropTypes.bool,
   isHamburgerMenuOpened: PropTypes.bool,
