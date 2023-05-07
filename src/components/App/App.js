@@ -25,6 +25,11 @@ import { setUserInfo } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
 
+import {
+  VALIDATION_MESSAGES,
+  showDefaultError,
+} from "../../utils/validation.js";
+
 export default function App() {
   const [isAppLoading, setIsAppLoading] = useState(false);
 
@@ -137,10 +142,10 @@ export default function App() {
           setErrorMessages({
             registrationResponse:
               res.status === 500
-                ? "На сервере произошла ошибка"
+                ? VALIDATION_MESSAGES.backend[500]
                 : res.status === 409
-                ? "Пользователь с таким email уже существует"
-                : "При регистрации пользователя произошла ошибка",
+                ? VALIDATION_MESSAGES.backend[409]
+                : showDefaultError("регистрации пользователя"),
           });
         }
       })
@@ -169,10 +174,10 @@ export default function App() {
           setErrorMessages({
             authorizationResponse:
               res.status === 500
-                ? "На сервере произошла ошибка"
+                ? VALIDATION_MESSAGES.backend[500]
                 : res.status === 401
-                ? "Вы ввели неправильный логин или пароль"
-                : "При авторизации произошла ошибка",
+                ? VALIDATION_MESSAGES.backend[401]
+                : showDefaultError("авторизации"),
           });
         }
       })
@@ -236,10 +241,10 @@ export default function App() {
             setErrorMessages({
               updatingUserInfoResponse:
                 res.status === 500
-                  ? "На сервере произошла ошибка"
+                  ? VALIDATION_MESSAGES.backend[500]
                   : res.status === 409
-                  ? "Пользователь с таким email уже существует"
-                  : "При обновлении профиля произошла ошибка",
+                  ? VALIDATION_MESSAGES.backend[409]
+                  : showDefaultError("обновлении профиля"),
             });
           }
         })

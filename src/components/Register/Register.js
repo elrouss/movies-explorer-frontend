@@ -12,6 +12,7 @@ import {
   PASSWORD_PATTERN,
   USERNAME_PATTERN,
 } from "../../utils/constants.js";
+import { VALIDATION_MESSAGES } from "../../utils/validation.js";
 
 function Register({ onRegistration, onLoad, error }) {
   const { values, errors, isValid, handleChange } = useFormWithValidation();
@@ -50,9 +51,7 @@ function Register({ onRegistration, onLoad, error }) {
         onChange={handleChange}
         pattern={USERNAME_PATTERN}
         errorCondition={errors?.name}
-        errorMessage={
-          "Имя должно быть от 2 до 30 симв., содержать только буквы, дефис или пробел"
-        }
+        errorMessage={VALIDATION_MESSAGES.frontend.name}
       />
       <Input
         label={"E-mail"}
@@ -65,7 +64,7 @@ function Register({ onRegistration, onLoad, error }) {
         onChange={handleChange}
         pattern={EMAIL_PATTERN}
         errorCondition={errors?.email}
-        errorMessage={"Требуется ввести электронный адрес"}
+        errorMessage={VALIDATION_MESSAGES.frontend.email}
       />
       <Input
         htmlFor={"password"}
@@ -78,9 +77,7 @@ function Register({ onRegistration, onLoad, error }) {
         onChange={handleChange}
         pattern={PASSWORD_PATTERN}
         errorCondition={errors?.password}
-        errorMessage={
-          "Пароль должен быть мин. из 8 симв., включать латиницу, цифру и спецсимвол"
-        }
+        errorMessage={VALIDATION_MESSAGES.frontend.password}
       />
       <p className="entry__paragraph">
         Уже зарегистрированы?&nbsp;

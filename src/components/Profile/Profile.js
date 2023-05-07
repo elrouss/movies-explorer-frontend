@@ -7,9 +7,9 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 
 import { EMAIL_PATTERN, USERNAME_PATTERN } from "../../utils/constants";
+import { VALIDATION_MESSAGES } from "../../utils/validation";
 
 function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
-  // TODO: вынести ошибки инпутов в константы
   const navigate = useNavigate();
 
   const currentUser = useContext(CurrentUserContext);
@@ -87,9 +87,8 @@ function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
                   ((errors?.email || errors?.name) && " error_visible") || ""
                 } error__server`}
               >
-                {errors?.name &&
-                  "Имя должно быть от 2 до 30 симв., содержать только буквы, дефис или пробел\n"}
-                {errors?.email && "Требуется ввести электронный адрес"}
+                {errors?.name && VALIDATION_MESSAGES.frontend.name + "\n"}
+                {errors?.email && VALIDATION_MESSAGES.frontend.email}
               </span>
             </div>
           </fieldset>
