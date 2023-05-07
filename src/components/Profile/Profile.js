@@ -20,7 +20,7 @@ function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
 
   useEffect(() => {
     setValues({ email, name });
-  }, []);
+  }, [navigate]);
 
   function handleSubmit(evt) {
     evt.preventDefault();

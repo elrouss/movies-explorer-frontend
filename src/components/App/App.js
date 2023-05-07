@@ -136,7 +136,7 @@ export default function App() {
     registerUser(email, password, name)
       .then((res) => {
         if (res.ok) {
-          navigate("/movies");
+          handleUserAuthorization({ email, password });
           setErrorMessages({ registrationResponse: "" });
         } else {
           setErrorMessages({
