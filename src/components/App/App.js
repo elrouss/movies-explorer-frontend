@@ -21,6 +21,7 @@ import PageNotFound from "../PageNotFound/PageNotFound.js";
 import { registerUser } from "../../utils/MainApi.js";
 import { authorizeUser } from "../../utils/MainApi.js";
 import { getContent } from "../../utils/MainApi.js";
+import { setUserInfo } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
 
@@ -31,6 +32,7 @@ export default function App() {
   const [errorMessages, setErrorMessages] = useState({
     registrationResponse: "",
     authorizationResponse: "",
+    updatingUserInfoResponse: "",
     moviesResponse: "",
   });
 
@@ -219,6 +221,42 @@ export default function App() {
 
   useEffect(() => checkToken(), []);
 
+  function updateUserInfo({ email, name }) {
+    if (email === currentUser.email && name === currentUser.name) {
+      return;
+    } else {
+      setIsProcessLoading(true);
+
+      setUserInfo(email, name)
+        .then((res) => {
+          if (res.ok) {
+            setErrorMessages({ updatingUserInfoResponse: "" });
+            return res.json();
+          } else {
+            setErrorMessages({
+              updatingUserInfoResponse:
+                res.status === 500
+                  ? "На сервере произошла ошибка"
+                  : res.status === 409
+                  ? "Пользователь с таким email уже существует"
+                  : "При обновлении профиля произошла ошибка",
+            });
+          }
+        })
+        .then((data) => {
+          if (data) setCurrentUser(data);
+        })
+        .catch((err) => {
+          console.log(
+            `Ошибка в процессе редактирования данных пользователя: ${err}`
+          );
+        })
+        .finally(() => {
+          setIsProcessLoading(false);
+        });
+    }
+  }
+
   // Sending search request to get cards with movies
   useEffect(() => {
     if (!isSearchRequestInProgress) return;
@@ -323,7 +361,12 @@ export default function App() {
             path="/profile"
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <Profile setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn} />
+                <Profile
+                  setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn}
+                  onUpdate={updateUserInfo}
+                  onLoad={isProcessLoading}
+                  error={errorMessages}
+                />
               </ProtectedRoute>
             }
           />

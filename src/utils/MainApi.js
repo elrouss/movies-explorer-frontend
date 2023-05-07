@@ -30,3 +30,14 @@ export function getContent(token) {
     .then((res) => res.json())
     .then((data) => data);
 }
+
+export function setUserInfo(email, name) {
+  return fetch(`${BASE_URL_LOCAL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+    },
+    body: JSON.stringify({ email, name }),
+  });
+}
