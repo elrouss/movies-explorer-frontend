@@ -17,17 +17,29 @@ import Profile from "../Profile/Profile.js";
 import PageNotFound from "../PageNotFound/PageNotFound.js";
 
 import { registerUser } from "../../utils/MainApi.js";
+import { authorizeUser } from "../../utils/MainApi.js";
+import { getContent } from "../../utils/MainApi.js";
+
 import { getMovies } from "../../utils/MoviesApi.js";
 
 // import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 export default function App() {
   // TODO: проверить правильно подключения контекста
+  const [isAppLoading, setIsAppLoading] = useState(false);
+
+  const [isProcessLoading, setIsProcessLoading] = useState(false);
+  const [errorMessages, setErrorMessages] = useState({
+    registrationResponse: "",
+    moviesResponse: "",
+  });
+
   const [currentUser, setCurrentUser] = useState({
+    _id: "",
     email: "",
     password: "",
     name: "",
-    isLoggedIn: true,
+    isLoggedIn: false,
   });
 
   const [movies, setMovies] = useState([]);
@@ -40,12 +52,6 @@ export default function App() {
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
-
-  const [isProcessLoading, setIsProcessLoading] = useState(false);
-  const [errorMessages, setErrorMessages] = useState({
-    registrationResponse: "",
-    moviesResponse: "",
-  });
 
   const navigate = useNavigate();
 
@@ -135,6 +141,57 @@ export default function App() {
       });
   }
 
+  console.log(currentUser);
+
+  // Users' authorization
+  const handleLoginOn = () => setCurrentUser({ isLoggedIn: true });
+
+  function handleUserAuthorization({ email, password }) {
+    setIsProcessLoading(true);
+
+    authorizeUser(email, password)
+      .then((jwt) => {
+        if (jwt) {
+          handleLoginOn();
+          navigate("/movies", { replace: false });
+        }
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка в процессе авторизации пользователя на сайте: ${err}`
+        );
+      })
+      .finally(() => {
+        setIsProcessLoading(false);
+      });
+  }
+
+  // Checking token
+  // TODO: не получается возврат из movies на стартовую страницу по кнопке "Назад"
+  const checkToken = useCallback(() => {
+    const jwt = localStorage.getItem("jwt");
+
+    if (jwt) {
+      setIsAppLoading(true);
+      getContent(jwt)
+        .then((data) => {
+          const { _id, email } = data;
+
+          setCurrentUser(_id, email);
+          handleLoginOn();
+          navigate("/movies", { replace: true });
+        })
+        .catch((err) => {
+          console.log(
+            `Ошибка в процессе проверки токена пользователя и получения личных данных: ${err}`
+          );
+        })
+        .finally(() => setIsAppLoading(false));
+    }
+  }, []);
+
+  useEffect(() => checkToken(), []);
+
   // Sending search request to get cards with movies
   useEffect(() => {
     if (!isSearchRequestInProgress) return;
@@ -187,6 +244,8 @@ export default function App() {
         setIsSearchRequestInProgress(false);
       });
   }, [isSearchRequestInProgress]);
+
+  if (isAppLoading) return null;
 
   return (
     <Routes>
@@ -253,7 +312,16 @@ export default function App() {
           />
         }
       />
-      <Route path="/signin" element={<Login />} />
+      <Route
+        path="/signin"
+        element={
+          <Login
+            onAuthorization={handleUserAuthorization}
+            onLoad={isProcessLoading}
+            error={errorMessages}
+          />
+        }
+      />
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>

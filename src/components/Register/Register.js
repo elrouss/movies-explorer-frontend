@@ -79,7 +79,7 @@ function Register({ onRegistration, onLoad, error }) {
         pattern={PASSWORD_PATTERN}
         errorCondition={errors?.password}
         errorMessage={
-          "Пароль должен быть мин. из 8 симв., включать латиницу, цифру и спецсимв."
+          "Пароль должен быть мин. из 8 симв., включать латиницу, цифру и спецсимвол"
         }
       />
       <p className="entry__paragraph">
