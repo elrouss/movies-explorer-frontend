@@ -1,6 +1,17 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-function Profile() {
+function Profile({ setIsCurrentUserLoggedIn }) {
+  const navigate = useNavigate();
+  console.log(setIsCurrentUserLoggedIn)
+
+  function loginOut() {
+    localStorage.removeItem("jwt");
+    navigate("/", { replace: true });
+    setIsCurrentUserLoggedIn (false);
+  }
+
   return (
     <div className="profile">
       <div className="profile__wrapper">
@@ -48,6 +59,7 @@ function Profile() {
           className="btn btn-profile-exit"
           type="button"
           aria-label="Выход из личного кабинета пользователя"
+          onClick={() => loginOut()}
         >
           Выйти из аккаунта
         </button>
@@ -55,5 +67,9 @@ function Profile() {
     </div>
   );
 }
+
+Profile.propTypes = {
+  setIsCurrentUserLoggedIn: PropTypes.func,
+};
 
 export default Profile;

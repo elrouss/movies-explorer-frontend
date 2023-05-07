@@ -289,7 +289,7 @@ export default function App() {
             path="/profile"
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <Profile />
+                <Profile setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn} />
               </ProtectedRoute>
             }
           />
