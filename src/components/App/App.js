@@ -4,6 +4,10 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Register from "../Register/Register.js";
 import Login from "../Login/Login.js";
 
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js";
+
+import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+
 import Header from "../Header/Header.js";
 
 import Main from "../Main/Main.js";
@@ -15,9 +19,29 @@ import Profile from "../Profile/Profile.js";
 import PageNotFound from "../PageNotFound/PageNotFound.js";
 
 import { registerUser } from "../../utils/MainApi.js";
+import { authorizeUser } from "../../utils/MainApi.js";
+import { getContent } from "../../utils/MainApi.js";
+
 import { getMovies } from "../../utils/MoviesApi.js";
 
 export default function App() {
+  const [isAppLoading, setIsAppLoading] = useState(false);
+
+  const [isProcessLoading, setIsProcessLoading] = useState(false);
+  const [errorMessages, setErrorMessages] = useState({
+    registrationResponse: "",
+    authorizationResponse: "",
+    moviesResponse: "",
+  });
+  console.log(errorMessages);
+
+  const [currentUser, setCurrentUser] = useState({
+    _id: "",
+    email: "",
+    name: "",
+  });
+  const [isCurrentUserLoggedIn, setIsCurrentUserLoggedIn] = useState(false);
+
   const [movies, setMovies] = useState([]);
 
   const [searchFormValue, setSearchFormValue] = useState("");
@@ -28,12 +52,6 @@ export default function App() {
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
-
-  const [isProcessLoading, setIsProcessLoading] = useState(false);
-  const [errorMessages, setErrorMessages] = useState({
-    registrationResponse: "",
-    moviesResponse: "",
-  });
 
   const navigate = useNavigate();
 
@@ -84,6 +102,18 @@ export default function App() {
     setIsFilterCheckboxChecked(checked);
   }
 
+  // If user has an error, while signing up/in, and then goes to another page,
+  // this effect guarantees that an error above submit button will be cleared out
+  useEffect(() => {
+    if (!isCurrentUserLoggedIn) {
+      setErrorMessages({
+        registrationResponse: "",
+        authorizationResponse: "",
+        moviesResponse: "",
+      });
+    }
+  }, [navigate]);
+
   useEffect(() => {
     setMovies(JSON.parse(localStorage.getItem("movies")) || []);
     setSearchFormValue("" || localStorage.getItem("searchRequest"));
@@ -122,6 +152,73 @@ export default function App() {
         setIsProcessLoading(false);
       });
   }
+
+  // Users' authorization
+  const handleLoginOn = () => setIsCurrentUserLoggedIn(true);
+
+  function handleUserAuthorization({ email, password }) {
+    setIsProcessLoading(true);
+
+    authorizeUser(email, password)
+      .then((res) => {
+        if (res.ok) {
+          setErrorMessages({ authorizationResponse: "" });
+          return res.json();
+        } else {
+          setErrorMessages({
+            authorizationResponse:
+              res.status === 500
+                ? "На сервере произошла ошибка"
+                : res.status === 401
+                ? "Вы ввели неправильный логин или пароль"
+                : "При авторизации произошла ошибка",
+          });
+        }
+      })
+      .then(({ token }) => {
+        if (token) {
+          localStorage.setItem("jwt", token);
+          return token;
+        }
+      })
+      .then((jwt) => {
+        if (jwt) {
+          handleLoginOn();
+          navigate("/movies", { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка в процессе авторизации пользователя на сайте: ${err}`
+        );
+      })
+      .finally(() => {
+        setIsProcessLoading(false);
+      });
+  }
+
+  // Checking token
+  const checkToken = useCallback(() => {
+    const jwt = localStorage.getItem("jwt");
+
+    if (jwt) {
+      setIsAppLoading(true);
+      getContent(jwt)
+        .then(({ _id, email, name }) => {
+          setCurrentUser({ _id, email, name });
+          handleLoginOn();
+          navigate("/movies", { replace: true });
+        })
+        .catch((err) => {
+          console.log(
+            `Ошибка в процессе проверки токена пользователя и получения личных данных: ${err}`
+          );
+        })
+        .finally(() => setIsAppLoading(false));
+    }
+  }, []);
+
+  useEffect(() => checkToken(), []);
 
   // Sending search request to get cards with movies
   useEffect(() => {
@@ -176,56 +273,86 @@ export default function App() {
       });
   }, [isSearchRequestInProgress]);
 
+  if (isAppLoading) return null;
+
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <Header
-            toggleHamburgerMenu={toggleHamburgerMenu}
-            isModalWindowOpened={isModalWindowOpened}
-            isHamburgerMenuOpened={isHamburgerMenuOpened}
-            closeModalWindow={closeModalWindow}
-            closeHamburgerMenuOnOutsideAndNavClick={
-              closeHamburgerMenuOnOutsideAndNavClick
+    <CurrentUserContext.Provider value={currentUser}>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Header
+              isCurrentUserLoggedIn={isCurrentUserLoggedIn}
+              toggleHamburgerMenu={toggleHamburgerMenu}
+              isModalWindowOpened={isModalWindowOpened}
+              isHamburgerMenuOpened={isHamburgerMenuOpened}
+              closeModalWindow={closeModalWindow}
+              closeHamburgerMenuOnOutsideAndNavClick={
+                closeHamburgerMenuOnOutsideAndNavClick
+              }
+            />
+          }
+        >
+          <Route index element={<Main />} />
+          <Route
+            path="/movies"
+            element={
+              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                <Movies
+                  movies={movies}
+                  onSearch={searchMovie}
+                  searchFormValue={searchFormValue}
+                  setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+                  isUserSearching={isUserSearching}
+                  onFilter={toggleFilterCheckbox}
+                  isFilterCheckboxChecked={isFilterCheckboxChecked}
+                  onLoad={isProcessLoading}
+                  error={errorMessages}
+                />
+              </ProtectedRoute>
             }
           />
-        }
-      >
-        <Route index element={<Main />} />
+          <Route
+            path="/saved-movies"
+            element={
+              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                <SavedMovies />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                <Profile setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn} />
+              </ProtectedRoute>
+            }
+          />
+        </Route>
+
         <Route
-          path="/movies"
+          path="/signup"
           element={
-            <Movies
-              movies={movies}
-              onSearch={searchMovie}
-              searchFormValue={searchFormValue}
-              setIsSearchRequestInProgress={setIsSearchRequestInProgress}
-              isUserSearching={isUserSearching}
-              onFilter={toggleFilterCheckbox}
-              isFilterCheckboxChecked={isFilterCheckboxChecked}
+            <Register
+              onRegistration={handleUserRegistration}
               onLoad={isProcessLoading}
               error={errorMessages}
             />
           }
         />
-        <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile />} />
-      </Route>
+        <Route
+          path="/signin"
+          element={
+            <Login
+              onAuthorization={handleUserAuthorization}
+              onLoad={isProcessLoading}
+              error={errorMessages}
+            />
+          }
+        />
 
-      <Route
-        path="/signup"
-        element={
-          <Register
-            onRegistration={handleUserRegistration}
-            onLoad={isProcessLoading}
-            error={errorMessages}
-          />
-        }
-      />
-      <Route path="/signin" element={<Login />} />
-
-      <Route path="*" element={<PageNotFound />} />
-    </Routes>
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+    </CurrentUserContext.Provider>
   );
 }

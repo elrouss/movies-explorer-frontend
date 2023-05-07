@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, Link, useMatch } from "react-router-dom";
+import { Outlet, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import useWindowDimensions from "../../hooks/useWindowDimensions.js";
@@ -10,20 +10,17 @@ import Navigation from "../Navigation/Navigation.js";
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu.js";
 
 function Header({
+  isCurrentUserLoggedIn,
   toggleHamburgerMenu,
   isModalWindowOpened,
   isHamburgerMenuOpened,
   closeModalWindow,
   closeHamburgerMenuOnOutsideAndNavClick,
 }) {
-  // ВРЕМЕННОЕ РЕШЕНИЕ ДЛЯ СТАТИЧНОЙ ВЕРСТКИ (НА 3-М ЭТАПЕ ПЕРЕДЕЛАТЬ ПОД АВТОРИЗАЦИЮ)
-  const href = useMatch({ path: `${window.location.pathname}`, end: false });
-  const isRootHref = href.pathnameBase === "/";
-
   const isMobileWidth = useWindowDimensions() <= 768;
 
   function renderHeaderMenu() {
-    if (!isRootHref && isMobileWidth) {
+    if (isMobileWidth) {
       return (
         <button
           className={`btn hamburger${
@@ -40,7 +37,7 @@ function Header({
       );
     }
 
-    if (isRootHref) {
+    if (!isCurrentUserLoggedIn) {
       return (
         <div className="header__auth">
           <Link className="link" to={"/signup"}>
@@ -80,6 +77,7 @@ function Header({
 }
 
 Header.propTypes = {
+  isCurrentUserLoggedIn: PropTypes.bool,
   toggleHamburgerMenu: PropTypes.func,
   isModalWindowOpened: PropTypes.bool,
   isHamburgerMenuOpened: PropTypes.bool,

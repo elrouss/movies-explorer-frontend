@@ -42,10 +42,13 @@ function Entry({
           <div className="entry__wrapper-btn">
             <span
               className={`error${
-                (error?.registrationResponse && " error_visible") || ""
+                ((error?.registrationResponse ||
+                  error?.authorizationResponse) &&
+                  " error_visible") ||
+                ""
               } error__server`}
             >
-              {error?.registrationResponse}
+              {error?.registrationResponse || error?.authorizationResponse}
             </span>
             <button
               className="btn btn-entry"
