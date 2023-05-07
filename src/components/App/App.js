@@ -30,8 +30,10 @@ export default function App() {
   const [isProcessLoading, setIsProcessLoading] = useState(false);
   const [errorMessages, setErrorMessages] = useState({
     registrationResponse: "",
+    authorizationResponse: "",
     moviesResponse: "",
   });
+  console.log(errorMessages);
 
   const [currentUser, setCurrentUser] = useState({
     _id: "",
@@ -100,6 +102,18 @@ export default function App() {
     setIsFilterCheckboxChecked(checked);
   }
 
+  // If user has an error, while signing up/in, and then goes to another page,
+  // this effect guarantees that an error above submit button will be cleared out
+  useEffect(() => {
+    if (!isCurrentUserLoggedIn) {
+      setErrorMessages({
+        registrationResponse: "",
+        authorizationResponse: "",
+        moviesResponse: "",
+      });
+    }
+  }, [navigate]);
+
   useEffect(() => {
     setMovies(JSON.parse(localStorage.getItem("movies")) || []);
     setSearchFormValue("" || localStorage.getItem("searchRequest"));
@@ -146,6 +160,27 @@ export default function App() {
     setIsProcessLoading(true);
 
     authorizeUser(email, password)
+      .then((res) => {
+        if (res.ok) {
+          setErrorMessages({ authorizationResponse: "" });
+          return res.json();
+        } else {
+          setErrorMessages({
+            authorizationResponse:
+              res.status === 500
+                ? "На сервере произошла ошибка"
+                : res.status === 401
+                ? "Вы ввели неправильный логин или пароль"
+                : "При авторизации произошла ошибка",
+          });
+        }
+      })
+      .then(({ token }) => {
+        if (token) {
+          localStorage.setItem("jwt", token);
+          return token;
+        }
+      })
       .then((jwt) => {
         if (jwt) {
           handleLoginOn();

@@ -4,12 +4,11 @@ import PropTypes from "prop-types";
 
 function Profile({ setIsCurrentUserLoggedIn }) {
   const navigate = useNavigate();
-  console.log(setIsCurrentUserLoggedIn)
 
   function loginOut() {
     localStorage.removeItem("jwt");
     navigate("/", { replace: true });
-    setIsCurrentUserLoggedIn (false);
+    setIsCurrentUserLoggedIn(false);
   }
 
   return (

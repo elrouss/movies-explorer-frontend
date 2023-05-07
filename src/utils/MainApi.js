@@ -17,16 +17,7 @@ export function authorizeUser(email, password) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.token) {
-        const { token } = data;
-        localStorage.setItem("jwt", token);
-
-        return token;
-      }
-    });
+  });
 }
 
 export function getContent(token) {
