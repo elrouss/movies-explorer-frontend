@@ -21,8 +21,14 @@ import PageNotFound from "../PageNotFound/PageNotFound.js";
 import { registerUser } from "../../utils/MainApi.js";
 import { authorizeUser } from "../../utils/MainApi.js";
 import { getContent } from "../../utils/MainApi.js";
+import { setUserInfo } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
+
+import {
+  VALIDATION_MESSAGES,
+  showDefaultError,
+} from "../../utils/validation.js";
 
 export default function App() {
   const [isAppLoading, setIsAppLoading] = useState(false);
@@ -31,9 +37,9 @@ export default function App() {
   const [errorMessages, setErrorMessages] = useState({
     registrationResponse: "",
     authorizationResponse: "",
+    updatingUserInfoResponse: "",
     moviesResponse: "",
   });
-  console.log(errorMessages);
 
   const [currentUser, setCurrentUser] = useState({
     _id: "",
@@ -130,16 +136,16 @@ export default function App() {
     registerUser(email, password, name)
       .then((res) => {
         if (res.ok) {
-          navigate("/movies");
+          handleUserAuthorization({ email, password });
           setErrorMessages({ registrationResponse: "" });
         } else {
           setErrorMessages({
             registrationResponse:
               res.status === 500
-                ? "На сервере произошла ошибка"
+                ? VALIDATION_MESSAGES.backend[500]
                 : res.status === 409
-                ? "Пользователь с таким email уже существует"
-                : "При регистрации пользователя произошла ошибка",
+                ? VALIDATION_MESSAGES.backend[409]
+                : showDefaultError("регистрации пользователя"),
           });
         }
       })
@@ -168,10 +174,10 @@ export default function App() {
           setErrorMessages({
             authorizationResponse:
               res.status === 500
-                ? "На сервере произошла ошибка"
+                ? VALIDATION_MESSAGES.backend[500]
                 : res.status === 401
-                ? "Вы ввели неправильный логин или пароль"
-                : "При авторизации произошла ошибка",
+                ? VALIDATION_MESSAGES.backend[401]
+                : showDefaultError("авторизации"),
           });
         }
       })
@@ -219,6 +225,42 @@ export default function App() {
   }, []);
 
   useEffect(() => checkToken(), []);
+
+  function updateUserInfo({ email, name }) {
+    if (email === currentUser.email && name === currentUser.name) {
+      return;
+    } else {
+      setIsProcessLoading(true);
+
+      setUserInfo(email, name)
+        .then((res) => {
+          if (res.ok) {
+            setErrorMessages({ updatingUserInfoResponse: "" });
+            return res.json();
+          } else {
+            setErrorMessages({
+              updatingUserInfoResponse:
+                res.status === 500
+                  ? VALIDATION_MESSAGES.backend[500]
+                  : res.status === 409
+                  ? VALIDATION_MESSAGES.backend[409]
+                  : showDefaultError("обновлении профиля"),
+            });
+          }
+        })
+        .then((data) => {
+          if (data) setCurrentUser(data);
+        })
+        .catch((err) => {
+          console.log(
+            `Ошибка в процессе редактирования данных пользователя: ${err}`
+          );
+        })
+        .finally(() => {
+          setIsProcessLoading(false);
+        });
+    }
+  }
 
   // Sending search request to get cards with movies
   useEffect(() => {
@@ -324,7 +366,12 @@ export default function App() {
             path="/profile"
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <Profile setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn} />
+                <Profile
+                  setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn}
+                  onUpdate={updateUserInfo}
+                  onLoad={isProcessLoading}
+                  error={errorMessages}
+                />
               </ProtectedRoute>
             }
           />

@@ -8,6 +8,7 @@ import Input from "../Input/Input.js";
 import useFormWithValidation from "../../hooks/useFormWithValidation.js";
 
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from "../../utils/constants.js";
+import { VALIDATION_MESSAGES } from "../../utils/validation.js";
 
 function Login({ onAuthorization, onLoad, error }) {
   const { values, errors, isValid, handleChange } = useFormWithValidation();
@@ -45,7 +46,7 @@ function Login({ onAuthorization, onLoad, error }) {
         onChange={handleChange}
         pattern={EMAIL_PATTERN}
         errorCondition={errors?.email}
-        errorMessage={"Требуется ввести электронный адрес"}
+        errorMessage={VALIDATION_MESSAGES.frontend.email}
       />
       <Input
         htmlFor={"password"}
@@ -58,9 +59,7 @@ function Login({ onAuthorization, onLoad, error }) {
         onChange={handleChange}
         pattern={PASSWORD_PATTERN}
         errorCondition={errors?.password}
-        errorMessage={
-          "Пароль должен быть мин. из 8 симв., включать латиницу, цифру и спецсимвол"
-        }
+        errorMessage={VALIDATION_MESSAGES.frontend.password}
       />
       <p className="entry__paragraph">
         Ещё не зарегистрированы?&nbsp;

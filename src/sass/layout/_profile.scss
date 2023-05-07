@@ -1,7 +1,10 @@
 .profile {
+  @extend %flex-column;
+
   &__wrapper {
     @extend %flex-column;
-    margin-top: 74px;
+    width: 410px;
+    margin-top: 71px;
 
     @media screen and (max-width: $media-desktop) {
       margin-top: calc(
@@ -10,14 +13,20 @@
     }
 
     @media screen and (max-width: $media-mobile-l) {
+      width: 260px;
       margin-top: 70px;
     }
+  }
+
+  &__wrapper-btn {
+    @extend %flex-column;
+    justify-content: flex-end;
+    min-height: 71px;
   }
 
   &__heading {
     $font-size: 2.4rem;
 
-    max-width: 204px;
     margin: 0;
     padding-bottom: 123px;
 
@@ -36,7 +45,7 @@
     }
 
     @media screen and (max-width: $media-mobile-l) {
-      padding-bottom: 79px;
+      padding-bottom: 77px;
     }
   }
 
@@ -63,16 +72,16 @@
     row-gap: 17px;
     width: inherit;
     margin: 0;
-    padding: 0 0 220px;
+    padding: 0 0 140px;
 
     border: none;
 
     @media screen and (max-width: $media-desktop) {
-      padding-bottom: 212px;
+      padding-bottom: 129px;
     }
 
     @media screen and (max-width: $media-mobile-l) {
-      padding-bottom: 48.7vh;
+      padding-bottom: 38.2vh;
     }
   }
 
@@ -84,6 +93,10 @@
     &:first-child {
       padding-bottom: 16px;
       @include border-bottom($color: $color-border-dark);
+    }
+
+    &:last-child {
+      min-height: 54px;
     }
   }
 
@@ -120,5 +133,9 @@
 
     @extend %input;
     box-sizing: border-box;
+
+    &:last-of-type {
+      padding-bottom: 3px;
+    }
   }
 }
