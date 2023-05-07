@@ -11,17 +11,15 @@ import { EMAIL_PATTERN, USERNAME_PATTERN } from "../../utils/constants";
 function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
   // TODO: вынести ошибки инпутов в константы
   const navigate = useNavigate();
-  console.log(error)
 
   const currentUser = useContext(CurrentUserContext);
   const { email, name } = currentUser;
 
-  const { values, setValues, errors, isValid, setIsValid, handleChange } =
+  const { values, setValues, errors, isValid, handleChange } =
     useFormWithValidation();
 
   useEffect(() => {
     setValues({ email, name });
-    setIsValid(true);
   }, []);
 
   function handleSubmit(evt) {
@@ -87,7 +85,7 @@ function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
               <span
                 className={`error${
                   ((errors?.email || errors?.name) && " error_visible") || ""
-                }`}
+                } error__server`}
               >
                 {errors?.name &&
                   "Имя должно быть от 2 до 30 симв., содержать только буквы, дефис или пробел\n"}
@@ -103,15 +101,15 @@ function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
             >
               {error?.updatingUserInfoResponse}
             </span>
+            <button
+              className="btn btn-profile"
+              type="submit"
+              aria-label="Редактирование данных профиля"
+              disabled={!isValid || onLoad}
+            >
+              {onLoad ? "Сохранение..." : "Редактировать"}
+            </button>
           </div>
-          <button
-            className="btn btn-profile"
-            type="submit"
-            aria-label="Редактирование данных профиля"
-            disabled={!isValid || onLoad}
-          >
-            {onLoad ? "Сохранение..." : "Редактировать"}
-          </button>
         </form>
         <button
           className="btn btn-profile-exit"
