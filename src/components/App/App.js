@@ -4,6 +4,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Register from "../Register/Register.js";
 import Login from "../Login/Login.js";
 
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute.js";
+
 import Header from "../Header/Header.js";
 
 import Main from "../Main/Main.js";
@@ -17,11 +19,16 @@ import PageNotFound from "../PageNotFound/PageNotFound.js";
 import { registerUser } from "../../utils/MainApi.js";
 import { getMovies } from "../../utils/MoviesApi.js";
 
-import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
+// import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 export default function App() {
   // TODO: проверить правильно подключения контекста
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState({
+    email: "",
+    password: "",
+    name: "",
+    isLoggedIn: true,
+  });
 
   const [movies, setMovies] = useState([]);
 
@@ -197,11 +204,12 @@ export default function App() {
           />
         }
       >
-        <CurrentUserContext.Provider value={currentUser}>
-          <Route index element={<Main />} />
-          <Route
-            path="/movies"
-            element={
+        {/* <CurrentUserContext.Provider value={currentUser}> */}
+        <Route index element={<Main />} />
+        <Route
+          path="/movies"
+          element={
+            <ProtectedRoute isUserLoggedIn={currentUser.isLoggedIn}>
               <Movies
                 movies={movies}
                 onSearch={searchMovie}
@@ -213,11 +221,26 @@ export default function App() {
                 onLoad={isProcessLoading}
                 error={errorMessages}
               />
-            }
-          />
-          <Route path="/saved-movies" element={<SavedMovies />} />
-          <Route path="/profile" element={<Profile />} />
-        </CurrentUserContext.Provider>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/saved-movies"
+          element={
+            <ProtectedRoute isUserLoggedIn={currentUser.isLoggedIn}>
+              <SavedMovies />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute isUserLoggedIn={currentUser.isLoggedIn}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        {/* </CurrentUserContext.Provider> */}
       </Route>
 
       <Route
