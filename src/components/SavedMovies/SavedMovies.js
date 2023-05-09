@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import SearchForm from "../SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList.js";
 import Footer from "../Footer/Footer.js";
 
-function SavedMovies() {
+function SavedMovies({ movies }) {
   const icon = (
     <svg
       width="8"
@@ -26,11 +27,15 @@ function SavedMovies() {
     <>
       <main>
         <SearchForm />
-        <MoviesCardList icon={icon} />
+        <MoviesCardList movies={movies} icon={icon} />
       </main>
       <Footer />
     </>
   );
 }
+
+SavedMovies.propTypes = {
+  movies: PropTypes.array,
+};
 
 export default SavedMovies;

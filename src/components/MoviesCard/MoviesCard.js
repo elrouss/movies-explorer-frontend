@@ -1,15 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function MoviesCard({
-  movie: {
+function MoviesCard({ movie, icon, onMovieLike }) {
+  const {
     nameRU,
     duration,
     trailerLink,
-    image: { url },
-  },
-  icon,
-}) {
+    image,
+  } = movie;
+
   function countTime(duration) {
     const time = duration / 60;
     const hours = Math.floor(time);
@@ -21,7 +20,7 @@ function MoviesCard({
   }
 
   // TODO: ДЛЯ СТАТИЧНОГО МАКЕТА
-  let isFavouriteCard = false;
+  // let isFavouriteCard = false;
 
   return (
     <article className="movies-card">
@@ -30,11 +29,13 @@ function MoviesCard({
         <span className="movies-card__duration">{countTime(duration)}</span>
       </div>
       <button
-        className={`btn movies-card__btn-favourite${
-          (isFavouriteCard && " movies-card__btn-favourite_active") || ""
-        }`}
+        // className={`btn movies-card__btn-favourite${
+        //   (isFavouriteCard && " movies-card__btn-favourite_active") || ""
+        // }`}
+        className={`btn movies-card__btn-favourite`}
         type="button"
         aria-label="Добавление карточки с фильмом в избранные"
+        onClick={(evt) => onMovieLike(evt, movie)}
       >
         {icon}
       </button>
@@ -46,8 +47,8 @@ function MoviesCard({
       >
         <img
           className="movies-card__photo"
-          src={`https://api.nomoreparties.co/${url}`}
-          alt={`Карточка с фильмом, называющимся "${nameRU}"`}
+          src={image?.url && `https://api.nomoreparties.co${image?.url}` || image}
+          alt={`Постер фильма "${nameRU}"`}
         />
       </a>
     </article>
@@ -56,12 +57,8 @@ function MoviesCard({
 
 MoviesCard.propTypes = {
   movie: PropTypes.object,
-  nameRU: PropTypes.string,
-  duration: PropTypes.number,
-  trailerLink: PropTypes.string,
-  image: PropTypes.object,
-  url: PropTypes.string,
   icon: PropTypes.element,
+  onMovieLike: PropTypes.func,
 };
 
 export default MoviesCard;

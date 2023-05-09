@@ -24,6 +24,8 @@ import { getContent } from "../../utils/MainApi.js";
 import { setUserInfo } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
+import { getSavedMovies } from "../../utils/MainApi.js";
+import { handleMovie } from "../../utils/MainApi.js";
 
 import {
   VALIDATION_MESSAGES,
@@ -31,6 +33,7 @@ import {
 } from "../../utils/validation.js";
 
 export default function App() {
+  // TODO: исправить баг, когда пользователь выходит из ЛК и входит снова (нет перерисовки -> useEffect?)
   const [isAppLoading, setIsAppLoading] = useState(false);
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
@@ -49,6 +52,8 @@ export default function App() {
   const [isCurrentUserLoggedIn, setIsCurrentUserLoggedIn] = useState(false);
 
   const [movies, setMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  console.log(savedMovies)
 
   const [searchFormValue, setSearchFormValue] = useState("");
   const [isFilterCheckboxChecked, setIsFilterCheckboxChecked] = useState(false);
@@ -295,7 +300,7 @@ export default function App() {
         localStorage.setItem("searchRequest", searchFormValue || "");
         localStorage.setItem(
           "isFilterCheckboxChecked",
-          JSON.stringify(isFilterCheckboxChecked)
+          JSON.stringify(isFilterCheckboxChecked || false)
         );
         localStorage.setItem(
           "movies",
@@ -314,6 +319,42 @@ export default function App() {
         setIsSearchRequestInProgress(false);
       });
   }, [isSearchRequestInProgress]);
+
+  // Showing saved movies
+  useEffect(() => {
+    getSavedMovies(currentUser._id)
+      .then((movies) => {
+        if (movies.length) setSavedMovies(movies);
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка в процессе загрузки фильмов, сохраненных пользователем: ${err}`
+        );
+      });
+  }, []);
+
+  function handleMovieLike({ target }, movie) {
+    const btn = target.closest(".movies-card__btn-favourite");
+
+    if (!btn) return;
+
+    btn.classList.contains("movies-card__btn-favourite_active")
+      ? btn.classList.remove("movies-card__btn-favourite_active")
+      : btn.classList.add("movies-card__btn-favourite_active");
+
+    handleMovie(movie)
+      .then((res) => {
+        if (res) console.log(res);
+        // setMovies((state) =>
+        //   state.map((c) => (c._id === card._id ? cardLike : c))
+        // );
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка в процессе добавления/снятия лайка карточки в галерее: ${err}`
+        );
+      });
+  }
 
   if (isAppLoading) return null;
 
@@ -348,6 +389,7 @@ export default function App() {
                   isUserSearching={isUserSearching}
                   onFilter={toggleFilterCheckbox}
                   isFilterCheckboxChecked={isFilterCheckboxChecked}
+                  onMovieLike={handleMovieLike}
                   onLoad={isProcessLoading}
                   error={errorMessages}
                 />
@@ -358,7 +400,7 @@ export default function App() {
             path="/saved-movies"
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <SavedMovies />
+                <SavedMovies movies={savedMovies} />
               </ProtectedRoute>
             }
           />

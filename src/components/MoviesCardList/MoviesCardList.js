@@ -14,10 +14,12 @@ import {
 function MoviesCardList({
   movies,
   icon,
+  onMovieLike,
   onLoad,
   isUserSearching,
-  error: { moviesResponse },
+  error,
 }) {
+
   const windowWidth = useWindowDimensions();
   const isDesktop = windowWidth > LAPTOP_SCREEN_WIDTH;
   const isTablet =
@@ -74,13 +76,16 @@ function MoviesCardList({
     }
   }, [windowWidth]);
 
-  const { length: moviesLength } = movies;
-
   function renderCards() {
     return (
       <div className="movies-gallery__movies">
-        {movies.slice(0, visibleCards).map((movie) => (
-          <MoviesCard key={movie.id} movie={movie} icon={icon} />
+        {movies?.length && movies.slice(0, visibleCards).map((movie) => (
+          <MoviesCard
+            key={movie.id || movie.movieId}
+            movie={movie}
+            icon={icon}
+            onMovieLike={onMovieLike}
+          />
         ))}
       </div>
     );
@@ -101,12 +106,12 @@ function MoviesCardList({
   function renderResults() {
     if (onLoad) return <Preloader />;
 
-    if (isUserSearching && !moviesLength && !moviesResponse) {
+    if (isUserSearching && !movies?.length && !error?.moviesResponse) {
       return <p className="paragraph">Ничего не найдено</p>;
     }
 
-    if (isUserSearching && !moviesLength && moviesResponse) {
-      return <p className="paragraph paragraph_type_error">{moviesResponse}</p>;
+    if (isUserSearching && !movies?.length && error?.moviesResponse) {
+      return <p className="paragraph paragraph_type_error">{error?.moviesResponse}</p>;
     }
 
     return renderCards();
@@ -120,7 +125,7 @@ function MoviesCardList({
       <div className="wrapper movies-gallery__wrapper">
         {renderResults()}
 
-        {visibleCards < moviesLength && (
+        {visibleCards < movies?.length && (
           <button
             className="btn movies-gallery__btn-more"
             type="button"
@@ -137,6 +142,7 @@ function MoviesCardList({
 
 MoviesCardList.propTypes = {
   icon: PropTypes.element,
+  onMovieLike: PropTypes.func,
   movies: PropTypes.array,
   onLoad: PropTypes.bool,
   isUserSearching: PropTypes.bool,

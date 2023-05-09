@@ -13,6 +13,7 @@ function Movies({
   isUserSearching,
   onFilter,
   isFilterCheckboxChecked,
+  onMovieLike,
   onLoad,
   error,
 }) {
@@ -44,6 +45,7 @@ function Movies({
         <MoviesCardList
           movies={movies}
           icon={icon}
+          onMovieLike={onMovieLike}
           onLoad={onLoad}
           isUserSearching={isUserSearching}
           error={error}
@@ -62,6 +64,7 @@ Movies.propTypes = {
   isUserSearching: PropTypes.bool,
   onFilter: PropTypes.func,
   isFilterCheckboxChecked: PropTypes.bool,
+  onMovieLike: PropTypes.func,
   onLoad: PropTypes.bool,
   error: PropTypes.object,
 };
