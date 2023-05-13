@@ -12,7 +12,7 @@ import {
 } from "../../utils/constants";
 
 function MoviesCardList({
-  filteredMovies,
+  movies,
   icon,
   onMovieSelect,
   onLoad,
@@ -78,8 +78,8 @@ function MoviesCardList({
   function renderCards() {
     return (
       <div className="movies-gallery__movies">
-        {(filteredMovies?.length &&
-          filteredMovies
+        {(movies?.length &&
+          movies
             .slice(0, visibleCards)
             .map((movie) => (
               <MoviesCard
@@ -109,11 +109,11 @@ function MoviesCardList({
   function renderResults() {
     if (onLoad) return <Preloader />;
 
-    if (hasUserSearched && !filteredMovies?.length && !error?.moviesResponse) {
+    if (hasUserSearched && !movies?.length && !error?.moviesResponse) {
       return <p className="paragraph">Ничего не найдено</p>;
     }
 
-    if (hasUserSearched && !filteredMovies?.length && error?.moviesResponse) {
+    if (hasUserSearched && !movies?.length && error?.moviesResponse) {
       return (
         <p className="paragraph paragraph_type_error">
           {error?.moviesResponse}
@@ -132,7 +132,7 @@ function MoviesCardList({
       <div className="wrapper movies-gallery__wrapper">
         {renderResults()}
 
-        {visibleCards < filteredMovies?.length && (
+        {visibleCards < movies?.length && (
           <button
             className="btn movies-gallery__btn-more"
             type="button"
@@ -150,7 +150,7 @@ function MoviesCardList({
 MoviesCardList.propTypes = {
   icon: PropTypes.element,
   onMovieSelect: PropTypes.func,
-  filteredMovies: PropTypes.array,
+  movies: PropTypes.array,
   onLoad: PropTypes.bool,
   hasUserSearched: PropTypes.bool,
   error: PropTypes.object,

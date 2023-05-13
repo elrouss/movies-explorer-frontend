@@ -6,7 +6,7 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 
 function Movies({
-  filteredMovies,
+  movies,
   onSearch,
   setIsSearchRequestInProgress,
   searchFormValue,
@@ -43,7 +43,7 @@ function Movies({
           isFilterCheckboxChecked={isFilterCheckboxChecked}
         />
         <MoviesCardList
-          filteredMovies={filteredMovies}
+          movies={movies}
           icon={icon}
           onMovieSelect={onMovieSelect}
           onLoad={onLoad}
@@ -57,7 +57,7 @@ function Movies({
 }
 
 Movies.propTypes = {
-  filteredMovies: PropTypes.array,
+  movies: PropTypes.array,
   onSearch: PropTypes.func,
   setIsSearchRequestInProgress: PropTypes.func,
   searchFormValue: PropTypes.string,

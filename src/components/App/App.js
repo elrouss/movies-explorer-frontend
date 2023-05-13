@@ -26,7 +26,6 @@ import { setUserInfo } from "../../utils/MainApi.js";
 import { getMovies } from "../../utils/MoviesApi.js";
 import { getSavedMovies } from "../../utils/MainApi.js";
 import { handleMovieServer } from "../../utils/MainApi.js";
-// import { handleMovieSaving } from "../../utils/MainApi.js";
 
 import {
   VALIDATION_MESSAGES,
@@ -34,10 +33,10 @@ import {
 } from "../../utils/validation.js";
 
 export default function App() {
-  // При первом запросе в поисковике сохранять все карточки с сервера в стейт movies, добавлять в localStorage и работать с ним
+  // При первом запросе в поисковике сохранять все карточки с сервера в стейт movies, добавлять в localStorage и работать с ним +
   // Оставить стейт filteredMovies, который будет находиться в localStorage и отображать текущие отфильтрованные карточки на странице (ключевое слово и длина)
-  // При лайке/дизлайке добавлять/удалять дополнительное свойство в массиве "isSelected" и отправлять POST и DEL запросы на сервер
-  // Для DEL нужнен id карточки из БД (отдавать в ответе сервера при POST-запросе и добавлять property вида db: _id)
+  // При лайке/дизлайке добавлять/удалять дополнительное свойство в массиве "isSelected" и отправлять POST и DEL запросы на сервер +
+  // Для DEL нужнен id карточки из БД (отдавать в ответе сервера при POST-запросе и добавлять property вида db: _id) +
   // При переходе на защищенный роут при авторизации (нужно будет, чтобы сверять с получаемым массивом с чужого API) и "Сохраненные" делать GET запрос (useEffect) и сохранять в стейте SavedMovies
   // Если удаляю из savedMovies, то всегда сверяются с массивом movies для корректного отображения лайков и post/del запросов
 
@@ -460,19 +459,26 @@ export default function App() {
       );
   }
 
-  // useEffect(() => {
-  //   if (!pathSavedMovies) return;
+  useEffect(() => {
+    if (!pathSavedMovies) return;
 
-  //   handleMovieSaving(savedMoviesLocal)
-  // .then((res) => {console.log(res)})
-  // .catch((err) => {
-  //   console.log(
-  //     `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
-  //   );
-  // });
-  // }, [pathSavedMovies]);
+    setIsProcessLoading(true);
+
+    getSavedMovies()
+      .then((data) => {
+        setSavedMoviesServer(data);
+        localStorage.setItem("saved-movies", JSON.stringify(data))
+      })
+      .catch((err) => {
+        console.log(
+          `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
+        );
+      })
+      .finally(() => setIsProcessLoading(false));
+  }, [pathSavedMovies]);
 
   if (isAppLoading) return null;
+  console.log(savedMoviesServer)
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -498,7 +504,7 @@ export default function App() {
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
                 <Movies
-                  filteredMovies={filteredMovies}
+                  movies={filteredMovies}
                   onSearch={searchMovie}
                   searchFormValue={searchFormValue}
                   setIsSearchRequestInProgress={setIsSearchRequestInProgress}
