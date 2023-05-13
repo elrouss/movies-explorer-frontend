@@ -33,13 +33,6 @@ import {
 } from "../../utils/validation.js";
 
 export default function App() {
-  // При первом запросе в поисковике сохранять все карточки с сервера в стейт movies, добавлять в localStorage и работать с ним +
-  // Оставить стейт filteredMovies, который будет находиться в localStorage и отображать текущие отфильтрованные карточки на странице (ключевое слово и длина)
-  // При лайке/дизлайке добавлять/удалять дополнительное свойство в массиве "isSelected" и отправлять POST и DEL запросы на сервер +
-  // Для DEL нужнен id карточки из БД (отдавать в ответе сервера при POST-запросе и добавлять property вида db: _id) +
-  // При переходе на защищенный роут при авторизации (нужно будет, чтобы сверять с получаемым массивом с чужого API) и "Сохраненные" делать GET запрос (useEffect) и сохранять в стейте SavedMovies
-  // Если удаляю из savedMovies, то всегда сверяются с массивом movies для корректного отображения лайков и post/del запросов
-
   // TODO: исправить баг, когда пользователь выходит из ЛК и входит снова (нет перерисовки -> useEffect?)
   const [isAppLoading, setIsAppLoading] = useState(false);
 
@@ -60,7 +53,6 @@ export default function App() {
 
   const [allMovies, setAllMovies] = useState([]);
   const [filteredMovies, setFilteredMovies] = useState([]);
-  // const [savedMoviesLocal, setSavedMoviesLocal] = useState([]);
   const [savedMoviesServer, setSavedMoviesServer] = useState([]);
 
   const [searchFormValue, setSearchFormValue] = useState("");
@@ -157,23 +149,9 @@ export default function App() {
     setIsFilterCheckboxChecked(
       false || JSON.parse(getLocalStorageData("isFilterCheckboxChecked"))
     );
+
+    loadSavedMoviesFromServer();
   }, []);
-
-  // useEffect(() => {
-  //   if (movies.length) {
-  //     for (let movie of movies) {
-  //       if (movie.like) {
-  //         setSavedMoviesLocal((prevMovies) => [...prevMovies, movie]);
-  //       }
-  //     }
-  //   } else {
-  //     return;
-  //   }
-  // }, [movies]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("savedMovies", JSON.stringify(savedMoviesLocal));
-  // }, [savedMoviesLocal]);
 
   // API
   // Users' registration
@@ -303,9 +281,7 @@ export default function App() {
             `Ошибка в процессе редактирования данных пользователя: ${err}`
           );
         })
-        .finally(() => {
-          setIsProcessLoading(false);
-        });
+        .finally(() => setIsProcessLoading(false));
     }
   }
 
@@ -317,8 +293,25 @@ export default function App() {
 
     getMovies()
       .then((movies) => {
-        setAllMovies(movies);
-        filterMovies(movies);
+        const synchronizeDataWithServer = (data) => {
+          const ids = [];
+
+          for (let savedMovie of savedMoviesServer) {
+            ids.push(savedMovie.movieId);
+          }
+
+          for (let movie of data) {
+            if (ids.includes(movie.id)) {
+              movie.dbId = data._id;
+              movie.selected = true;
+            }
+          }
+
+          return data;
+        };
+
+        setAllMovies(synchronizeDataWithServer(movies));
+        filterMovies(synchronizeDataWithServer(movies));
       })
       .catch(() =>
         setErrorMessages({
@@ -387,21 +380,6 @@ export default function App() {
     filterMovies();
   }, [isSearchRequestInProgress]);
 
-  // Showing saved movies
-  // useEffect(() => {
-  //   getSavedMovies()
-  //     .then((movies) => setSavedMoviesServer(movies))
-  //     .catch((err) => {
-  //       console.log(
-  //         `Ошибка в процессе загрузки фильмов, сохраненных пользователем: ${err}`
-  //       );
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-
-  // }, [isSearchRequestInProgress])
-
   function handleMovieSelected({ target }, movie) {
     const btn = target.closest(".movies-card__btn-favourite");
 
@@ -415,8 +393,6 @@ export default function App() {
           source = item.id;
 
           if (item.selected) {
-            // const index = savedMoviesLocal.indexOf(item);
-
             btn.classList.remove("movies-card__btn-favourite_active");
             item.selected = false;
 
@@ -426,13 +402,9 @@ export default function App() {
                 break;
               }
             }
-
-            // setSavedMoviesLocal((movies) => movies.filter((_, i) => i !== index));
           } else {
             btn.classList.add("movies-card__btn-favourite_active");
             item.selected = true;
-
-            // setSavedMoviesLocal((prevMovies) => [...prevMovies, item]);
 
             for (let filteredMovie of filteredMovies) {
               if (filteredMovie.id === source) {
@@ -459,7 +431,6 @@ export default function App() {
             if (item.id === movie.movieId) {
               source = item.id;
 
-              // btn.classList.remove("movies-card__btn-favourite_active");
               item.dbId = null;
               item.selected = false;
 
@@ -497,9 +468,7 @@ export default function App() {
       );
   }
 
-  useEffect(() => {
-    if (!pathSavedMovies) return;
-
+  function loadSavedMoviesFromServer() {
     setIsProcessLoading(true);
 
     getSavedMovies()
@@ -510,6 +479,12 @@ export default function App() {
         );
       })
       .finally(() => setIsProcessLoading(false));
+  }
+
+  useEffect(() => {
+    if (!pathSavedMovies) return;
+
+    loadSavedMoviesFromServer();
   }, [pathSavedMovies]);
 
   if (isAppLoading) return null;
