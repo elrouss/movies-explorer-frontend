@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import Preloader from "../Preloader/Preloader";
@@ -19,6 +20,9 @@ function MoviesCardList({
   hasUserSearched,
   error,
 }) {
+  const location = useLocation();
+  const pathMovies = location.pathname === "/movies";
+
   const windowWidth = useWindowDimensions();
   const isDesktop = windowWidth > LAPTOP_SCREEN_WIDTH;
   const isTablet =
@@ -76,19 +80,19 @@ function MoviesCardList({
   }, [windowWidth]);
 
   function renderCards() {
+    // If it /saved-movies, there will be last saved movies on the top of the gallery
+
     return (
       <div className="movies-gallery__movies">
         {(movies?.length &&
-          movies
-            .slice(0, visibleCards)
-            .map((movie) => (
-              <MoviesCard
-                key={movie.id || movie.movieId}
-                movie={movie}
-                icon={icon}
-                onMovieSelect={onMovieSelect}
-              />
-            ))) ||
+          (pathMovies ? movies.slice(0, visibleCards) : movies.slice().reverse()).map((movie) => (
+            <MoviesCard
+              key={movie.id || movie.movieId}
+              movie={movie}
+              icon={icon}
+              onMovieSelect={onMovieSelect}
+            />
+          ))) ||
           ""}
       </div>
     );
@@ -132,7 +136,7 @@ function MoviesCardList({
       <div className="wrapper movies-gallery__wrapper">
         {renderResults()}
 
-        {visibleCards < movies?.length && (
+        {visibleCards < movies?.length && pathMovies && (
           <button
             className="btn movies-gallery__btn-more"
             type="button"
