@@ -10,9 +10,10 @@ function Movies({
   onSearch,
   setIsSearchRequestInProgress,
   searchFormValue,
-  isUserSearching,
+  hasUserSearched,
   onFilter,
   isFilterCheckboxChecked,
+  onMovieSelect,
   onLoad,
   error,
 }) {
@@ -44,8 +45,9 @@ function Movies({
         <MoviesCardList
           movies={movies}
           icon={icon}
+          onMovieSelect={onMovieSelect}
           onLoad={onLoad}
-          isUserSearching={isUserSearching}
+          hasUserSearched={hasUserSearched}
           error={error}
         />
       </main>
@@ -59,9 +61,10 @@ Movies.propTypes = {
   onSearch: PropTypes.func,
   setIsSearchRequestInProgress: PropTypes.func,
   searchFormValue: PropTypes.string,
-  isUserSearching: PropTypes.bool,
+  hasUserSearched: PropTypes.bool,
   onFilter: PropTypes.func,
   isFilterCheckboxChecked: PropTypes.bool,
+  onMovieSelect: PropTypes.func,
   onLoad: PropTypes.bool,
   error: PropTypes.object,
 };

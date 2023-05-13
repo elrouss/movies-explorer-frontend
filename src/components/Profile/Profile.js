@@ -34,7 +34,7 @@ function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
   }
 
   function loginOut() {
-    localStorage.removeItem("jwt");
+    localStorage.clear();
     navigate("/", { replace: true });
     setIsCurrentUserLoggedIn(false);
   }

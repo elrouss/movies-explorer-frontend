@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 
 import Register from "../Register/Register.js";
 import Login from "../Login/Login.js";
@@ -24,6 +24,8 @@ import { getContent } from "../../utils/MainApi.js";
 import { setUserInfo } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
+import { getSavedMovies } from "../../utils/MainApi.js";
+import { handleMovieServer } from "../../utils/MainApi.js";
 
 import {
   VALIDATION_MESSAGES,
@@ -31,6 +33,7 @@ import {
 } from "../../utils/validation.js";
 
 export default function App() {
+  // TODO: исправить баг, когда пользователь выходит из ЛК и входит снова (нет перерисовки -> useEffect?)
   const [isAppLoading, setIsAppLoading] = useState(false);
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
@@ -48,18 +51,24 @@ export default function App() {
   });
   const [isCurrentUserLoggedIn, setIsCurrentUserLoggedIn] = useState(false);
 
-  const [movies, setMovies] = useState([]);
+  const [allMovies, setAllMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [savedMoviesServer, setSavedMoviesServer] = useState([]);
 
   const [searchFormValue, setSearchFormValue] = useState("");
   const [isFilterCheckboxChecked, setIsFilterCheckboxChecked] = useState(false);
-  const [isUserSearching, setisUserSearching] = useState(false);
   const [isSearchRequestInProgress, setIsSearchRequestInProgress] =
     useState(false);
+  const [hasUserSearched, setHasUserSearched] = useState(false);
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const pathMovies = location.pathname === "/movies";
+  const pathSavedMovies = location.pathname === "/saved-movies";
 
   function openModalWindow() {
     setIsModalWindowOpened(true);
@@ -121,11 +130,27 @@ export default function App() {
   }, [navigate]);
 
   useEffect(() => {
-    setMovies(JSON.parse(localStorage.getItem("movies")) || []);
-    setSearchFormValue("" || localStorage.getItem("searchRequest"));
-    setIsFilterCheckboxChecked(
-      false || JSON.parse(localStorage.getItem("isFilterCheckboxChecked"))
+    const getLocalStorageData = (key) => localStorage.getItem(key);
+
+    setAllMovies(
+      getLocalStorageData("all-movies")
+        ? JSON.parse(getLocalStorageData("all-movies"))
+        : []
     );
+
+    setFilteredMovies(
+      getLocalStorageData("filteredMovies")
+        ? JSON.parse(getLocalStorageData("filteredMovies"))
+        : []
+    );
+
+    setSearchFormValue("" || getLocalStorageData("searchRequest"));
+
+    setIsFilterCheckboxChecked(
+      false || JSON.parse(getLocalStorageData("isFilterCheckboxChecked"))
+    );
+
+    loadSavedMoviesFromServer();
   }, []);
 
   // API
@@ -256,51 +281,37 @@ export default function App() {
             `Ошибка в процессе редактирования данных пользователя: ${err}`
           );
         })
-        .finally(() => {
-          setIsProcessLoading(false);
-        });
+        .finally(() => setIsProcessLoading(false));
     }
   }
 
   // Sending search request to get cards with movies
   useEffect(() => {
-    if (!isSearchRequestInProgress) return;
+    if (!isSearchRequestInProgress || allMovies.length) return;
 
     setIsProcessLoading(true);
 
     getMovies()
       .then((movies) => {
-        const data = movies.filter(({ nameRU }) => {
-          const isCompliedWithSearchRequest = (data) =>
-            data
-              .toLowerCase()
-              .replace(/\s/g, "")
-              .includes(
-                searchFormValue.toLowerCase().trim().replace(/\s/g, "")
-              );
+        const synchronizeDataWithServer = (data) => {
+          const ids = [];
 
-          return isCompliedWithSearchRequest(nameRU);
-        });
+          for (let savedMovie of savedMoviesServer) {
+            ids.push(savedMovie.movieId);
+          }
 
-        // Fisher–Yates shuffle
-        for (let i = 0; i < data.length; i++) {
-          let j = Math.floor(Math.random() * (i + 1));
+          for (let movie of data) {
+            if (ids.includes(movie.id)) {
+              movie.dbId = data._id;
+              movie.selected = true;
+            }
+          }
 
-          [data[i], data[j]] = [data[j], data[i]];
-        }
+          return data;
+        };
 
-        setisUserSearching(true);
-        setMovies(data);
-
-        localStorage.setItem("searchRequest", searchFormValue || "");
-        localStorage.setItem(
-          "isFilterCheckboxChecked",
-          JSON.stringify(isFilterCheckboxChecked)
-        );
-        localStorage.setItem(
-          "movies",
-          data.length ? JSON.stringify(data) : null
-        );
+        setAllMovies(synchronizeDataWithServer(movies));
+        filterMovies(synchronizeDataWithServer(movies));
       })
       .catch(() =>
         setErrorMessages({
@@ -314,6 +325,167 @@ export default function App() {
         setIsSearchRequestInProgress(false);
       });
   }, [isSearchRequestInProgress]);
+
+  function saveDataInLocalStorage(data, serverData) {
+    localStorage.setItem("searchRequest", searchFormValue || "");
+
+    localStorage.setItem(
+      "isFilterCheckboxChecked",
+      JSON.stringify(isFilterCheckboxChecked || false)
+    );
+
+    localStorage.setItem(
+      "all-movies",
+      serverData || allMovies.length
+        ? JSON.stringify(serverData) || JSON.stringify(allMovies)
+        : []
+    );
+
+    localStorage.setItem(
+      "filteredMovies",
+      data.length ? JSON.stringify(data) : []
+    );
+  }
+
+  function filterMovies(serverData) {
+    const movies = allMovies.length ? allMovies : serverData;
+
+    const data = movies.filter(({ nameRU }) => {
+      const isCompliedWithSearchRequest = (data) =>
+        data
+          .toLowerCase()
+          .replace(/\s/g, "")
+          .includes(searchFormValue.toLowerCase().trim().replace(/\s/g, ""));
+
+      return isCompliedWithSearchRequest(nameRU);
+    });
+
+    // Fisher–Yates shuffle
+    for (let i = 0; i < data.length; i++) {
+      let j = Math.floor(Math.random() * (i + 1));
+
+      [data[i], data[j]] = [data[j], data[i]];
+    }
+
+    setHasUserSearched(true);
+    setFilteredMovies(data);
+    setIsSearchRequestInProgress(false);
+
+    return saveDataInLocalStorage(data, serverData);
+  }
+
+  useEffect(() => {
+    if (!isSearchRequestInProgress || !allMovies.length) return;
+
+    filterMovies();
+  }, [isSearchRequestInProgress]);
+
+  function handleMovieSelected({ target }, movie) {
+    const btn = target.closest(".movies-card__btn-favourite");
+
+    if (!btn) return;
+
+    if (pathMovies) {
+      let source;
+
+      for (let item of allMovies) {
+        if (item.id === movie.id) {
+          source = item.id;
+
+          if (item.selected) {
+            btn.classList.remove("movies-card__btn-favourite_active");
+            item.selected = false;
+
+            for (let filteredMovie of filteredMovies) {
+              if (filteredMovie.id === source) {
+                filteredMovie.selected = false;
+                break;
+              }
+            }
+          } else {
+            btn.classList.add("movies-card__btn-favourite_active");
+            item.selected = true;
+
+            for (let filteredMovie of filteredMovies) {
+              if (filteredMovie.id === source) {
+                filteredMovie.selected = true;
+                break;
+              }
+            }
+          }
+
+          break;
+        }
+      }
+    }
+
+    handleMovieServer(movie)
+      .then((res) => res.json())
+      .then(({ message }) => {
+        if (pathMovies) {
+          movie.dbId = message;
+        } else {
+          let source;
+
+          for (let item of allMovies) {
+            if (item.id === movie.movieId) {
+              source = item.id;
+
+              item.dbId = null;
+              item.selected = false;
+
+              for (let filteredMovie of filteredMovies) {
+                if (filteredMovie.id === source) {
+                  filteredMovie.dbId = null;
+                  filteredMovie.selected = false;
+                  break;
+                }
+              }
+
+              for (let i = 0; i < savedMoviesServer.length; i++) {
+                if (savedMoviesServer[i].movieId === source) {
+                  setSavedMoviesServer((movies) => [
+                    ...movies.slice(0, i),
+                    ...movies.slice(i + 1),
+                  ]);
+
+                  break;
+                }
+              }
+
+              break;
+            }
+          }
+        }
+
+        localStorage.setItem("all-movies", JSON.stringify(allMovies));
+        localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
+      })
+      .catch((err) =>
+        console.log(
+          `Ошибка в процессе добавления карточки в список избранных либо удаления${err}`
+        )
+      );
+  }
+
+  function loadSavedMoviesFromServer() {
+    setIsProcessLoading(true);
+
+    getSavedMovies()
+      .then((data) => setSavedMoviesServer(data))
+      .catch((err) => {
+        console.log(
+          `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
+        );
+      })
+      .finally(() => setIsProcessLoading(false));
+  }
+
+  useEffect(() => {
+    if (!pathSavedMovies) return;
+
+    loadSavedMoviesFromServer();
+  }, [pathSavedMovies]);
 
   if (isAppLoading) return null;
 
@@ -341,13 +513,14 @@ export default function App() {
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
                 <Movies
-                  movies={movies}
+                  movies={filteredMovies}
                   onSearch={searchMovie}
                   searchFormValue={searchFormValue}
                   setIsSearchRequestInProgress={setIsSearchRequestInProgress}
-                  isUserSearching={isUserSearching}
+                  hasUserSearched={hasUserSearched}
                   onFilter={toggleFilterCheckbox}
                   isFilterCheckboxChecked={isFilterCheckboxChecked}
+                  onMovieSelect={handleMovieSelected}
                   onLoad={isProcessLoading}
                   error={errorMessages}
                 />
@@ -358,7 +531,11 @@ export default function App() {
             path="/saved-movies"
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <SavedMovies />
+                <SavedMovies
+                  movies={savedMoviesServer}
+                  onMovieSelect={handleMovieSelected}
+                  onLoad={isProcessLoading}
+                />
               </ProtectedRoute>
             }
           />
