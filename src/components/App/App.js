@@ -75,6 +75,7 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const pathMovies = location.pathname === "/movies";
   const pathSavedMovies = location.pathname === "/saved-movies";
 
   function openModalWindow() {
@@ -406,48 +407,85 @@ export default function App() {
 
     if (!btn) return;
 
-    let source;
+    if (pathMovies) {
+      let source;
 
-    for (let item of allMovies) {
-      if (item.id === movie.id) {
-        source = item.id;
+      for (let item of allMovies) {
+        if (item.id === movie.id) {
+          source = item.id;
 
-        if (item.selected) {
-          // const index = savedMoviesLocal.indexOf(item);
+          if (item.selected) {
+            // const index = savedMoviesLocal.indexOf(item);
 
-          btn.classList.remove("movies-card__btn-favourite_active");
-          item.selected = false;
+            btn.classList.remove("movies-card__btn-favourite_active");
+            item.selected = false;
 
-          for (let filteredMovie of filteredMovies) {
-            if (filteredMovie.id === source) {
-              filteredMovie.selected = false;
-              break;
+            for (let filteredMovie of filteredMovies) {
+              if (filteredMovie.id === source) {
+                filteredMovie.selected = false;
+                break;
+              }
+            }
+
+            // setSavedMoviesLocal((movies) => movies.filter((_, i) => i !== index));
+          } else {
+            btn.classList.add("movies-card__btn-favourite_active");
+            item.selected = true;
+
+            // setSavedMoviesLocal((prevMovies) => [...prevMovies, item]);
+
+            for (let filteredMovie of filteredMovies) {
+              if (filteredMovie.id === source) {
+                filteredMovie.selected = true;
+                break;
+              }
             }
           }
 
-          // setSavedMoviesLocal((movies) => movies.filter((_, i) => i !== index));
-        } else {
-          btn.classList.add("movies-card__btn-favourite_active");
-          item.selected = true;
-
-          // setSavedMoviesLocal((prevMovies) => [...prevMovies, item]);
-
-          for (let filteredMovie of filteredMovies) {
-            if (filteredMovie.id === source) {
-              filteredMovie.selected = true;
-              break;
-            }
-          }
+          break;
         }
-
-        break;
       }
     }
 
     handleMovieServer(movie)
       .then((res) => res.json())
       .then(({ message }) => {
-        movie.dbId = message;
+        if (pathMovies) {
+          movie.dbId = message;
+        } else {
+          let source;
+
+          for (let item of allMovies) {
+            if (item.id === movie.movieId) {
+              source = item.id;
+
+              // btn.classList.remove("movies-card__btn-favourite_active");
+              item.dbId = null;
+              item.selected = false;
+
+              for (let filteredMovie of filteredMovies) {
+                if (filteredMovie.id === source) {
+                  filteredMovie.dbId = null;
+                  filteredMovie.selected = false;
+                  break;
+                }
+              }
+
+              for (let i = 0; i < savedMoviesServer.length; i++) {
+                if (savedMoviesServer[i].movieId === source) {
+                  setSavedMoviesServer((movies) => [
+                    ...movies.slice(0, i),
+                    ...movies.slice(i + 1),
+                  ]);
+
+                  break;
+                }
+              }
+
+              break;
+            }
+          }
+        }
 
         localStorage.setItem("all-movies", JSON.stringify(allMovies));
         localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
@@ -465,10 +503,7 @@ export default function App() {
     setIsProcessLoading(true);
 
     getSavedMovies()
-      .then((data) => {
-        setSavedMoviesServer(data);
-        localStorage.setItem("saved-movies", JSON.stringify(data))
-      })
+      .then((data) => setSavedMoviesServer(data))
       .catch((err) => {
         console.log(
           `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
@@ -478,7 +513,6 @@ export default function App() {
   }, [pathSavedMovies]);
 
   if (isAppLoading) return null;
-  console.log(savedMoviesServer)
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -522,7 +556,11 @@ export default function App() {
             path="/saved-movies"
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <SavedMovies movies={savedMoviesServer} />
+                <SavedMovies
+                  movies={savedMoviesServer}
+                  onMovieSelect={handleMovieSelected}
+                  onLoad={isProcessLoading}
+                />
               </ProtectedRoute>
             }
           />

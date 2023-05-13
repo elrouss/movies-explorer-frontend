@@ -45,7 +45,6 @@ export function setUserInfo(email, name) {
 
 // Movies
 export function getSavedMovies() {
-
   return fetch(`${BASE_URL_LOCAL}/movies`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -60,24 +59,25 @@ export function getSavedMovies() {
 }
 
 export function handleMovieServer(movie) {
-  const {
-    id: movieId,
-    country,
-    director,
-    duration,
-    year,
-    description,
-    trailerLink,
-    nameRU,
-    nameEN,
-    selected,
-  } = movie;
-
-  let { image } = movie;
-  let thumbnail = `https://api.nomoreparties.co${image.formats.thumbnail.url}`;
-  image = `https://api.nomoreparties.co${image.url}`;
+  const selected = movie?.selected;
 
   if (selected) {
+    const {
+      id: movieId,
+      country,
+      director,
+      duration,
+      year,
+      description,
+      trailerLink,
+      nameRU,
+      nameEN,
+    } = movie;
+
+    let { image } = movie;
+    let thumbnail = `https://api.nomoreparties.co${image.formats.thumbnail.url}`;
+    image = `https://api.nomoreparties.co${image.url}`;
+
     return fetch(`${BASE_URL_LOCAL}/movies`, {
       method: "POST",
       headers: {
@@ -99,7 +99,7 @@ export function handleMovieServer(movie) {
       }),
     });
   } else {
-    return fetch(`${BASE_URL_LOCAL}/movies/${movie.dbId}`, {
+    return fetch(`${BASE_URL_LOCAL}/movies/${movie.dbId || movie._id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

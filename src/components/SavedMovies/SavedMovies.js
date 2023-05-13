@@ -5,7 +5,7 @@ import SearchForm from "../SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList.js";
 import Footer from "../Footer/Footer.js";
 
-function SavedMovies({ movies }) {
+function SavedMovies({ movies, onMovieSelect, onLoad }) {
   const icon = (
     <svg
       width="8"
@@ -27,7 +27,12 @@ function SavedMovies({ movies }) {
     <>
       <main>
         <SearchForm />
-        <MoviesCardList movies={movies} icon={icon} />
+        <MoviesCardList
+          movies={movies}
+          icon={icon}
+          onMovieSelect={onMovieSelect}
+          onLoad={onLoad}
+        />
       </main>
       <Footer />
     </>
@@ -36,6 +41,8 @@ function SavedMovies({ movies }) {
 
 SavedMovies.propTypes = {
   movies: PropTypes.array,
+  onMovieSelect: PropTypes.func,
+  onLoad: PropTypes.bool,
 };
 
 export default SavedMovies;
