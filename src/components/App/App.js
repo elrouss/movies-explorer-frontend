@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useNavigate, useLocation } from "react-router-dom";
 
 import Register from "../Register/Register.js";
 import Login from "../Login/Login.js";
@@ -25,7 +25,8 @@ import { setUserInfo } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
 import { getSavedMovies } from "../../utils/MainApi.js";
-import { handleMovie } from "../../utils/MainApi.js";
+import { handleMovieServer } from "../../utils/MainApi.js";
+// import { handleMovieSaving } from "../../utils/MainApi.js";
 
 import {
   VALIDATION_MESSAGES,
@@ -33,6 +34,13 @@ import {
 } from "../../utils/validation.js";
 
 export default function App() {
+  // При первом запросе в поисковике сохранять все карточки с сервера в стейт movies, добавлять в localStorage и работать с ним
+  // Оставить стейт filteredMovies, который будет находиться в localStorage и отображать текущие отфильтрованные карточки на странице (ключевое слово и длина)
+  // При лайке/дизлайке добавлять/удалять дополнительное свойство в массиве "isSelected" и отправлять POST и DEL запросы на сервер
+  // Для DEL нужнен id карточки из БД (отдавать в ответе сервера при POST-запросе и добавлять property вида db: _id)
+  // При переходе на защищенный роут при авторизации (нужно будет, чтобы сверять с получаемым массивом с чужого API) и "Сохраненные" делать GET запрос (useEffect) и сохранять в стейте SavedMovies
+  // Если удаляю из savedMovies, то всегда сверяются с массивом movies для корректного отображения лайков и post/del запросов
+
   // TODO: исправить баг, когда пользователь выходит из ЛК и входит снова (нет перерисовки -> useEffect?)
   const [isAppLoading, setIsAppLoading] = useState(false);
 
@@ -51,20 +59,24 @@ export default function App() {
   });
   const [isCurrentUserLoggedIn, setIsCurrentUserLoggedIn] = useState(false);
 
-  const [movies, setMovies] = useState([]);
-  const [savedMovies, setSavedMovies] = useState([]);
-  console.log(savedMovies)
+  const [allMovies, setAllMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  // const [savedMoviesLocal, setSavedMoviesLocal] = useState([]);
+  const [savedMoviesServer, setSavedMoviesServer] = useState([]);
 
   const [searchFormValue, setSearchFormValue] = useState("");
   const [isFilterCheckboxChecked, setIsFilterCheckboxChecked] = useState(false);
-  const [isUserSearching, setisUserSearching] = useState(false);
   const [isSearchRequestInProgress, setIsSearchRequestInProgress] =
     useState(false);
+  const [hasUserSearched, setHasUserSearched] = useState(false);
 
   const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
   const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const pathSavedMovies = location.pathname === "/saved-movies";
 
   function openModalWindow() {
     setIsModalWindowOpened(true);
@@ -126,12 +138,42 @@ export default function App() {
   }, [navigate]);
 
   useEffect(() => {
-    setMovies(JSON.parse(localStorage.getItem("movies")) || []);
-    setSearchFormValue("" || localStorage.getItem("searchRequest"));
+    const getLocalStorageData = (key) => localStorage.getItem(key);
+
+    setAllMovies(
+      getLocalStorageData("all-movies")
+        ? JSON.parse(getLocalStorageData("all-movies"))
+        : []
+    );
+
+    setFilteredMovies(
+      getLocalStorageData("filteredMovies")
+        ? JSON.parse(getLocalStorageData("filteredMovies"))
+        : []
+    );
+
+    setSearchFormValue("" || getLocalStorageData("searchRequest"));
+
     setIsFilterCheckboxChecked(
-      false || JSON.parse(localStorage.getItem("isFilterCheckboxChecked"))
+      false || JSON.parse(getLocalStorageData("isFilterCheckboxChecked"))
     );
   }, []);
+
+  // useEffect(() => {
+  //   if (movies.length) {
+  //     for (let movie of movies) {
+  //       if (movie.like) {
+  //         setSavedMoviesLocal((prevMovies) => [...prevMovies, movie]);
+  //       }
+  //     }
+  //   } else {
+  //     return;
+  //   }
+  // }, [movies]);
+
+  // useEffect(() => {
+  //   localStorage.setItem("savedMovies", JSON.stringify(savedMoviesLocal));
+  // }, [savedMoviesLocal]);
 
   // API
   // Users' registration
@@ -269,43 +311,14 @@ export default function App() {
 
   // Sending search request to get cards with movies
   useEffect(() => {
-    if (!isSearchRequestInProgress) return;
+    if (!isSearchRequestInProgress || allMovies.length) return;
 
     setIsProcessLoading(true);
 
     getMovies()
       .then((movies) => {
-        const data = movies.filter(({ nameRU }) => {
-          const isCompliedWithSearchRequest = (data) =>
-            data
-              .toLowerCase()
-              .replace(/\s/g, "")
-              .includes(
-                searchFormValue.toLowerCase().trim().replace(/\s/g, "")
-              );
-
-          return isCompliedWithSearchRequest(nameRU);
-        });
-
-        // Fisher–Yates shuffle
-        for (let i = 0; i < data.length; i++) {
-          let j = Math.floor(Math.random() * (i + 1));
-
-          [data[i], data[j]] = [data[j], data[i]];
-        }
-
-        setisUserSearching(true);
-        setMovies(data);
-
-        localStorage.setItem("searchRequest", searchFormValue || "");
-        localStorage.setItem(
-          "isFilterCheckboxChecked",
-          JSON.stringify(isFilterCheckboxChecked || false)
-        );
-        localStorage.setItem(
-          "movies",
-          data.length ? JSON.stringify(data) : null
-        );
+        setAllMovies(movies);
+        filterMovies(movies);
       })
       .catch(() =>
         setErrorMessages({
@@ -320,41 +333,144 @@ export default function App() {
       });
   }, [isSearchRequestInProgress]);
 
-  // Showing saved movies
-  useEffect(() => {
-    getSavedMovies(currentUser._id)
-      .then((movies) => {
-        if (movies.length) setSavedMovies(movies);
-      })
-      .catch((err) => {
-        console.log(
-          `Ошибка в процессе загрузки фильмов, сохраненных пользователем: ${err}`
-        );
-      });
-  }, []);
+  function saveDataInLocalStorage(data, serverData) {
+    localStorage.setItem("searchRequest", searchFormValue || "");
 
-  function handleMovieLike({ target }, movie) {
+    localStorage.setItem(
+      "isFilterCheckboxChecked",
+      JSON.stringify(isFilterCheckboxChecked || false)
+    );
+
+    localStorage.setItem(
+      "all-movies",
+      serverData || allMovies.length
+        ? JSON.stringify(serverData) || JSON.stringify(allMovies)
+        : []
+    );
+
+    localStorage.setItem(
+      "filteredMovies",
+      data.length ? JSON.stringify(data) : []
+    );
+  }
+
+  function filterMovies(serverData) {
+    const movies = allMovies.length ? allMovies : serverData;
+
+    const data = movies.filter(({ nameRU }) => {
+      const isCompliedWithSearchRequest = (data) =>
+        data
+          .toLowerCase()
+          .replace(/\s/g, "")
+          .includes(searchFormValue.toLowerCase().trim().replace(/\s/g, ""));
+
+      return isCompliedWithSearchRequest(nameRU);
+    });
+
+    // Fisher–Yates shuffle
+    for (let i = 0; i < data.length; i++) {
+      let j = Math.floor(Math.random() * (i + 1));
+
+      [data[i], data[j]] = [data[j], data[i]];
+    }
+
+    setHasUserSearched(true);
+    setFilteredMovies(data);
+    setIsSearchRequestInProgress(false);
+
+    return saveDataInLocalStorage(data, serverData);
+  }
+
+  useEffect(() => {
+    if (!isSearchRequestInProgress || !allMovies.length) return;
+
+    filterMovies();
+  }, [isSearchRequestInProgress]);
+
+  // Showing saved movies
+  // useEffect(() => {
+  //   getSavedMovies()
+  //     .then((movies) => setSavedMoviesServer(movies))
+  //     .catch((err) => {
+  //       console.log(
+  //         `Ошибка в процессе загрузки фильмов, сохраненных пользователем: ${err}`
+  //       );
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+
+  // }, [isSearchRequestInProgress])
+
+  function handleMovieSelected({ target }, movie) {
     const btn = target.closest(".movies-card__btn-favourite");
 
     if (!btn) return;
 
-    btn.classList.contains("movies-card__btn-favourite_active")
-      ? btn.classList.remove("movies-card__btn-favourite_active")
-      : btn.classList.add("movies-card__btn-favourite_active");
+    let source;
 
-    handleMovie(movie)
-      .then((res) => {
-        if (res) console.log(res);
-        // setMovies((state) =>
-        //   state.map((c) => (c._id === card._id ? cardLike : c))
-        // );
+    for (let item of allMovies) {
+      if (item.id === movie.id) {
+        source = item.id;
+
+        if (item.selected) {
+          // const index = savedMoviesLocal.indexOf(item);
+
+          btn.classList.remove("movies-card__btn-favourite_active");
+          item.selected = false;
+
+          for (let filteredMovie of filteredMovies) {
+            if (filteredMovie.id === source) {
+              filteredMovie.selected = false;
+              break;
+            }
+          }
+
+          // setSavedMoviesLocal((movies) => movies.filter((_, i) => i !== index));
+        } else {
+          btn.classList.add("movies-card__btn-favourite_active");
+          item.selected = true;
+
+          // setSavedMoviesLocal((prevMovies) => [...prevMovies, item]);
+
+          for (let filteredMovie of filteredMovies) {
+            if (filteredMovie.id === source) {
+              filteredMovie.selected = true;
+              break;
+            }
+          }
+        }
+
+        break;
+      }
+    }
+
+    handleMovieServer(movie)
+      .then((res) => res.json())
+      .then(({ message }) => {
+        movie.dbId = message;
+
+        localStorage.setItem("all-movies", JSON.stringify(allMovies));
+        localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
       })
-      .catch((err) => {
+      .catch((err) =>
         console.log(
-          `Ошибка в процессе добавления/снятия лайка карточки в галерее: ${err}`
-        );
-      });
+          `Ошибка в процессе добавления карточки в список избранных либо удаления${err}`
+        )
+      );
   }
+
+  // useEffect(() => {
+  //   if (!pathSavedMovies) return;
+
+  //   handleMovieSaving(savedMoviesLocal)
+  // .then((res) => {console.log(res)})
+  // .catch((err) => {
+  //   console.log(
+  //     `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
+  //   );
+  // });
+  // }, [pathSavedMovies]);
 
   if (isAppLoading) return null;
 
@@ -382,14 +498,14 @@ export default function App() {
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
                 <Movies
-                  movies={movies}
+                  filteredMovies={filteredMovies}
                   onSearch={searchMovie}
                   searchFormValue={searchFormValue}
                   setIsSearchRequestInProgress={setIsSearchRequestInProgress}
-                  isUserSearching={isUserSearching}
+                  hasUserSearched={hasUserSearched}
                   onFilter={toggleFilterCheckbox}
                   isFilterCheckboxChecked={isFilterCheckboxChecked}
-                  onMovieLike={handleMovieLike}
+                  onMovieSelect={handleMovieSelected}
                   onLoad={isProcessLoading}
                   error={errorMessages}
                 />
@@ -400,7 +516,7 @@ export default function App() {
             path="/saved-movies"
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <SavedMovies movies={savedMovies} />
+                <SavedMovies movies={savedMoviesServer} />
               </ProtectedRoute>
             }
           />

@@ -44,8 +44,9 @@ export function setUserInfo(email, name) {
 }
 
 // Movies
-export function getSavedMovies(id) {
-  return fetch(`${BASE_URL_LOCAL}/movies${id}`, {
+export function getSavedMovies() {
+
+  return fetch(`${BASE_URL_LOCAL}/movies`, {
     headers: {
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
     },
@@ -58,9 +59,9 @@ export function getSavedMovies(id) {
   });
 }
 
-export function handleMovie(movie) {
+export function handleMovieServer(movie) {
   const {
-    id,
+    id: movieId,
     country,
     director,
     duration,
@@ -69,43 +70,41 @@ export function handleMovie(movie) {
     trailerLink,
     nameRU,
     nameEN,
+    selected,
   } = movie;
 
-  const movieId = id;
   let { image } = movie;
   let thumbnail = `https://api.nomoreparties.co${image.formats.thumbnail.url}`;
   image = `https://api.nomoreparties.co${image.url}`;
 
-  return fetch(`${BASE_URL_LOCAL}/movies`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-    body: JSON.stringify({
-      country,
-      director,
-      duration,
-      year,
-      description,
-      image,
-      trailerLink,
-      thumbnail,
-      movieId,
-      nameRU,
-      nameEN,
-    }),
-  });
-
-  // if (isLiked) {
-  //   return this._request(`${this._baseUrl}/cards/${id}/likes`, {
-  //     method: "DELETE",
-  //     headers: this._headers,
-  //   });
-  // } else {
-  //   return this._request(`${this._baseUrl}/cards/${id}/likes`, {
-  //     method: "POST",
-  //     headers: this._headers,
-  //   });
-  // }
+  if (selected) {
+    return fetch(`${BASE_URL_LOCAL}/movies`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+      body: JSON.stringify({
+        country,
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailerLink,
+        thumbnail,
+        movieId,
+        nameRU,
+        nameEN,
+      }),
+    });
+  } else {
+    return fetch(`${BASE_URL_LOCAL}/movies/${movie.dbId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    });
+  }
 }

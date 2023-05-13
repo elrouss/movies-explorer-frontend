@@ -6,14 +6,14 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Footer from "../Footer/Footer";
 
 function Movies({
-  movies,
+  filteredMovies,
   onSearch,
   setIsSearchRequestInProgress,
   searchFormValue,
-  isUserSearching,
+  hasUserSearched,
   onFilter,
   isFilterCheckboxChecked,
-  onMovieLike,
+  onMovieSelect,
   onLoad,
   error,
 }) {
@@ -43,11 +43,11 @@ function Movies({
           isFilterCheckboxChecked={isFilterCheckboxChecked}
         />
         <MoviesCardList
-          movies={movies}
+          filteredMovies={filteredMovies}
           icon={icon}
-          onMovieLike={onMovieLike}
+          onMovieSelect={onMovieSelect}
           onLoad={onLoad}
-          isUserSearching={isUserSearching}
+          hasUserSearched={hasUserSearched}
           error={error}
         />
       </main>
@@ -57,14 +57,14 @@ function Movies({
 }
 
 Movies.propTypes = {
-  movies: PropTypes.array,
+  filteredMovies: PropTypes.array,
   onSearch: PropTypes.func,
   setIsSearchRequestInProgress: PropTypes.func,
   searchFormValue: PropTypes.string,
-  isUserSearching: PropTypes.bool,
+  hasUserSearched: PropTypes.bool,
   onFilter: PropTypes.func,
   isFilterCheckboxChecked: PropTypes.bool,
-  onMovieLike: PropTypes.func,
+  onMovieSelect: PropTypes.func,
   onLoad: PropTypes.bool,
   error: PropTypes.object,
 };

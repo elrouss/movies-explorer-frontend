@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-function MoviesCard({ movie, icon, onMovieLike }) {
+function MoviesCard({ movie, icon, onMovieSelect }) {
   const {
     nameRU,
     duration,
     trailerLink,
     image,
+    selected,
   } = movie;
 
   function countTime(duration) {
@@ -32,10 +33,10 @@ function MoviesCard({ movie, icon, onMovieLike }) {
         // className={`btn movies-card__btn-favourite${
         //   (isFavouriteCard && " movies-card__btn-favourite_active") || ""
         // }`}
-        className={`btn movies-card__btn-favourite`}
+        className={`btn movies-card__btn-favourite${selected && " btn movies-card__btn-favourite_active" || ""}`}
         type="button"
         aria-label="Добавление карточки с фильмом в избранные"
-        onClick={(evt) => onMovieLike(evt, movie)}
+        onClick={(evt) => onMovieSelect(evt, movie)}
       >
         {icon}
       </button>
@@ -58,7 +59,7 @@ function MoviesCard({ movie, icon, onMovieLike }) {
 MoviesCard.propTypes = {
   movie: PropTypes.object,
   icon: PropTypes.element,
-  onMovieLike: PropTypes.func,
+  onMovieSelect: PropTypes.func,
 };
 
 export default MoviesCard;

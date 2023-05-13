@@ -12,14 +12,13 @@ import {
 } from "../../utils/constants";
 
 function MoviesCardList({
-  movies,
+  filteredMovies,
   icon,
-  onMovieLike,
+  onMovieSelect,
   onLoad,
-  isUserSearching,
+  hasUserSearched,
   error,
 }) {
-
   const windowWidth = useWindowDimensions();
   const isDesktop = windowWidth > LAPTOP_SCREEN_WIDTH;
   const isTablet =
@@ -79,14 +78,18 @@ function MoviesCardList({
   function renderCards() {
     return (
       <div className="movies-gallery__movies">
-        {movies?.length && movies.slice(0, visibleCards).map((movie) => (
-          <MoviesCard
-            key={movie.id || movie.movieId}
-            movie={movie}
-            icon={icon}
-            onMovieLike={onMovieLike}
-          />
-        ))}
+        {(filteredMovies?.length &&
+          filteredMovies
+            .slice(0, visibleCards)
+            .map((movie) => (
+              <MoviesCard
+                key={movie.id || movie.movieId}
+                movie={movie}
+                icon={icon}
+                onMovieSelect={onMovieSelect}
+              />
+            ))) ||
+          ""}
       </div>
     );
   }
@@ -106,12 +109,16 @@ function MoviesCardList({
   function renderResults() {
     if (onLoad) return <Preloader />;
 
-    if (isUserSearching && !movies?.length && !error?.moviesResponse) {
+    if (hasUserSearched && !filteredMovies?.length && !error?.moviesResponse) {
       return <p className="paragraph">Ничего не найдено</p>;
     }
 
-    if (isUserSearching && !movies?.length && error?.moviesResponse) {
-      return <p className="paragraph paragraph_type_error">{error?.moviesResponse}</p>;
+    if (hasUserSearched && !filteredMovies?.length && error?.moviesResponse) {
+      return (
+        <p className="paragraph paragraph_type_error">
+          {error?.moviesResponse}
+        </p>
+      );
     }
 
     return renderCards();
@@ -125,7 +132,7 @@ function MoviesCardList({
       <div className="wrapper movies-gallery__wrapper">
         {renderResults()}
 
-        {visibleCards < movies?.length && (
+        {visibleCards < filteredMovies?.length && (
           <button
             className="btn movies-gallery__btn-more"
             type="button"
@@ -142,10 +149,10 @@ function MoviesCardList({
 
 MoviesCardList.propTypes = {
   icon: PropTypes.element,
-  onMovieLike: PropTypes.func,
-  movies: PropTypes.array,
+  onMovieSelect: PropTypes.func,
+  filteredMovies: PropTypes.array,
   onLoad: PropTypes.bool,
-  isUserSearching: PropTypes.bool,
+  hasUserSearched: PropTypes.bool,
   error: PropTypes.object,
 };
 
