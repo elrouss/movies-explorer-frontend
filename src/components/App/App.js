@@ -20,7 +20,7 @@ import PageNotFound from "../PageNotFound/PageNotFound.js";
 
 import { registerUser } from "../../utils/MainApi.js";
 import { authorizeUser } from "../../utils/MainApi.js";
-import { getContent } from "../../utils/MainApi.js";
+import { getUserInfo } from "../../utils/MainApi.js";
 import { setUserInfo } from "../../utils/MainApi.js";
 
 import { getMovies } from "../../utils/MoviesApi.js";
@@ -32,8 +32,18 @@ import {
   showDefaultError,
 } from "../../utils/validation.js";
 
+import {
+  ENDPOINT_ROOT,
+  ENDPOINT_SIGNUP,
+  ENDPOINT_SIGNIN,
+  ENDPOINT_MOVIES,
+  ENDPOINT_SAVED_MOVIES,
+  ENDPOINT_PROFILE,
+  ENDPOINT_ASTERISK,
+  SHORT_FILM_DURATION,
+} from "../../utils/constants.js";
+
 export default function App() {
-  // TODO: исправить баг, когда пользователь выходит из ЛК и входит снова (нет перерисовки -> useEffect?)
   const [isAppLoading, setIsAppLoading] = useState(false);
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
@@ -52,11 +62,19 @@ export default function App() {
   const [isCurrentUserLoggedIn, setIsCurrentUserLoggedIn] = useState(false);
 
   const [allMovies, setAllMovies] = useState([]);
-  const [filteredMovies, setFilteredMovies] = useState([]);
-  const [savedMoviesServer, setSavedMoviesServer] = useState([]);
+  const [filteredAllMovies, setFilteredMovies] = useState([]);
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [filteredSavedMovies, setFilteredSavedMovies] = useState([]);
 
   const [searchFormValue, setSearchFormValue] = useState("");
-  const [isFilterCheckboxChecked, setIsFilterCheckboxChecked] = useState(false);
+  const [searchFormValueSavedMovies, setSearchFormValueSavedMovies] =
+    useState("");
+  const [isFilterCheckboxMoviesChecked, setIsFilterCheckboxMoviesChecked] =
+    useState(false);
+  const [
+    isFilterCheckboxSavedMoviesChecked,
+    setIsFilterCheckboxSavedMoviesChecked,
+  ] = useState(false);
   const [isSearchRequestInProgress, setIsSearchRequestInProgress] =
     useState(false);
   const [hasUserSearched, setHasUserSearched] = useState(false);
@@ -67,8 +85,8 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const pathMovies = location.pathname === "/movies";
-  const pathSavedMovies = location.pathname === "/saved-movies";
+  const pathMovies = location.pathname === ENDPOINT_MOVIES;
+  const pathSavedMovies = location.pathname === ENDPOINT_SAVED_MOVIES;
 
   function openModalWindow() {
     setIsModalWindowOpened(true);
@@ -110,11 +128,18 @@ export default function App() {
   }
 
   function searchMovie(data) {
-    setSearchFormValue(data);
+    if (pathMovies) setSearchFormValue(data);
+    if (pathSavedMovies) setSearchFormValueSavedMovies(data);
   }
 
   function toggleFilterCheckbox({ target: { checked } }) {
-    setIsFilterCheckboxChecked(checked);
+    if (pathMovies) {
+      setIsFilterCheckboxMoviesChecked(checked);
+    }
+
+    if (pathSavedMovies) {
+      setIsFilterCheckboxSavedMoviesChecked(checked);
+    }
   }
 
   // If user has an error, while signing up/in, and then goes to another page,
@@ -130,6 +155,8 @@ export default function App() {
   }, [navigate]);
 
   useEffect(() => {
+    if (!isCurrentUserLoggedIn) return;
+
     const getLocalStorageData = (key) => localStorage.getItem(key);
 
     setAllMovies(
@@ -146,12 +173,12 @@ export default function App() {
 
     setSearchFormValue("" || getLocalStorageData("searchRequest"));
 
-    setIsFilterCheckboxChecked(
+    setIsFilterCheckboxMoviesChecked(
       false || JSON.parse(getLocalStorageData("isFilterCheckboxChecked"))
     );
 
     loadSavedMoviesFromServer();
-  }, []);
+  }, [isCurrentUserLoggedIn]);
 
   // API
   // Users' registration
@@ -179,9 +206,7 @@ export default function App() {
           `Ошибка в процессе регистрации пользователя на сайте: ${err}`
         );
       })
-      .finally(() => {
-        setIsProcessLoading(false);
-      });
+      .finally(() => setIsProcessLoading(false));
   }
 
   // Users' authorization
@@ -209,13 +234,18 @@ export default function App() {
       .then(({ token }) => {
         if (token) {
           localStorage.setItem("jwt", token);
-          return token;
-        }
-      })
-      .then((jwt) => {
-        if (jwt) {
           handleLoginOn();
-          navigate("/movies", { replace: true });
+          navigate(ENDPOINT_MOVIES, { replace: true });
+
+          getUserInfo(token)
+            .then(({ _id, email, name }) =>
+              setCurrentUser({ _id, email, name })
+            )
+            .catch((err) => {
+              console.log(
+                `Ошибка в процессе проверки токена пользователя и получения личных данных: ${err}`
+              );
+            });
         }
       })
       .catch((err) => {
@@ -234,11 +264,18 @@ export default function App() {
 
     if (jwt) {
       setIsAppLoading(true);
-      getContent(jwt)
+      getUserInfo(jwt)
         .then(({ _id, email, name }) => {
           setCurrentUser({ _id, email, name });
           handleLoginOn();
-          navigate("/movies", { replace: true });
+          navigate(
+            localStorage.getItem("current-endpoint")
+              ? localStorage.getItem("current-endpoint")
+              : ENDPOINT_MOVIES,
+            {
+              replace: true,
+            }
+          );
         })
         .catch((err) => {
           console.log(
@@ -250,6 +287,12 @@ export default function App() {
   }, []);
 
   useEffect(() => checkToken(), []);
+
+  useEffect(() => {
+    if (!isCurrentUserLoggedIn) return;
+
+    localStorage.setItem("current-endpoint", location.pathname);
+  }, [navigate]);
 
   function updateUserInfo({ email, name }) {
     if (email === currentUser.email && name === currentUser.name) {
@@ -296,7 +339,7 @@ export default function App() {
         const synchronizeDataWithServer = (data) => {
           const ids = [];
 
-          for (let savedMovie of savedMoviesServer) {
+          for (let savedMovie of savedMovies) {
             ids.push(savedMovie.movieId);
           }
 
@@ -331,7 +374,7 @@ export default function App() {
 
     localStorage.setItem(
       "isFilterCheckboxChecked",
-      JSON.stringify(isFilterCheckboxChecked || false)
+      JSON.stringify(isFilterCheckboxMoviesChecked || false)
     );
 
     localStorage.setItem(
@@ -348,37 +391,82 @@ export default function App() {
   }
 
   function filterMovies(serverData) {
-    const movies = allMovies.length ? allMovies : serverData;
+    const movies =
+      pathMovies && allMovies.length
+        ? allMovies
+        : pathSavedMovies && savedMovies.length
+        ? savedMovies
+        : serverData;
 
-    const data = movies.filter(({ nameRU }) => {
-      const isCompliedWithSearchRequest = (data) =>
-        data
-          .toLowerCase()
-          .replace(/\s/g, "")
-          .includes(searchFormValue.toLowerCase().trim().replace(/\s/g, ""));
+    if (!movies?.length) return;
 
-      return isCompliedWithSearchRequest(nameRU);
+    const isNameCompliedWithSearchRequest = (name) => {
+      const value = pathMovies ? searchFormValue : searchFormValueSavedMovies;
+
+      return name
+        .toLowerCase()
+        .replace(/\s/g, "")
+        .includes(value.toLowerCase().trim().replace(/\s/g, ""));
+    };
+
+    const isDurationCompliedWithSearchRequest = (time) =>
+      time <= SHORT_FILM_DURATION;
+
+    const data = movies.filter(({ nameRU, duration }) => {
+      if (pathMovies) {
+        if (isFilterCheckboxMoviesChecked) {
+          return (
+            isNameCompliedWithSearchRequest(nameRU) &&
+            isDurationCompliedWithSearchRequest(duration)
+          );
+        }
+
+        return isNameCompliedWithSearchRequest(nameRU);
+      }
+
+      if (pathSavedMovies) {
+        if (isFilterCheckboxSavedMoviesChecked) {
+          return (
+            isNameCompliedWithSearchRequest(nameRU) &&
+            isDurationCompliedWithSearchRequest(duration)
+          );
+        }
+      }
+
+      return isNameCompliedWithSearchRequest(nameRU);
     });
 
     // Fisher–Yates shuffle
-    for (let i = 0; i < data.length; i++) {
-      let j = Math.floor(Math.random() * (i + 1));
+    if (pathMovies) {
+      for (let i = 0; i < data.length; i++) {
+        let j = Math.floor(Math.random() * (i + 1));
 
-      [data[i], data[j]] = [data[j], data[i]];
+        [data[i], data[j]] = [data[j], data[i]];
+      }
     }
 
-    setHasUserSearched(true);
-    setFilteredMovies(data);
-    setIsSearchRequestInProgress(false);
+    if (pathMovies) {
+      setFilteredMovies(data);
+      saveDataInLocalStorage(data, serverData);
+    }
 
-    return saveDataInLocalStorage(data, serverData);
+    if (pathSavedMovies) {
+      setFilteredSavedMovies(data);
+    }
+
+    setIsSearchRequestInProgress(false);
+    setHasUserSearched(true);
   }
 
   useEffect(() => {
-    if (!isSearchRequestInProgress || !allMovies.length) return;
+    if (!allMovies.length) return;
 
     filterMovies();
-  }, [isSearchRequestInProgress]);
+  }, [
+    isSearchRequestInProgress,
+    isFilterCheckboxMoviesChecked,
+    isFilterCheckboxSavedMoviesChecked,
+  ]);
 
   function handleMovieSelected({ target }, movie) {
     const btn = target.closest(".movies-card__btn-favourite");
@@ -396,7 +484,7 @@ export default function App() {
             btn.classList.remove("movies-card__btn-favourite_active");
             item.selected = false;
 
-            for (let filteredMovie of filteredMovies) {
+            for (let filteredMovie of filteredAllMovies) {
               if (filteredMovie.id === source) {
                 filteredMovie.selected = false;
                 break;
@@ -406,7 +494,7 @@ export default function App() {
             btn.classList.add("movies-card__btn-favourite_active");
             item.selected = true;
 
-            for (let filteredMovie of filteredMovies) {
+            for (let filteredMovie of filteredAllMovies) {
               if (filteredMovie.id === source) {
                 filteredMovie.selected = true;
                 break;
@@ -424,17 +512,57 @@ export default function App() {
       .then(({ message }) => {
         if (pathMovies) {
           movie.dbId = message;
+
+          const clone = { ...movie };
+          clone.selected = false;
+
+          console.log(clone);
+
+          if (message) {
+            setSavedMovies((prevMovies) => [...prevMovies, clone]);
+
+            if (movie.duration <= SHORT_FILM_DURATION) {
+              setFilteredSavedMovies((prevMovies) => [...prevMovies, clone]);
+            }
+          } else {
+            let key = movie.id;
+            for (let i = 0; i < savedMovies.length; i++) {
+              if (savedMovies[i].id === key || savedMovies[i].movieId === key) {
+                setSavedMovies((movies) => [
+                  ...movies.slice(0, i),
+                  ...movies.slice(i + 1),
+                ]);
+
+                break;
+              }
+            }
+
+            for (let i = 0; i < filteredSavedMovies.length; i++) {
+              if (
+                filteredSavedMovies[i].id === key ||
+                filteredSavedMovies[i].movieId === key
+              ) {
+                console.log(filteredSavedMovies[i]);
+                setFilteredSavedMovies((movies) => [
+                  ...movies.slice(0, i),
+                  ...movies.slice(i + 1),
+                ]);
+
+                break;
+              }
+            }
+          }
         } else {
           let source;
 
           for (let item of allMovies) {
-            if (item.id === movie.movieId) {
+            if (item.id === movie.movieId || item.id === movie.id) {
               source = item.id;
 
               item.dbId = null;
               item.selected = false;
 
-              for (let filteredMovie of filteredMovies) {
+              for (let filteredMovie of filteredAllMovies) {
                 if (filteredMovie.id === source) {
                   filteredMovie.dbId = null;
                   filteredMovie.selected = false;
@@ -442,9 +570,26 @@ export default function App() {
                 }
               }
 
-              for (let i = 0; i < savedMoviesServer.length; i++) {
-                if (savedMoviesServer[i].movieId === source) {
-                  setSavedMoviesServer((movies) => [
+              for (let i = 0; i < savedMovies.length; i++) {
+                if (
+                  savedMovies[i].movieId === source ||
+                  savedMovies[i].id === source
+                ) {
+                  setSavedMovies((movies) => [
+                    ...movies.slice(0, i),
+                    ...movies.slice(i + 1),
+                  ]);
+
+                  break;
+                }
+              }
+
+              for (let i = 0; i < filteredSavedMovies.length; i++) {
+                if (
+                  filteredSavedMovies[i].movieId === source ||
+                  filteredSavedMovies[i].id === source
+                ) {
+                  setFilteredSavedMovies((movies) => [
                     ...movies.slice(0, i),
                     ...movies.slice(i + 1),
                   ]);
@@ -459,7 +604,10 @@ export default function App() {
         }
 
         localStorage.setItem("all-movies", JSON.stringify(allMovies));
-        localStorage.setItem("filteredMovies", JSON.stringify(filteredMovies));
+        localStorage.setItem(
+          "filteredMovies",
+          JSON.stringify(filteredAllMovies)
+        );
       })
       .catch((err) =>
         console.log(
@@ -469,23 +617,14 @@ export default function App() {
   }
 
   function loadSavedMoviesFromServer() {
-    setIsProcessLoading(true);
-
     getSavedMovies()
-      .then((data) => setSavedMoviesServer(data))
+      .then((data) => setSavedMovies(data))
       .catch((err) => {
         console.log(
           `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
         );
-      })
-      .finally(() => setIsProcessLoading(false));
+      });
   }
-
-  useEffect(() => {
-    if (!pathSavedMovies) return;
-
-    loadSavedMoviesFromServer();
-  }, [pathSavedMovies]);
 
   if (isAppLoading) return null;
 
@@ -493,7 +632,7 @@ export default function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <Routes>
         <Route
-          path="/"
+          path={ENDPOINT_ROOT}
           element={
             <Header
               isCurrentUserLoggedIn={isCurrentUserLoggedIn}
@@ -509,17 +648,17 @@ export default function App() {
         >
           <Route index element={<Main />} />
           <Route
-            path="/movies"
+            path={ENDPOINT_MOVIES}
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
                 <Movies
-                  movies={filteredMovies}
+                  movies={filteredAllMovies}
                   onSearch={searchMovie}
                   searchFormValue={searchFormValue}
                   setIsSearchRequestInProgress={setIsSearchRequestInProgress}
                   hasUserSearched={hasUserSearched}
                   onFilter={toggleFilterCheckbox}
-                  isFilterCheckboxChecked={isFilterCheckboxChecked}
+                  isFilterCheckboxChecked={isFilterCheckboxMoviesChecked}
                   onMovieSelect={handleMovieSelected}
                   onLoad={isProcessLoading}
                   error={errorMessages}
@@ -528,23 +667,33 @@ export default function App() {
             }
           />
           <Route
-            path="/saved-movies"
+            path={ENDPOINT_SAVED_MOVIES}
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
                 <SavedMovies
-                  movies={savedMoviesServer}
+                  movies={
+                    isFilterCheckboxSavedMoviesChecked ||
+                    searchFormValueSavedMovies
+                      ? filteredSavedMovies
+                      : savedMovies
+                  }
+                  onSearch={searchMovie}
+                  searchFormValue={searchFormValueSavedMovies}
+                  setIsSearchRequestInProgress={setIsSearchRequestInProgress}
                   onMovieSelect={handleMovieSelected}
-                  onLoad={isProcessLoading}
+                  onFilter={toggleFilterCheckbox}
+                  isFilterCheckboxChecked={isFilterCheckboxSavedMoviesChecked}
                 />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/profile"
+            path={ENDPOINT_PROFILE}
             element={
               <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
                 <Profile
                   setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn}
+                  setCurrentUser={setCurrentUser}
                   onUpdate={updateUserInfo}
                   onLoad={isProcessLoading}
                   error={errorMessages}
@@ -555,7 +704,7 @@ export default function App() {
         </Route>
 
         <Route
-          path="/signup"
+          path={ENDPOINT_SIGNUP}
           element={
             <Register
               onRegistration={handleUserRegistration}
@@ -565,7 +714,7 @@ export default function App() {
           }
         />
         <Route
-          path="/signin"
+          path={ENDPOINT_SIGNIN}
           element={
             <Login
               onAuthorization={handleUserAuthorization}
@@ -575,7 +724,7 @@ export default function App() {
           }
         />
 
-        <Route path="*" element={<PageNotFound />} />
+        <Route path={ENDPOINT_ASTERISK} element={<PageNotFound />} />
       </Routes>
     </CurrentUserContext.Provider>
   );

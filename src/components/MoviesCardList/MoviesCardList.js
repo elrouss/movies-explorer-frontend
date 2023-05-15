@@ -8,8 +8,15 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 import {
+  ENDPOINT_MOVIES,
   LAPTOP_SCREEN_WIDTH,
   MOBILE_SCREEN_WIDTH,
+  NUM_CARDS_DESKTOP_INIT,
+  NUM_CARDS_TABLET_INIT,
+  NUM_CARDS_MOBILE_INIT,
+  NUM_CARDS_DESKTOP_ADD,
+  NUM_CARDS_TABLET_ADD,
+  NUM_CARDS_MOBILE_ADD,
 } from "../../utils/constants";
 
 function MoviesCardList({
@@ -21,36 +28,31 @@ function MoviesCardList({
   error,
 }) {
   const location = useLocation();
-  const pathMovies = location.pathname === "/movies";
+  const pathMovies = location.pathname === ENDPOINT_MOVIES;
 
   const windowWidth = useWindowDimensions();
   const isDesktop = windowWidth > LAPTOP_SCREEN_WIDTH;
   const isTablet =
     windowWidth > MOBILE_SCREEN_WIDTH && windowWidth <= LAPTOP_SCREEN_WIDTH;
 
-  const numCardsDesktopInit = 12;
-  const numCardsTabletInit = 8;
-  const numCardsMobileInit = 5;
-
-  const numCardsDesktopAdd = 3;
-  const numCardsTabletAdd = 2;
-  const numCardsMobileAdd = 2;
-
   const [visibleCards, setVisibleCards] = useState(0);
 
   useEffect(() => {
     // Initial rendering cards number
     if (
-      [numCardsDesktopInit, numCardsTabletInit, numCardsMobileInit, 0].includes(
-        visibleCards
-      )
+      [
+        NUM_CARDS_DESKTOP_INIT,
+        NUM_CARDS_TABLET_INIT,
+        NUM_CARDS_MOBILE_INIT,
+        0,
+      ].includes(visibleCards)
     ) {
       setVisibleCards(
         isDesktop
-          ? numCardsDesktopInit
+          ? NUM_CARDS_DESKTOP_INIT
           : isTablet
-          ? numCardsTabletInit
-          : numCardsMobileInit
+          ? NUM_CARDS_TABLET_INIT
+          : NUM_CARDS_MOBILE_INIT
       );
     }
 
@@ -63,9 +65,9 @@ function MoviesCardList({
       isDesktop &&
       visibleCards % 3 !== 0 &&
       ![
-        numCardsDesktopInit,
-        numCardsTabletInit,
-        numCardsMobileInit,
+        NUM_CARDS_DESKTOP_INIT,
+        NUM_CARDS_TABLET_INIT,
+        NUM_CARDS_MOBILE_INIT,
         0,
       ].includes(visibleCards)
     ) {
@@ -81,11 +83,13 @@ function MoviesCardList({
 
   function renderCards() {
     // If it /saved-movies, there will be last saved movies on the top of the gallery
-
     return (
       <div className="movies-gallery__movies">
         {(movies?.length &&
-          (pathMovies ? movies.slice(0, visibleCards) : movies.slice().reverse()).map((movie) => (
+          (pathMovies
+            ? movies.slice(0, visibleCards)
+            : movies.slice().reverse()
+          ).map((movie) => (
             <MoviesCard
               key={movie.id || movie.movieId}
               movie={movie}
@@ -103,10 +107,10 @@ function MoviesCardList({
       (prevVal) =>
         prevVal +
         (isDesktop
-          ? numCardsDesktopAdd
+          ? NUM_CARDS_DESKTOP_ADD
           : isTablet
-          ? numCardsTabletAdd
-          : numCardsMobileAdd)
+          ? NUM_CARDS_TABLET_ADD
+          : NUM_CARDS_MOBILE_ADD)
     );
   }
 
