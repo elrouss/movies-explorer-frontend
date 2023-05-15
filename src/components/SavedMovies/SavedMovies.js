@@ -5,7 +5,16 @@ import SearchForm from "../SearchForm/SearchForm.js";
 import MoviesCardList from "../MoviesCardList/MoviesCardList.js";
 import Footer from "../Footer/Footer.js";
 
-function SavedMovies({ movies, onMovieSelect, onLoad }) {
+function SavedMovies({
+  movies,
+  onSearch,
+  searchFormValue,
+  setIsSearchRequestInProgress,
+  onMovieSelect,
+  onFilter,
+  isFilterCheckboxChecked,
+  onLoad,
+}) {
   const icon = (
     <svg
       width="8"
@@ -26,7 +35,13 @@ function SavedMovies({ movies, onMovieSelect, onLoad }) {
   return (
     <>
       <main>
-        <SearchForm />
+        <SearchForm
+          onSearch={onSearch}
+          searchFormValue={searchFormValue}
+          setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+          onFilter={onFilter}
+          isFilterCheckboxChecked={isFilterCheckboxChecked}
+        />
         <MoviesCardList
           movies={movies}
           icon={icon}
@@ -42,6 +57,11 @@ function SavedMovies({ movies, onMovieSelect, onLoad }) {
 SavedMovies.propTypes = {
   movies: PropTypes.array,
   onMovieSelect: PropTypes.func,
+  onSearch: PropTypes.func,
+  searchFormValue: PropTypes.string,
+  setIsSearchRequestInProgress: PropTypes.func,
+  onFilter: PropTypes.func,
+  isFilterCheckboxChecked: PropTypes.bool,
   onLoad: PropTypes.bool,
 };
 

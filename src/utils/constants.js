@@ -17,6 +17,9 @@ export const PASSWORD_PATTERN =
   "(?=.*[A-z])(?=.*\\d)(?=.*[!@#$%^&*])(?=.{8,}).*";
 export const USERNAME_PATTERN = "[A-я-\\s]{2,30}";
 
-// MEDIA QUERIES (SEE ALSO VARIABLES IN SCSS)
+// MEDIA QUERIES IN PIXELS (SEE ALSO VARIABLES IN SCSS)
 export const LAPTOP_SCREEN_WIDTH = 1024;
 export const MOBILE_SCREEN_WIDTH = 480;
+
+// MOVIES
+export const SHORT_FILM_DURATION = 40; // minutes

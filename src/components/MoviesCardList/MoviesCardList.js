@@ -81,7 +81,6 @@ function MoviesCardList({
 
   function renderCards() {
     // If it /saved-movies, there will be last saved movies on the top of the gallery
-
     return (
       <div className="movies-gallery__movies">
         {(movies?.length &&
