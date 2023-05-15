@@ -6,10 +6,16 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 
-import { EMAIL_PATTERN, USERNAME_PATTERN } from "../../utils/constants";
+import { EMAIL_PATTERN, ENDPOINT_ROOT, USERNAME_PATTERN } from "../../utils/constants";
 import { VALIDATION_MESSAGES } from "../../utils/validation";
 
-function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
+function Profile({
+  setIsCurrentUserLoggedIn,
+  setCurrentUser,
+  onUpdate,
+  onLoad,
+  error,
+}) {
   const navigate = useNavigate();
 
   const currentUser = useContext(CurrentUserContext);
@@ -35,7 +41,12 @@ function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
 
   function loginOut() {
     localStorage.clear();
-    navigate("/", { replace: true });
+    setCurrentUser({
+      _id: "",
+      email: "",
+      name: "",
+    });
+    navigate(ENDPOINT_ROOT, { replace: true });
     setIsCurrentUserLoggedIn(false);
   }
 
@@ -125,6 +136,7 @@ function Profile({ setIsCurrentUserLoggedIn, onUpdate, onLoad, error }) {
 
 Profile.propTypes = {
   setIsCurrentUserLoggedIn: PropTypes.func,
+  setCurrentUser: PropTypes.func,
   onUpdate: PropTypes.func,
   onLoad: PropTypes.bool,
   error: PropTypes.object,

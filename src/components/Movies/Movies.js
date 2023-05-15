@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import SearchForm from "../SearchForm/SearchForm";
@@ -17,6 +17,8 @@ function Movies({
   onLoad,
   error,
 }) {
+  const [prevValueMovies, setPrevValueMovies] = useState("");
+
   const icon = (
     <svg
       width="10"
@@ -41,6 +43,9 @@ function Movies({
           searchFormValue={searchFormValue}
           onFilter={onFilter}
           isFilterCheckboxChecked={isFilterCheckboxChecked}
+          valueRequired={true}
+          prevValue={prevValueMovies}
+          setPrevValue={setPrevValueMovies}
         />
         <MoviesCardList
           movies={movies}

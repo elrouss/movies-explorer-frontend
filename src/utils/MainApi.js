@@ -21,7 +21,7 @@ export function authorizeUser(email, password) {
   });
 }
 
-export function getContent(token) {
+export function getUserInfo(token) {
   return fetch(`${BASE_URL_LOCAL}/users/me`, {
     headers: {
       "Content-Type": "application/json",

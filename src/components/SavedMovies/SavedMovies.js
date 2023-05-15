@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import SearchForm from "../SearchForm/SearchForm.js";
@@ -13,8 +13,9 @@ function SavedMovies({
   onMovieSelect,
   onFilter,
   isFilterCheckboxChecked,
-  onLoad,
 }) {
+  const [prevValueSavedMovies, setPrevValueSavedMovies] = useState("");
+
   const icon = (
     <svg
       width="8"
@@ -41,12 +42,13 @@ function SavedMovies({
           setIsSearchRequestInProgress={setIsSearchRequestInProgress}
           onFilter={onFilter}
           isFilterCheckboxChecked={isFilterCheckboxChecked}
+          prevValue={prevValueSavedMovies}
+          setPrevValue={setPrevValueSavedMovies}
         />
         <MoviesCardList
           movies={movies}
           icon={icon}
           onMovieSelect={onMovieSelect}
-          onLoad={onLoad}
         />
       </main>
       <Footer />
@@ -62,7 +64,6 @@ SavedMovies.propTypes = {
   setIsSearchRequestInProgress: PropTypes.func,
   onFilter: PropTypes.func,
   isFilterCheckboxChecked: PropTypes.bool,
-  onLoad: PropTypes.bool,
 };
 
 export default SavedMovies;
