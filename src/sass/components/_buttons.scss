@@ -45,6 +45,9 @@
 
   background-color: $color-accent-2;
   border-radius: $border-radius-s;
+
+  transition: none;
+  transition: opacity 0.3s ease-in;
 }
 
 .btn-search {
@@ -117,6 +120,9 @@
     font-size: $font-size-mobile;
     line-height: calc(1.5rem / $font-size-mobile);
   }
+
+  transition: none;
+  transition: opacity 0.3s ease-in;
 }
 
 .btn-profile-exit {

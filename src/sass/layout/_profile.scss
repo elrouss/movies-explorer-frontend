@@ -21,6 +21,7 @@
   &__wrapper-btn {
     @extend %flex-column;
     justify-content: flex-end;
+    width: 100%;
     min-height: 71px;
   }
 

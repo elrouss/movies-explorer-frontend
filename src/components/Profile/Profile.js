@@ -6,7 +6,11 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 
-import { EMAIL_PATTERN, ENDPOINT_ROOT, USERNAME_PATTERN } from "../../utils/constants";
+import {
+  EMAIL_PATTERN,
+  ENDPOINT_ROOT,
+  USERNAME_PATTERN,
+} from "../../utils/constants";
 import { VALIDATION_MESSAGES } from "../../utils/validation";
 
 function Profile({
@@ -14,19 +18,33 @@ function Profile({
   setCurrentUser,
   onUpdate,
   onLoad,
+  isBtnSaveVisible,
+  setIsBtnSaveVisible,
+  onSuccessMessages,
+  setSuccessMessages,
   error,
+  setErrorMessages,
 }) {
   const navigate = useNavigate();
 
   const currentUser = useContext(CurrentUserContext);
   const { email, name } = currentUser;
 
-  const { values, setValues, errors, isValid, handleChange } =
+  const { values, setValues, errors, isValid, setIsValid, handleChange } =
     useFormWithValidation();
 
   useEffect(() => {
     setValues({ email, name });
+
+    setIsBtnSaveVisible(false);
+    setSuccessMessages("");
+    setErrorMessages({ updatingUserInfoResponse: "" });
   }, [navigate]);
+
+  function showSaveBtn() {
+    setIsBtnSaveVisible(true);
+    setSuccessMessages("");
+  }
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -37,6 +55,8 @@ function Profile({
       email: email.trim().replace(/\s/g, ""),
       name: name.trim().replace(/\s+/g, " "),
     });
+
+    setIsValid(false);
   }
 
   function loginOut() {
@@ -75,6 +95,7 @@ function Profile({
                 required
                 onChange={handleChange}
                 pattern={USERNAME_PATTERN}
+                disabled={isBtnSaveVisible ? false : true}
               />
             </div>
 
@@ -92,11 +113,12 @@ function Profile({
                 required
                 onChange={handleChange}
                 pattern={EMAIL_PATTERN}
+                disabled={isBtnSaveVisible ? false : true}
               />
               <span
                 className={`error${
                   ((errors?.email || errors?.name) && " error_visible") || ""
-                } error__server`}
+                } error_type_server-response`}
               >
                 {errors?.name && VALIDATION_MESSAGES.frontend.name + "\n"}
                 {errors?.email && VALIDATION_MESSAGES.frontend.email}
@@ -107,28 +129,53 @@ function Profile({
             <span
               className={`error${
                 (error?.updatingUserInfoResponse && " error_visible") || ""
-              } error__server`}
+              } error_type_server-response`}
             >
               {error?.updatingUserInfoResponse}
             </span>
-            <button
-              className="btn btn-profile"
-              type="submit"
-              aria-label="Редактирование данных профиля"
-              disabled={!isValid || onLoad}
+            <span
+              className={`success${
+                (onSuccessMessages?.updatingUserInfoResponse &&
+                  !error?.updatingUserInfoResponse &&
+                  " success_visible") ||
+                ""
+              }`}
             >
-              {onLoad ? "Сохранение..." : "Редактировать"}
-            </button>
+              {onSuccessMessages?.updatingUserInfoResponse}
+            </span>
+
+            {isBtnSaveVisible ? (
+              <button
+                className="btn btn-entry"
+                type="submit"
+                aria-label="Сохранение данных профиля"
+                disabled={!isValid || onLoad}
+              >
+                {onLoad ? "Сохранение..." : "Сохранить"}
+              </button>
+            ) : (
+              <button
+                className="btn btn-profile"
+                type="button"
+                aria-label="Редактирование данных профиля"
+                onClick={() => showSaveBtn()}
+              >
+                Редактировать
+              </button>
+            )}
           </div>
         </form>
-        <button
-          className="btn btn-profile-exit"
-          type="button"
-          aria-label="Выход из личного кабинета пользователя"
-          onClick={() => loginOut()}
-        >
-          Выйти из аккаунта
-        </button>
+
+        {!isBtnSaveVisible && (
+          <button
+            className="btn btn-profile-exit"
+            type="button"
+            aria-label="Выход из личного кабинета пользователя"
+            onClick={() => loginOut()}
+          >
+            Выйти из аккаунта
+          </button>
+        )}
       </div>
     </div>
   );
@@ -139,7 +186,12 @@ Profile.propTypes = {
   setCurrentUser: PropTypes.func,
   onUpdate: PropTypes.func,
   onLoad: PropTypes.bool,
+  isBtnSaveVisible: PropTypes.bool,
+  setIsBtnSaveVisible: PropTypes.func,
+  onSuccessMessages: PropTypes.any,
+  setSuccessMessages: PropTypes.func,
   error: PropTypes.object,
+  setErrorMessages: PropTypes.func,
 };
 
 export default Profile;

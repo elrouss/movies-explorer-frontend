@@ -9,6 +9,12 @@ import Navigation from "../Navigation/Navigation.js";
 
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu.js";
 
+import {
+  ENDPOINT_SIGNUP,
+  ENDPOINT_SIGNIN,
+  TABLET_SCREEN_WIDTH,
+} from "../../utils/constants.js";
+
 function Header({
   isCurrentUserLoggedIn,
   toggleHamburgerMenu,
@@ -17,7 +23,7 @@ function Header({
   closeModalWindow,
   closeHamburgerMenuOnOutsideAndNavClick,
 }) {
-  const isMobileWidth = useWindowDimensions() <= 768;
+  const isMobileWidth = useWindowDimensions() <= TABLET_SCREEN_WIDTH;
 
   function renderHeaderMenu() {
     if (isMobileWidth) {
@@ -40,10 +46,13 @@ function Header({
     if (!isCurrentUserLoggedIn) {
       return (
         <div className="header__auth">
-          <Link className="link" to={"/signup"}>
+          <Link className="link" to={ENDPOINT_SIGNUP}>
             Регистрация
           </Link>
-          <Link className="link link_color_accent btn-auth" to={"/signin"}>
+          <Link
+            className="link link_color_accent btn-auth"
+            to={ENDPOINT_SIGNIN}
+          >
             Войти
           </Link>
         </div>

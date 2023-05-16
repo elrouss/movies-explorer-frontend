@@ -47,6 +47,7 @@ export default function App() {
   const [isAppLoading, setIsAppLoading] = useState(false);
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
+  const [successMessages, setSuccessMessages] = useState("");
   const [errorMessages, setErrorMessages] = useState({
     registrationResponse: "",
     authorizationResponse: "",
@@ -60,6 +61,7 @@ export default function App() {
     name: "",
   });
   const [isCurrentUserLoggedIn, setIsCurrentUserLoggedIn] = useState(false);
+  const [isBtnSaveVisible, setIsBtnSaveVisible] = useState(false);
 
   const [allMovies, setAllMovies] = useState([]);
   const [filteredAllMovies, setFilteredMovies] = useState([]);
@@ -304,6 +306,10 @@ export default function App() {
         .then((res) => {
           if (res.ok) {
             setErrorMessages({ updatingUserInfoResponse: "" });
+            setIsBtnSaveVisible(false);
+            setSuccessMessages({
+              updatingUserInfoResponse: "Данные профиля успешно обновлены",
+            });
             return res.json();
           } else {
             setErrorMessages({
@@ -516,8 +522,6 @@ export default function App() {
           const clone = { ...movie };
           clone.selected = false;
 
-          console.log(clone);
-
           if (message) {
             setSavedMovies((prevMovies) => [...prevMovies, clone]);
 
@@ -635,6 +639,7 @@ export default function App() {
           path={ENDPOINT_ROOT}
           element={
             <Header
+              checkToken={checkToken}
               isCurrentUserLoggedIn={isCurrentUserLoggedIn}
               toggleHamburgerMenu={toggleHamburgerMenu}
               isModalWindowOpened={isModalWindowOpened}
@@ -695,8 +700,13 @@ export default function App() {
                   setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn}
                   setCurrentUser={setCurrentUser}
                   onUpdate={updateUserInfo}
+                  isBtnSaveVisible={isBtnSaveVisible}
+                  setIsBtnSaveVisible={setIsBtnSaveVisible}
                   onLoad={isProcessLoading}
+                  onSuccessMessages={successMessages}
+                  setSuccessMessages={setSuccessMessages}
                   error={errorMessages}
+                  setErrorMessages={setErrorMessages}
                 />
               </ProtectedRoute>
             }
