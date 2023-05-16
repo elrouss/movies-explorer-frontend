@@ -81,53 +81,11 @@ export default function App() {
     useState(false);
   const [hasUserSearched, setHasUserSearched] = useState(false);
 
-  const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
-  const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
-
   const navigate = useNavigate();
   const location = useLocation();
 
   const pathMovies = location.pathname === ENDPOINT_MOVIES;
   const pathSavedMovies = location.pathname === ENDPOINT_SAVED_MOVIES;
-
-  function openModalWindow() {
-    setIsModalWindowOpened(true);
-  }
-
-  function toggleHamburgerMenu() {
-    if (!isModalWindowOpened) {
-      openModalWindow();
-    }
-
-    setIsHamburgerMenuOpened(!isHamburgerMenuOpened);
-  }
-
-  // TODO: при открытии гамбургер-меню и растягивании экрана > 768px
-  // модальное окно исчезает, но overflow: scroll не убирается,
-  // хук useWindowDimension работает через 1px при растягивании
-  useEffect(() => {
-    const body = document.body;
-
-    body.classList.contains("page_no-scroll")
-      ? body.classList.remove("page_no-scroll")
-      : body.classList.add("page_no-scroll");
-  }, [isModalWindowOpened]);
-
-  const closeModalWindow = useCallback(() => {
-    setIsModalWindowOpened(false);
-  }, []);
-
-  const closeHamburgerMenu = useCallback(() => {
-    setIsHamburgerMenuOpened(false);
-  }, []);
-
-  function closeHamburgerMenuOnOutsideAndNavClick({ target }) {
-    const checkSelector = (selector) => target.classList.contains(selector);
-
-    if (checkSelector("modal-window_opened") || checkSelector("link")) {
-      closeHamburgerMenu();
-    }
-  }
 
   function searchMovie(data) {
     if (pathMovies) setSearchFormValue(data);
@@ -627,19 +585,7 @@ export default function App() {
       <Routes>
         <Route
           path={ENDPOINT_ROOT}
-          element={
-            <Header
-              checkToken={checkToken}
-              isCurrentUserLoggedIn={isCurrentUserLoggedIn}
-              toggleHamburgerMenu={toggleHamburgerMenu}
-              isModalWindowOpened={isModalWindowOpened}
-              isHamburgerMenuOpened={isHamburgerMenuOpened}
-              closeModalWindow={closeModalWindow}
-              closeHamburgerMenuOnOutsideAndNavClick={
-                closeHamburgerMenuOnOutsideAndNavClick
-              }
-            />
-          }
+          element={<Header isCurrentUserLoggedIn={isCurrentUserLoggedIn} />}
         >
           <Route index element={<Main />} />
           <Route

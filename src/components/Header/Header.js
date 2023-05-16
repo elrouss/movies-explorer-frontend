@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -15,14 +15,22 @@ import {
   TABLET_SCREEN_WIDTH,
 } from "../../utils/constants.js";
 
-function Header({
-  isCurrentUserLoggedIn,
-  toggleHamburgerMenu,
-  isModalWindowOpened,
-  isHamburgerMenuOpened,
-  closeModalWindow,
-  closeHamburgerMenuOnOutsideAndNavClick,
-}) {
+function Header({ isCurrentUserLoggedIn }) {
+  const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
+  const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
+
+  function openModalWindow() {
+    setIsModalWindowOpened(true);
+  }
+
+  function toggleHamburgerMenu() {
+    if (!isModalWindowOpened) {
+      openModalWindow();
+    }
+
+    setIsHamburgerMenuOpened(!isHamburgerMenuOpened);
+  }
+
   const isMobileWidth = useWindowDimensions() <= TABLET_SCREEN_WIDTH;
 
   function renderHeaderMenu() {
@@ -74,11 +82,9 @@ function Header({
       {isMobileWidth && (
         <HamburgerMenu
           isModalWindowOpened={isModalWindowOpened}
+          setIsModalWindowOpened={setIsModalWindowOpened}
           isHamburgerMenuOpened={isHamburgerMenuOpened}
-          closeModalWindow={closeModalWindow}
-          closeHamburgerMenuOnOutsideAndNavClick={
-            closeHamburgerMenuOnOutsideAndNavClick
-          }
+          setIsHamburgerMenuOpened={setIsHamburgerMenuOpened}
         />
       )}
     </>
@@ -87,11 +93,6 @@ function Header({
 
 Header.propTypes = {
   isCurrentUserLoggedIn: PropTypes.bool,
-  toggleHamburgerMenu: PropTypes.func,
-  isModalWindowOpened: PropTypes.bool,
-  isHamburgerMenuOpened: PropTypes.bool,
-  closeModalWindow: PropTypes.func,
-  closeHamburgerMenuOnOutsideAndNavClick: PropTypes.func,
 };
 
 export default Header;
