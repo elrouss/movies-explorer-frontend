@@ -7,7 +7,7 @@ import Input from "../Input/Input.js";
 
 import useFormWithValidation from "../../hooks/useFormWithValidation.js";
 
-import { EMAIL_PATTERN, PASSWORD_PATTERN } from "../../utils/constants.js";
+import { PATTERN_EMAIL, PATTERN_PASSWORD } from "../../utils/constants.js";
 import { VALIDATION_MESSAGES } from "../../utils/validation.js";
 
 function Login({ onAuthorization, onLoad, error }) {
@@ -44,7 +44,7 @@ function Login({ onAuthorization, onLoad, error }) {
         autoComplete={"on"}
         value={values?.email || ""}
         onChange={handleChange}
-        pattern={EMAIL_PATTERN}
+        pattern={PATTERN_EMAIL}
         errorCondition={errors?.email}
         errorMessage={VALIDATION_MESSAGES.frontend.email}
       />
@@ -57,7 +57,7 @@ function Login({ onAuthorization, onLoad, error }) {
         autoComplete={"current-password"}
         value={values?.password || ""}
         onChange={handleChange}
-        pattern={PASSWORD_PATTERN}
+        pattern={PATTERN_PASSWORD}
         errorCondition={errors?.password}
         errorMessage={VALIDATION_MESSAGES.frontend.password}
       />

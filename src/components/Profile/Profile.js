@@ -7,9 +7,9 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import useFormWithValidation from "../../hooks/useFormWithValidation";
 
 import {
-  EMAIL_PATTERN,
+  PATTERN_EMAIL,
   ENDPOINT_ROOT,
-  USERNAME_PATTERN,
+  PATTERN_USERNAME,
 } from "../../utils/constants";
 import { VALIDATION_MESSAGES } from "../../utils/validation";
 
@@ -94,7 +94,7 @@ function Profile({
                 value={values?.name || ""}
                 required
                 onChange={handleChange}
-                pattern={USERNAME_PATTERN}
+                pattern={PATTERN_USERNAME}
                 disabled={isBtnSaveVisible ? false : true}
               />
             </div>
@@ -112,7 +112,7 @@ function Profile({
                 value={values?.email || ""}
                 required
                 onChange={handleChange}
-                pattern={EMAIL_PATTERN}
+                pattern={PATTERN_EMAIL}
                 disabled={isBtnSaveVisible ? false : true}
               />
               <span
