@@ -2,13 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function MoviesCard({ movie, icon, onMovieSelect }) {
-  const {
-    nameRU,
-    duration,
-    trailerLink,
-    image,
-    selected,
-  } = movie;
+  const { nameRU, duration, trailerLink, image, selected } = movie;
 
   function countTime(duration) {
     const time = duration / 60;
@@ -20,9 +14,6 @@ function MoviesCard({ movie, icon, onMovieSelect }) {
     return hours ? `${hours}ч` : `${minutes}м`;
   }
 
-  // TODO: ДЛЯ СТАТИЧНОГО МАКЕТА
-  // let isFavouriteCard = false;
-
   return (
     <article className="movies-card">
       <div className="movies-card__description">
@@ -30,10 +21,9 @@ function MoviesCard({ movie, icon, onMovieSelect }) {
         <span className="movies-card__duration">{countTime(duration)}</span>
       </div>
       <button
-        // className={`btn movies-card__btn-favourite${
-        //   (isFavouriteCard && " movies-card__btn-favourite_active") || ""
-        // }`}
-        className={`btn movies-card__btn-favourite${selected && " btn movies-card__btn-favourite_active" || ""}`}
+        className={`btn movies-card__btn-favourite${
+          (selected && " btn movies-card__btn-favourite_active") || ""
+        }`}
         type="button"
         aria-label="Добавление карточки с фильмом в избранные"
         onClick={(evt) => onMovieSelect(evt, movie)}
@@ -48,7 +38,9 @@ function MoviesCard({ movie, icon, onMovieSelect }) {
       >
         <img
           className="movies-card__photo"
-          src={image?.url && `https://api.nomoreparties.co${image?.url}` || image}
+          src={
+            (image?.url && `https://api.nomoreparties.co${image?.url}`) || image
+          }
           alt={`Постер фильма "${nameRU}"`}
         />
       </a>

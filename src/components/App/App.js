@@ -134,16 +134,6 @@ export default function App() {
     if (pathSavedMovies) setSearchFormValueSavedMovies(data);
   }
 
-  function toggleFilterCheckbox({ target: { checked } }) {
-    if (pathMovies) {
-      setIsFilterCheckboxMoviesChecked(checked);
-    }
-
-    if (pathSavedMovies) {
-      setIsFilterCheckboxSavedMoviesChecked(checked);
-    }
-  }
-
   // If user has an error, while signing up/in, and then goes to another page,
   // this effect guarantees that an error above submit button will be cleared out
   useEffect(() => {
@@ -662,7 +652,7 @@ export default function App() {
                   searchFormValue={searchFormValue}
                   setIsSearchRequestInProgress={setIsSearchRequestInProgress}
                   hasUserSearched={hasUserSearched}
-                  onFilter={toggleFilterCheckbox}
+                  onFilter={setIsFilterCheckboxMoviesChecked}
                   isFilterCheckboxChecked={isFilterCheckboxMoviesChecked}
                   onMovieSelect={handleMovieSelected}
                   onLoad={isProcessLoading}
@@ -686,7 +676,7 @@ export default function App() {
                   searchFormValue={searchFormValueSavedMovies}
                   setIsSearchRequestInProgress={setIsSearchRequestInProgress}
                   onMovieSelect={handleMovieSelected}
-                  onFilter={toggleFilterCheckbox}
+                  onFilter={setIsFilterCheckboxSavedMoviesChecked}
                   isFilterCheckboxChecked={isFilterCheckboxSavedMoviesChecked}
                 />
               </ProtectedRoute>
