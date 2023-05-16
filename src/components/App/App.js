@@ -230,77 +230,71 @@ export default function App() {
 
   // API
   // USERS
-  function handleUserRegistration({ email, password, name }) {
+  async function handleUserRegistration({ email, password, name }) {
     setIsProcessLoading(true);
 
-    registerUser(email, password, name)
-      .then((res) => {
-        if (res.ok) {
-          handleUserAuthorization({ email, password });
-          setErrorMessages({ registrationResponse: "" });
-        } else {
-          setErrorMessages({
-            registrationResponse:
-              res.status === 500
-                ? VALIDATION_MESSAGES.backend[500]
-                : res.status === 409
-                ? VALIDATION_MESSAGES.backend[409]
-                : showDefaultError("регистрации пользователя"),
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(
-          `Ошибка в процессе регистрации пользователя на сайте: ${err}`
-        );
-      })
-      .finally(() => setIsProcessLoading(false));
+    try {
+      const res = await registerUser(email, password, name);
+
+      if (res.ok) {
+        handleUserAuthorization({ email, password });
+        setErrorMessages({ registrationResponse: "" });
+      } else {
+        setErrorMessages({
+          registrationResponse:
+            res.status === 500
+              ? VALIDATION_MESSAGES.backend[500]
+              : res.status === 409
+              ? VALIDATION_MESSAGES.backend[409]
+              : showDefaultError("регистрации пользователя"),
+        });
+      }
+    } catch (err) {
+      console.error(
+        `Ошибка в процессе регистрации пользователя на сайте: ${err}`
+      );
+    } finally {
+      setIsProcessLoading(false);
+    }
   }
 
   const handleLoginOn = () => setIsCurrentUserLoggedIn(true);
 
-  function handleUserAuthorization({ email, password }) {
+  async function handleUserAuthorization({ email, password }) {
     setIsProcessLoading(true);
 
-    authorizeUser(email, password)
-      .then((res) => {
-        if (res.ok) {
-          setErrorMessages({ authorizationResponse: "" });
-          return res.json();
-        } else {
-          setErrorMessages({
-            authorizationResponse:
-              res.status === 500
-                ? VALIDATION_MESSAGES.backend[500]
-                : res.status === 401
-                ? VALIDATION_MESSAGES.backend[401]
-                : showDefaultError("авторизации"),
-          });
-        }
-      })
-      .then(({ token }) => {
-        if (token) {
-          localStorage.setItem("jwt", token);
-          handleLoginOn();
-          navigate(ENDPOINT_MOVIES, { replace: true });
+    try {
+      const res = await authorizeUser(email, password);
 
-          getUserInfo(token)
-            .then(({ _id, email, name }) =>
-              setCurrentUser({ _id, email, name })
-            )
-            .catch((err) => {
-              console.log(
-                `Ошибка в процессе проверки токена пользователя и получения личных данных: ${err}`
-              );
-            });
-        }
-      })
-      .catch((err) => {
-        console.log(
-          `Ошибка в процессе авторизации пользователя на сайте: ${err}`
-        );
-      })
-      .finally(() => setIsProcessLoading(false));
+      if (res.ok) {
+        setErrorMessages({ authorizationResponse: "" });
+
+        const data = await res.json();
+        const { token } = data;
+        localStorage.setItem("jwt", token);
+        handleLoginOn();
+        navigate(ENDPOINT_MOVIES, { replace: true });
+
+        const userInfo = await getUserInfo(token);
+        const { _id, email, name } = userInfo;
+        setCurrentUser({ _id, email, name });
+      } else {
+        setErrorMessages({
+          authorizationResponse:
+            res.status === 500
+              ? VALIDATION_MESSAGES.backend[500]
+              : res.status === 401
+              ? VALIDATION_MESSAGES.backend[401]
+              : showDefaultError("авторизации"),
+        });
+      }
+    } catch (err) {
+      console.error(
+        `Ошибка в процессе авторизации пользователя на сайте: ${err}`
+      );
+    } finally {
+      setIsProcessLoading(false);
+    }
   }
 
   const checkToken = useCallback(() => {
@@ -338,84 +332,84 @@ export default function App() {
     localStorage.setItem("current-endpoint", location.pathname);
   }, [navigate]);
 
-  function updateUserInfo({ email, name }) {
+  async function updateUserInfo({ email, name }) {
     if (email === currentUser.email && name === currentUser.name) {
       return;
     } else {
       setIsProcessLoading(true);
 
-      setUserInfo(email, name)
-        .then((res) => {
-          if (res.ok) {
-            setErrorMessages({ updatingUserInfoResponse: "" });
-            setIsBtnSaveVisible(false);
-            setSuccessMessages({
-              updatingUserInfoResponse: "Данные профиля успешно обновлены",
-            });
+      try {
+        const res = await setUserInfo(email, name);
+        if (res.ok) {
+          setErrorMessages({ updatingUserInfoResponse: "" });
+          setIsBtnSaveVisible(false);
+          setSuccessMessages({
+            updatingUserInfoResponse: "Данные профиля успешно обновлены",
+          });
 
-            return res.json();
-          } else {
-            setErrorMessages({
-              updatingUserInfoResponse:
-                res.status === 500
-                  ? VALIDATION_MESSAGES.backend[500]
-                  : res.status === 409
-                  ? VALIDATION_MESSAGES.backend[409]
-                  : showDefaultError("обновлении профиля"),
-            });
-          }
-        })
-        .then((data) => {
-          if (data) setCurrentUser(data);
-        })
-        .catch((err) => {
-          console.log(
-            `Ошибка в процессе редактирования данных пользователя: ${err}`
-          );
-        })
-        .finally(() => setIsProcessLoading(false));
+          const data = await res.json();
+          setCurrentUser(data);
+        } else {
+          setErrorMessages({
+            updatingUserInfoResponse:
+              res.status === 500
+                ? VALIDATION_MESSAGES.backend[500]
+                : res.status === 409
+                ? VALIDATION_MESSAGES.backend[409]
+                : showDefaultError("обновлении профиля"),
+          });
+        }
+      } catch (err) {
+        console.error(
+          `Ошибка в процессе редактирования данных пользователя: ${err}`
+        );
+      } finally {
+        setIsProcessLoading(false);
+      }
     }
   }
 
   // MOVIES
+  async function getAllMovies() {
+    setIsProcessLoading(true);
+
+    try {
+      const movies = await getMovies();
+      const synchronizeDataWithServer = (data) => {
+        const ids = [];
+
+        for (let savedMovie of savedMovies) {
+          ids.push(savedMovie.movieId);
+        }
+
+        for (let movie of data) {
+          if (ids.includes(movie.id)) {
+            movie.dbId = data._id;
+            movie.selected = true;
+          }
+        }
+
+        return data;
+      };
+
+      setAllMovies(synchronizeDataWithServer(movies));
+      filterMovies(synchronizeDataWithServer(movies));
+    } catch (err) {
+      setErrorMessages({
+        moviesResponse: `Во время запроса произошла ошибка.
+          Возможно, проблема с соединением или сервер недоступен.
+          Подождите немного и попробуйте ещё раз`,
+      });
+    } finally {
+      setIsProcessLoading(false);
+      setIsSearchRequestInProgress(false);
+    }
+  }
+
   useEffect(() => {
     if (!isSearchRequestInProgress || allMovies.length) return;
 
-    setIsProcessLoading(true);
-
-    getMovies()
-      .then((movies) => {
-        const synchronizeDataWithServer = (data) => {
-          const ids = [];
-
-          for (let savedMovie of savedMovies) {
-            ids.push(savedMovie.movieId);
-          }
-
-          for (let movie of data) {
-            if (ids.includes(movie.id)) {
-              movie.dbId = data._id;
-              movie.selected = true;
-            }
-          }
-
-          return data;
-        };
-
-        setAllMovies(synchronizeDataWithServer(movies));
-        filterMovies(synchronizeDataWithServer(movies));
-      })
-      .catch(() =>
-        setErrorMessages({
-          moviesResponse: `Во время запроса произошла ошибка.
-            Возможно, проблема с соединением или сервер недоступен.
-            Подождите немного и попробуйте ещё раз`,
-        })
-      )
-      .finally(() => {
-        setIsProcessLoading(false);
-        setIsSearchRequestInProgress(false);
-      });
+    getAllMovies();
   }, [isSearchRequestInProgress]);
 
   useEffect(() => {
@@ -451,35 +445,7 @@ export default function App() {
     }
   }
 
-  function handleMovieSelected({ target }, movie) {
-    const btn = target.closest(".movies-card__btn-favourite");
-
-    if (!btn) return;
-
-    if (pathMovies) {
-      let key;
-
-      for (let item of allMovies) {
-        if (item.id === movie.id) {
-          key = item.id;
-
-          if (item.selected) {
-            btn.classList.remove("movies-card__btn-favourite_active");
-            item.selected = false;
-
-            toggleMovieSelection(filteredAllMovies, key, false);
-          } else {
-            btn.classList.add("movies-card__btn-favourite_active");
-            item.selected = true;
-
-            toggleMovieSelection(filteredAllMovies, key, true);
-          }
-
-          break;
-        }
-      }
-    }
-
+  function handleDataServer(movie) {
     handleMovieServer(movie)
       .then((res) => res.json())
       .then(({ message }) => {
@@ -534,10 +500,42 @@ export default function App() {
         );
       })
       .catch((err) =>
-        console.log(
+        console.error(
           `Ошибка в процессе добавления карточки в список избранных либо удаления${err}`
         )
       );
+  }
+
+  function handleMovieSelected({ target }, movie) {
+    const btn = target.closest(".movies-card__btn-favourite");
+
+    if (!btn) return;
+
+    if (pathMovies) {
+      let key;
+
+      for (let item of allMovies) {
+        if (item.id === movie.id) {
+          key = item.id;
+
+          if (item.selected) {
+            btn.classList.remove("movies-card__btn-favourite_active");
+            item.selected = false;
+
+            toggleMovieSelection(filteredAllMovies, key, false);
+          } else {
+            btn.classList.add("movies-card__btn-favourite_active");
+            item.selected = true;
+
+            toggleMovieSelection(filteredAllMovies, key, true);
+          }
+
+          break;
+        }
+      }
+    }
+
+    handleDataServer(movie);
   }
 
   if (isAppLoading) return null;
