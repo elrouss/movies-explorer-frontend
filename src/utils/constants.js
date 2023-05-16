@@ -6,11 +6,12 @@ export const BEATFILM_MOVIES_URL =
 
 // ENDPOINTS
 export const ENDPOINT_ROOT = "/";
-export const ENDPOINT_SIGNUP = "/signup";
-export const ENDPOINT_SIGNIN = "/signin";
-export const ENDPOINT_MOVIES = "/movies";
+export const ENDPOINT_SIGNUP = "/signup"; // + backend
+export const ENDPOINT_SIGNIN = "/signin"; // + backend
+export const ENDPOINT_MOVIES = "/movies"; // + backend
 export const ENDPOINT_SAVED_MOVIES = "/saved-movies";
 export const ENDPOINT_PROFILE = "/profile";
+export const ENDPOINT_USERS_CURRENT = "/users/me" // backend
 export const ENDPOINT_ASTERISK = "*";
 
 // PATTERNS

@@ -1,8 +1,19 @@
-import { BASE_URL_LOCAL } from "./constants";
+import {
+  BASE_URL_LOCAL,
+  ENDPOINT_SIGNUP,
+  ENDPOINT_SIGNIN,
+  ENDPOINT_USERS_CURRENT,
+  ENDPOINT_MOVIES,
+} from "./constants";
+
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+};
 
 // User
 export function registerUser(email, password, name) {
-  return fetch(`${BASE_URL_LOCAL}/signup`, {
+  return fetch(`${BASE_URL_LOCAL}${ENDPOINT_SIGNUP}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -12,7 +23,7 @@ export function registerUser(email, password, name) {
 }
 
 export function authorizeUser(email, password) {
-  return fetch(`${BASE_URL_LOCAL}/signin`, {
+  return fetch(`${BASE_URL_LOCAL}${ENDPOINT_SIGNIN}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -22,7 +33,7 @@ export function authorizeUser(email, password) {
 }
 
 export function getUserInfo(token) {
-  return fetch(`${BASE_URL_LOCAL}/users/me`, {
+  return fetch(`${BASE_URL_LOCAL}${ENDPOINT_USERS_CURRENT}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -33,22 +44,17 @@ export function getUserInfo(token) {
 }
 
 export function setUserInfo(email, name) {
-  return fetch(`${BASE_URL_LOCAL}/users/me`, {
+  return fetch(`${BASE_URL_LOCAL}${ENDPOINT_USERS_CURRENT}`, {
     method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
+    headers: headers,
     body: JSON.stringify({ email, name }),
   });
 }
 
 // Movies
 export function getSavedMovies() {
-  return fetch(`${BASE_URL_LOCAL}/movies`, {
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-    },
+  return fetch(`${BASE_URL_LOCAL}${ENDPOINT_MOVIES}`, {
+    headers: headers,
   }).then((res) => {
     if (res.ok) {
       return res.json();
@@ -78,12 +84,9 @@ export function handleMovieServer(movie) {
     let thumbnail = `https://api.nomoreparties.co${image.formats.thumbnail.url}`;
     image = `https://api.nomoreparties.co${image.url}`;
 
-    return fetch(`${BASE_URL_LOCAL}/movies`, {
+    return fetch(`${BASE_URL_LOCAL}${ENDPOINT_MOVIES}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
+      headers: headers,
       body: JSON.stringify({
         country,
         director,
@@ -99,12 +102,12 @@ export function handleMovieServer(movie) {
       }),
     });
   } else {
-    return fetch(`${BASE_URL_LOCAL}/movies/${movie.dbId || movie._id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-      },
-    });
+    return fetch(
+      `${BASE_URL_LOCAL}${ENDPOINT_MOVIES}/${movie.dbId || movie._id}`,
+      {
+        method: "DELETE",
+        headers: headers,
+      }
+    );
   }
 }
