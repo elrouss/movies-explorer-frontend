@@ -20,8 +20,6 @@ function SearchForm({
 
   const movie = useRef("");
   const [isSearchFormValid, setIsSearchFormValid] = useState(true);
-  //  + сохранять текст ничего не найдено и проч?
-  // TODO: запрещать сабмит во время обработки запроса
   function handleSubmit(evt) {
     evt.preventDefault();
 
@@ -34,7 +32,7 @@ function SearchForm({
       setIsSearchFormValid(true);
       onSearch(value);
       setIsSearchRequestInProgress(true);
-      setPrevValue(value)
+      setPrevValue(value);
     }
   }
 

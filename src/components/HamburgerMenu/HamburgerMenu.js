@@ -15,6 +15,7 @@ function HamburgerMenu({
       setIsModalWindowOpened={setIsModalWindowOpened}
       isModalWindowOpened={isModalWindowOpened}
       setIsHamburgerMenuOpened={setIsHamburgerMenuOpened}
+      isHamburgerMenuOpened={isHamburgerMenuOpened}
     >
       <div
         className={`hamburger-menu${

@@ -10,9 +10,11 @@ function SavedMovies({
   onSearch,
   searchFormValue,
   setIsSearchRequestInProgress,
+  hasUserSearched,
   onMovieSelect,
   onFilter,
   isFilterCheckboxChecked,
+  onLoad,
 }) {
   const [prevValueSavedMovies, setPrevValueSavedMovies] = useState("");
 
@@ -47,8 +49,10 @@ function SavedMovies({
         />
         <MoviesCardList
           movies={movies}
+          hasUserSearched={hasUserSearched}
           icon={icon}
           onMovieSelect={onMovieSelect}
+          onLoad={onLoad}
         />
       </main>
       <Footer />
@@ -60,10 +64,12 @@ SavedMovies.propTypes = {
   movies: PropTypes.array,
   onMovieSelect: PropTypes.func,
   onSearch: PropTypes.func,
+  hasUserSearched: PropTypes.bool,
   searchFormValue: PropTypes.string,
   setIsSearchRequestInProgress: PropTypes.func,
   onFilter: PropTypes.func,
   isFilterCheckboxChecked: PropTypes.bool,
+  onLoad: PropTypes.bool,
 };
 
 export default SavedMovies;

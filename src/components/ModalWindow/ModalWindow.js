@@ -8,9 +8,6 @@ function ModalWindow({
   isHamburgerMenuOpened,
   setIsHamburgerMenuOpened,
 }) {
-  // // TODO: при открытии гамбургер-меню и растягивании экрана > 768px
-  // // модальное окно исчезает, но overflow: scroll не убирается,
-  // // хук useWindowDimension работает через 1px при растягивании
   useEffect(() => {
     const body = document.body;
 

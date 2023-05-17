@@ -12,8 +12,9 @@
   opacity: 0;
   visibility: hidden;
 
-  // Скорость появления/исчезновения темной подложки
-  // совпадает со скоростью возникновения боковой панели гамбургер-меню
+  // The speed of the appearance/disappearance of the dark background
+  // is the same as the speed of the appearance/disappearance
+  // of the sidebar of the hamburger menu
   transition: background-color 0.6s ease;
 
   &_opened {

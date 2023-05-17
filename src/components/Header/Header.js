@@ -34,7 +34,7 @@ function Header({ isCurrentUserLoggedIn }) {
   const isMobileWidth = useWindowDimensions() <= TABLET_SCREEN_WIDTH;
 
   function renderHeaderMenu() {
-    if (isMobileWidth) {
+    if (isMobileWidth && isCurrentUserLoggedIn) {
       return (
         <button
           className={`btn hamburger${

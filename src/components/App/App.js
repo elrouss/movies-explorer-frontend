@@ -47,6 +47,7 @@ export default function App() {
   const [isAppLoading, setIsAppLoading] = useState(false);
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
+  const [areMoviesLoading, setAreMoviesLoading] = useState(false);
   const [successMessages, setSuccessMessages] = useState("");
   const [errorMessages, setErrorMessages] = useState({
     registrationResponse: "",
@@ -110,16 +111,20 @@ export default function App() {
     );
   }
 
-  function loadSavedMoviesFromServer() {
-    getSavedMovies()
-      .then((data) => {
-        setSavedMovies(data);
-      })
-      .catch((err) => {
-        console.log(
-          `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
-        );
-      });
+  async function loadSavedMoviesFromServer() {
+    setAreMoviesLoading(true);
+
+    try {
+      const res = await getSavedMovies();
+      const data = await res;
+      setSavedMovies(data);
+    } catch (err) {
+      console.error(
+        `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
+      );
+    } finally {
+      setAreMoviesLoading(false);
+    }
   }
 
   function searchMovie(data) {
@@ -190,6 +195,8 @@ export default function App() {
 
     setIsSearchRequestInProgress(false);
     setHasUserSearched(true);
+
+    localStorage.setItem("user-search", JSON.stringify(hasUserSearched));
   }
 
   // If user has an error, while signing up/in, and then goes to another page,
@@ -205,8 +212,6 @@ export default function App() {
   }, [navigate]);
 
   useEffect(() => {
-    if (!isCurrentUserLoggedIn) return;
-
     setAllMovies(
       getLocalStorageData("all-movies")
         ? JSON.parse(getLocalStorageData("all-movies"))
@@ -225,7 +230,11 @@ export default function App() {
       false || JSON.parse(getLocalStorageData("filtercheckbox-status"))
     );
 
-    loadSavedMoviesFromServer();
+    setHasUserSearched(false || JSON.parse(getLocalStorageData("user-search")));
+
+    if (isCurrentUserLoggedIn) {
+      loadSavedMoviesFromServer();
+    }
   }, [isCurrentUserLoggedIn]);
 
   // API
@@ -316,7 +325,7 @@ export default function App() {
           );
         })
         .catch((err) => {
-          console.log(
+          console.error(
             `Ошибка в процессе проверки токена пользователя и получения личных данных: ${err}`
           );
         })
@@ -371,7 +380,7 @@ export default function App() {
 
   // MOVIES
   async function getAllMovies() {
-    setIsProcessLoading(true);
+    setAreMoviesLoading(true);
 
     try {
       const movies = await getMovies();
@@ -401,7 +410,7 @@ export default function App() {
           Подождите немного и попробуйте ещё раз`,
       });
     } finally {
-      setIsProcessLoading(false);
+      setAreMoviesLoading(false);
       setIsSearchRequestInProgress(false);
     }
   }
@@ -561,7 +570,7 @@ export default function App() {
                   onFilter={setIsFilterCheckboxMoviesChecked}
                   isFilterCheckboxChecked={isFilterCheckboxMoviesChecked}
                   onMovieSelect={handleMovieSelected}
-                  onLoad={isProcessLoading}
+                  onLoad={areMoviesLoading}
                   error={errorMessages}
                 />
               </ProtectedRoute>
@@ -581,9 +590,11 @@ export default function App() {
                   onSearch={searchMovie}
                   searchFormValue={searchFormValueSavedMovies}
                   setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+                  hasUserSearched={hasUserSearched}
                   onMovieSelect={handleMovieSelected}
                   onFilter={setIsFilterCheckboxSavedMoviesChecked}
                   isFilterCheckboxChecked={isFilterCheckboxSavedMoviesChecked}
+                  onLoad={areMoviesLoading}
                 />
               </ProtectedRoute>
             }

@@ -22,7 +22,7 @@
     @extend %flex-column;
     justify-content: flex-end;
     width: 100%;
-    min-height: 71px;
+    min-height: 84px;
   }
 
   &__heading {
@@ -73,16 +73,16 @@
     row-gap: 17px;
     width: inherit;
     margin: 0;
-    padding: 0 0 140px;
+    padding: 0 0 127px;
 
     border: none;
 
     @media screen and (max-width: $media-desktop) {
-      padding-bottom: 129px;
+      padding-bottom: 116px;
     }
 
     @media screen and (max-width: $media-mobile-l) {
-      padding-bottom: 38.2vh;
+      padding-bottom: 36.6vh;
     }
   }
 
