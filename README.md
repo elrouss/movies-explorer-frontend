@@ -33,9 +33,9 @@ Pull-request: https://github.com/elrouss/movies-explorer-frontend/pull/8
 <br>
 Backend: https://api.elrouss.movies.nomoredomains.monster/
 
-<b>Ссылка на макет:</b> https://disk.yandex.ru/d/tLqZ9NlxEjOxWQ
+<b>Макет:</b> https://disk.yandex.ru/d/tLqZ9NlxEjOxWQ
 <br>
-<b>Ссылка на чек-лист</b>: https://code.s3.yandex.net/web-developer/static/new-program/web-diploma-criteria-2.0/checklist_react_diplom.pdf
+<b>Чек-лист</b>: https://code.s3.yandex.net/web-developer/static/new-program/web-diploma-criteria-2.0/checklist_react_diplom.pdf
 <br>
 
 <i>* - проект прошел код-ревью</i>
@@ -112,7 +112,7 @@ Backend: https://api.elrouss.movies.nomoredomains.monster/
 <div align="right">(<a href="#summary">к оглавлению</a>)</div>
 
 <div align="center">
-  <a href="https://elrouss.mesto.nomoredomains.work">
+  <a href="https://elrouss.movies.nomoredomains.monster/">
     <img width="550" alt="Страница с поиском фильмов" src="https://github.com/elrouss/movies-explorer-frontend/assets/108838349/75c9b5f3-3dcb-406a-a0c6-7da2815a10a1">
   </a>
 </div>
