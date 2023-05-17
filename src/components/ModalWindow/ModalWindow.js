@@ -11,9 +11,9 @@ function ModalWindow({
   useEffect(() => {
     const body = document.body;
 
-    body.classList.contains("page_no-scroll")
-      ? body.classList.remove("page_no-scroll")
-      : body.classList.add("page_no-scroll");
+    isModalWindowOpened
+      ? body.classList.add("page_no-scroll")
+      : body.classList.remove("page_no-scroll");
   }, [isModalWindowOpened]);
 
   const closeModalWindow = useCallback(() => {
