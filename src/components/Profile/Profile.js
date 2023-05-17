@@ -164,7 +164,7 @@ function Profile({
 
             {isBtnSaveVisible ? (
               <button
-                className="btn btn-entry"
+                className="btn btn-entry btn-save"
                 type="submit"
                 aria-label="Сохранение данных профиля"
                 disabled={

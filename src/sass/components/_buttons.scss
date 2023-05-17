@@ -50,6 +50,12 @@
   transition: opacity 0.3s ease-in;
 }
 
+.btn-save {
+  @media screen and (max-width: $media-tablet) {
+    margin-bottom: 155px;
+  }
+}
+
 .btn-search {
   width: 34px;
   height: 34px;
