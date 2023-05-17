@@ -112,8 +112,6 @@ export default function App() {
   }
 
   async function loadSavedMoviesFromServer() {
-    setAreMoviesLoading(true);
-
     try {
       const res = await getSavedMovies();
       const data = await res;
@@ -122,8 +120,6 @@ export default function App() {
       console.error(
         `Ошибка в процессе сохранения карточек в личном кабинет пользователя: ${err}`
       );
-    } finally {
-      setAreMoviesLoading(false);
     }
   }
 
@@ -594,7 +590,6 @@ export default function App() {
                   onMovieSelect={handleMovieSelected}
                   onFilter={setIsFilterCheckboxSavedMoviesChecked}
                   isFilterCheckboxChecked={isFilterCheckboxSavedMoviesChecked}
-                  onLoad={areMoviesLoading}
                 />
               </ProtectedRoute>
             }

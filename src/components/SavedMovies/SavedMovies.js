@@ -14,7 +14,6 @@ function SavedMovies({
   onMovieSelect,
   onFilter,
   isFilterCheckboxChecked,
-  onLoad,
 }) {
   const [prevValueSavedMovies, setPrevValueSavedMovies] = useState("");
 
@@ -52,7 +51,6 @@ function SavedMovies({
           hasUserSearched={hasUserSearched}
           icon={icon}
           onMovieSelect={onMovieSelect}
-          onLoad={onLoad}
         />
       </main>
       <Footer />
@@ -69,7 +67,6 @@ SavedMovies.propTypes = {
   setIsSearchRequestInProgress: PropTypes.func,
   onFilter: PropTypes.func,
   isFilterCheckboxChecked: PropTypes.bool,
-  onLoad: PropTypes.bool,
 };
 
 export default SavedMovies;

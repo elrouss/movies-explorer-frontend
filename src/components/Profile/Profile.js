@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -25,6 +25,8 @@ function Profile({
   error,
   setErrorMessages,
 }) {
+  const [prevValues, setPrevValues] = useState({});
+
   const navigate = useNavigate();
 
   const currentUser = useContext(CurrentUserContext);
@@ -41,15 +43,27 @@ function Profile({
     setErrorMessages({ updatingUserInfoResponse: "" });
   }, [navigate]);
 
-  function showSaveBtn() {
+  function showSaveBtn({ target }) {
     setIsBtnSaveVisible(true);
     setSuccessMessages("");
+
+    const data = {};
+    Array.from(target.closest(".profile__form").children[0].children).forEach(
+      (wrapper) => {
+        const input = wrapper.children[1];
+
+        data[input.name] = input.value;
+      }
+    );
+
+    setPrevValues(data);
   }
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
     const { email, name } = values;
+    console.log(prevValues);
 
     onUpdate({
       email: email.trim().replace(/\s/g, ""),
@@ -149,7 +163,12 @@ function Profile({
                 className="btn btn-entry"
                 type="submit"
                 aria-label="Сохранение данных профиля"
-                disabled={!isValid || onLoad}
+                disabled={
+                  !isValid ||
+                  onLoad ||
+                  (prevValues.email === values.email &&
+                    prevValues.name === values.name)
+                }
               >
                 {onLoad ? "Сохранение..." : "Сохранить"}
               </button>
@@ -158,7 +177,7 @@ function Profile({
                 className="btn btn-profile"
                 type="button"
                 aria-label="Редактирование данных профиля"
-                onClick={() => showSaveBtn()}
+                onClick={(evt) => showSaveBtn(evt)}
               >
                 Редактировать
               </button>
