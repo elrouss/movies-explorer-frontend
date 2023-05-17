@@ -129,7 +129,7 @@
   $font-size: 1.3rem;
 
   margin: 0;
-  padding: 0;
+  padding: 0 0 140px;
 
   @include font(
     $family: "Inter-Medium",
