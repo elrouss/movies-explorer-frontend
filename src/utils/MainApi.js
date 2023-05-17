@@ -1,5 +1,5 @@
 import {
-  URL_BASE_LOCAL,
+  URL_BASE,
   ENDPOINT_SIGNUP,
   ENDPOINT_SIGNIN,
   ENDPOINT_USERS_CURRENT,
@@ -8,7 +8,7 @@ import {
 
 // User
 export function registerUser(email, password, name) {
-  return fetch(`${URL_BASE_LOCAL}${ENDPOINT_SIGNUP}`, {
+  return fetch(`${URL_BASE}${ENDPOINT_SIGNUP}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +18,7 @@ export function registerUser(email, password, name) {
 }
 
 export function authorizeUser(email, password) {
-  return fetch(`${URL_BASE_LOCAL}${ENDPOINT_SIGNIN}`, {
+  return fetch(`${URL_BASE}${ENDPOINT_SIGNIN}`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -28,7 +28,7 @@ export function authorizeUser(email, password) {
 }
 
 export function getUserInfo(token) {
-  return fetch(`${URL_BASE_LOCAL}${ENDPOINT_USERS_CURRENT}`, {
+  return fetch(`${URL_BASE}${ENDPOINT_USERS_CURRENT}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ export function getUserInfo(token) {
 }
 
 export function setUserInfo(email, name) {
-  return fetch(`${URL_BASE_LOCAL}${ENDPOINT_USERS_CURRENT}`, {
+  return fetch(`${URL_BASE}${ENDPOINT_USERS_CURRENT}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export function setUserInfo(email, name) {
 
 // Movies
 export function getSavedMovies() {
-  return fetch(`${URL_BASE_LOCAL}${ENDPOINT_MOVIES}`, {
+  return fetch(`${URL_BASE}${ENDPOINT_MOVIES}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${localStorage.getItem("jwt")}`,
@@ -85,7 +85,7 @@ export function handleMovieServer(movie) {
     let thumbnail = `https://api.nomoreparties.co${image.formats.thumbnail.url}`;
     image = `https://api.nomoreparties.co${image.url}`;
 
-    return fetch(`${URL_BASE_LOCAL}${ENDPOINT_MOVIES}`, {
+    return fetch(`${URL_BASE}${ENDPOINT_MOVIES}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +107,7 @@ export function handleMovieServer(movie) {
     });
   } else {
     return fetch(
-      `${URL_BASE_LOCAL}${ENDPOINT_MOVIES}/${movie.dbId || movie._id}`,
+      `${URL_BASE}${ENDPOINT_MOVIES}/${movie.dbId || movie._id}`,
       {
         method: "DELETE",
         headers: {
