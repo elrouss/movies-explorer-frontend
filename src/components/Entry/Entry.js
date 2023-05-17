@@ -46,7 +46,7 @@ function Entry({
                   error?.authorizationResponse) &&
                   " error_visible") ||
                 ""
-              } error__server`}
+              } error_type_server-response`}
             >
               {error?.registrationResponse || error?.authorizationResponse}
             </span>

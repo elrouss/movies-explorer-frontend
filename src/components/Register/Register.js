@@ -8,9 +8,9 @@ import Input from "../Input/Input.js";
 import useFormWithValidation from "../../hooks/useFormWithValidation.js";
 
 import {
-  EMAIL_PATTERN,
-  PASSWORD_PATTERN,
-  USERNAME_PATTERN,
+  PATTERN_EMAIL,
+  PATTERN_PASSWORD,
+  PATTERN_USERNAME,
 } from "../../utils/constants.js";
 import { VALIDATION_MESSAGES } from "../../utils/validation.js";
 
@@ -49,7 +49,7 @@ function Register({ onRegistration, onLoad, error }) {
         autoComplete={"on"}
         value={values?.name || ""}
         onChange={handleChange}
-        pattern={USERNAME_PATTERN}
+        pattern={PATTERN_USERNAME}
         errorCondition={errors?.name}
         errorMessage={VALIDATION_MESSAGES.frontend.name}
       />
@@ -62,7 +62,7 @@ function Register({ onRegistration, onLoad, error }) {
         autoComplete={"on"}
         value={values?.email || ""}
         onChange={handleChange}
-        pattern={EMAIL_PATTERN}
+        pattern={PATTERN_EMAIL}
         errorCondition={errors?.email}
         errorMessage={VALIDATION_MESSAGES.frontend.email}
       />
@@ -75,7 +75,7 @@ function Register({ onRegistration, onLoad, error }) {
         autoComplete={"current-password"}
         value={values?.password || ""}
         onChange={handleChange}
-        pattern={PASSWORD_PATTERN}
+        pattern={PATTERN_PASSWORD}
         errorCondition={errors?.password}
         errorMessage={VALIDATION_MESSAGES.frontend.password}
       />

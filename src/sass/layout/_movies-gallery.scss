@@ -1,11 +1,9 @@
 .movies-gallery {
-  // TODO: подсчитать для планшета и телефона
-  // В принципе отработать стили после логики
   min-height: 451px;
 
   &__wrapper {
     @extend %flex-column;
-    padding-top: 85px;
+    padding-top: 105px;
     margin-bottom: 95px;
 
     @media screen and (max-width: $media-desktop) {
@@ -18,6 +16,10 @@
       margin-bottom: 98px;
     }
 
+    @media screen and (max-width: $media-laptop) {
+      padding-top: 22px;
+    }
+
     @media screen and (max-width: calc($media-tablet - 1px)) {
       margin-right: calc(
         10px + (20 + 20 * 0.7) * (100vw - $media-mobile-s) / 767
@@ -25,6 +27,7 @@
       margin-left: calc(
         10px + (20 + 20 * 0.7) * (100vw - $media-mobile-s) / 767
       );
+      padding-top: 32px;
     }
   }
 

@@ -10,6 +10,7 @@ function SavedMovies({
   onSearch,
   searchFormValue,
   setIsSearchRequestInProgress,
+  hasUserSearched,
   onMovieSelect,
   onFilter,
   isFilterCheckboxChecked,
@@ -47,6 +48,7 @@ function SavedMovies({
         />
         <MoviesCardList
           movies={movies}
+          hasUserSearched={hasUserSearched}
           icon={icon}
           onMovieSelect={onMovieSelect}
         />
@@ -60,6 +62,7 @@ SavedMovies.propTypes = {
   movies: PropTypes.array,
   onMovieSelect: PropTypes.func,
   onSearch: PropTypes.func,
+  hasUserSearched: PropTypes.bool,
   searchFormValue: PropTypes.string,
   setIsSearchRequestInProgress: PropTypes.func,
   onFilter: PropTypes.func,

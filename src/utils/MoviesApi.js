@@ -1,4 +1,4 @@
-import { BEATFILM_MOVIES_URL } from "./constants.js";
+import { URL_BEATFILM_MOVIES } from "./constants.js";
 
 function checkResponse(res) {
   if (res.ok) {
@@ -9,6 +9,6 @@ function checkResponse(res) {
 }
 
 export function getMovies() {
-  return fetch(BEATFILM_MOVIES_URL)
+  return fetch(URL_BEATFILM_MOVIES)
     .then((res) => checkResponse(res))
 }

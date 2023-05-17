@@ -113,7 +113,6 @@ function MoviesCardList({
           : NUM_CARDS_MOBILE_ADD)
     );
   }
-
   function renderResults() {
     if (onLoad) return <Preloader />;
 

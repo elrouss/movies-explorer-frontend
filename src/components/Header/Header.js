@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
@@ -9,18 +9,32 @@ import Navigation from "../Navigation/Navigation.js";
 
 import HamburgerMenu from "../HamburgerMenu/HamburgerMenu.js";
 
-function Header({
-  isCurrentUserLoggedIn,
-  toggleHamburgerMenu,
-  isModalWindowOpened,
-  isHamburgerMenuOpened,
-  closeModalWindow,
-  closeHamburgerMenuOnOutsideAndNavClick,
-}) {
-  const isMobileWidth = useWindowDimensions() <= 768;
+import {
+  ENDPOINT_SIGNUP,
+  ENDPOINT_SIGNIN,
+  TABLET_SCREEN_WIDTH,
+} from "../../utils/constants.js";
+
+function Header({ isCurrentUserLoggedIn }) {
+  const [isModalWindowOpened, setIsModalWindowOpened] = useState(false);
+  const [isHamburgerMenuOpened, setIsHamburgerMenuOpened] = useState(false);
+
+  function openModalWindow() {
+    setIsModalWindowOpened(true);
+  }
+
+  function toggleHamburgerMenu() {
+    if (!isModalWindowOpened) {
+      openModalWindow();
+    }
+
+    setIsHamburgerMenuOpened(!isHamburgerMenuOpened);
+  }
+
+  const isMobileWidth = useWindowDimensions() <= TABLET_SCREEN_WIDTH;
 
   function renderHeaderMenu() {
-    if (isMobileWidth) {
+    if (isMobileWidth && isCurrentUserLoggedIn) {
       return (
         <button
           className={`btn hamburger${
@@ -40,10 +54,13 @@ function Header({
     if (!isCurrentUserLoggedIn) {
       return (
         <div className="header__auth">
-          <Link className="link" to={"/signup"}>
+          <Link className="link" to={ENDPOINT_SIGNUP}>
             Регистрация
           </Link>
-          <Link className="link link_color_accent btn-auth" to={"/signin"}>
+          <Link
+            className="link link_color_accent btn-auth"
+            to={ENDPOINT_SIGNIN}
+          >
             Войти
           </Link>
         </div>
@@ -65,11 +82,9 @@ function Header({
       {isMobileWidth && (
         <HamburgerMenu
           isModalWindowOpened={isModalWindowOpened}
+          setIsModalWindowOpened={setIsModalWindowOpened}
           isHamburgerMenuOpened={isHamburgerMenuOpened}
-          closeModalWindow={closeModalWindow}
-          closeHamburgerMenuOnOutsideAndNavClick={
-            closeHamburgerMenuOnOutsideAndNavClick
-          }
+          setIsHamburgerMenuOpened={setIsHamburgerMenuOpened}
         />
       )}
     </>
@@ -78,11 +93,6 @@ function Header({
 
 Header.propTypes = {
   isCurrentUserLoggedIn: PropTypes.bool,
-  toggleHamburgerMenu: PropTypes.func,
-  isModalWindowOpened: PropTypes.bool,
-  isHamburgerMenuOpened: PropTypes.bool,
-  closeModalWindow: PropTypes.func,
-  closeHamburgerMenuOnOutsideAndNavClick: PropTypes.func,
 };
 
 export default Header;
