@@ -15,6 +15,8 @@ import { VALIDATION_MESSAGES } from "../../utils/validation";
 
 function Profile({
   setIsCurrentUserLoggedIn,
+  setSearchFormValueSavedMovies,
+  setIsFilterCheckboxSavedMoviesChecked,
   setCurrentUser,
   onUpdate,
   onLoad,
@@ -80,6 +82,8 @@ function Profile({
       email: "",
       name: "",
     });
+    setSearchFormValueSavedMovies("");
+    setIsFilterCheckboxSavedMoviesChecked(false);
     navigate(ENDPOINT_ROOT, { replace: true });
     setIsCurrentUserLoggedIn(false);
   }
@@ -202,6 +206,8 @@ function Profile({
 
 Profile.propTypes = {
   setIsCurrentUserLoggedIn: PropTypes.func,
+  setSearchFormValueSavedMovies: PropTypes.func,
+  setIsFilterCheckboxSavedMoviesChecked: PropTypes.func,
   setCurrentUser: PropTypes.func,
   onUpdate: PropTypes.func,
   onLoad: PropTypes.bool,

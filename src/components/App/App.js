@@ -44,7 +44,7 @@ import {
 } from "../../utils/constants.js";
 
 export default function App() {
-  const [isAppLoading, setIsAppLoading] = useState(false);
+  const [isAppLoaded, setIsAppLoaded] = useState(false);
 
   const [isProcessLoading, setIsProcessLoading] = useState(false);
   const [areMoviesLoading, setAreMoviesLoading] = useState(false);
@@ -226,7 +226,7 @@ export default function App() {
       false || JSON.parse(getLocalStorageData("filtercheckbox-status"))
     );
 
-    setHasUserSearched(false || JSON.parse(getLocalStorageData("user-search")));
+    setHasUserSearched(JSON.parse(getLocalStorageData("user-search") || false));
 
     if (isCurrentUserLoggedIn) {
       loadSavedMoviesFromServer();
@@ -306,36 +306,28 @@ export default function App() {
     const jwt = getLocalStorageData("jwt");
 
     if (jwt) {
-      setIsAppLoading(true);
       getUserInfo(jwt)
         .then(({ _id, email, name }) => {
           setCurrentUser({ _id, email, name });
           handleLoginOn();
-          navigate(
-            getLocalStorageData("current-endpoint")
-              ? getLocalStorageData("current-endpoint")
-              : ENDPOINT_MOVIES,
-            {
-              replace: true,
-            }
-          );
+          navigate({
+            replace: false,
+          });
         })
         .catch((err) => {
           console.error(
             `Ошибка в процессе проверки токена пользователя и получения личных данных: ${err}`
           );
         })
-        .finally(() => setIsAppLoading(false));
+        .finally(() => {
+          setIsAppLoaded(true);
+        });
+    } else {
+      setIsAppLoaded(true);
     }
   }, []);
 
   useEffect(() => checkToken(), []);
-
-  useEffect(() => {
-    if (!isCurrentUserLoggedIn) return;
-
-    localStorage.setItem("current-endpoint", location.pathname);
-  }, [navigate]);
 
   async function updateUserInfo({ email, name }) {
     if (email === currentUser.email && name === currentUser.name) {
@@ -376,6 +368,8 @@ export default function App() {
 
   // MOVIES
   async function getAllMovies() {
+    if (!pathMovies) return;
+
     setAreMoviesLoading(true);
 
     try {
@@ -412,6 +406,7 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (pathSavedMovies) setIsSearchRequestInProgress(false);
     if (!isSearchRequestInProgress || allMovies.length) return;
 
     getAllMovies();
@@ -543,101 +538,116 @@ export default function App() {
     handleDataServer(movie);
   }
 
-  if (isAppLoading) return null;
-
   return (
-    <CurrentUserContext.Provider value={currentUser}>
-      <Routes>
-        <Route
-          path={ENDPOINT_ROOT}
-          element={<Header isCurrentUserLoggedIn={isCurrentUserLoggedIn} />}
-        >
-          <Route index element={<Main />} />
+    isAppLoaded && (
+      <CurrentUserContext.Provider value={currentUser}>
+        <Routes>
           <Route
-            path={ENDPOINT_MOVIES}
-            element={
-              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <Movies
-                  movies={filteredAllMovies}
-                  onSearch={searchMovie}
-                  searchFormValue={searchFormValue}
-                  setIsSearchRequestInProgress={setIsSearchRequestInProgress}
-                  hasUserSearched={hasUserSearched}
-                  onFilter={setIsFilterCheckboxMoviesChecked}
-                  isFilterCheckboxChecked={isFilterCheckboxMoviesChecked}
-                  onMovieSelect={handleMovieSelected}
-                  onLoad={areMoviesLoading}
-                  error={errorMessages}
-                />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ENDPOINT_SAVED_MOVIES}
-            element={
-              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <SavedMovies
-                  movies={
-                    isFilterCheckboxSavedMoviesChecked ||
-                    searchFormValueSavedMovies
-                      ? filteredSavedMovies
-                      : savedMovies
-                  }
-                  onSearch={searchMovie}
-                  searchFormValue={searchFormValueSavedMovies}
-                  setIsSearchRequestInProgress={setIsSearchRequestInProgress}
-                  hasUserSearched={hasUserSearched}
-                  onMovieSelect={handleMovieSelected}
-                  onFilter={setIsFilterCheckboxSavedMoviesChecked}
-                  isFilterCheckboxChecked={isFilterCheckboxSavedMoviesChecked}
-                />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path={ENDPOINT_PROFILE}
-            element={
-              <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
-                <Profile
-                  setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn}
-                  setCurrentUser={setCurrentUser}
-                  onUpdate={updateUserInfo}
-                  isBtnSaveVisible={isBtnSaveVisible}
-                  setIsBtnSaveVisible={setIsBtnSaveVisible}
-                  onLoad={isProcessLoading}
-                  onSuccessMessages={successMessages}
-                  setSuccessMessages={setSuccessMessages}
-                  error={errorMessages}
-                  setErrorMessages={setErrorMessages}
-                />
-              </ProtectedRoute>
-            }
-          />
-        </Route>
-
-        <Route
-          path={ENDPOINT_SIGNUP}
-          element={
-            <Register
-              onRegistration={handleUserRegistration}
-              onLoad={isProcessLoading}
-              error={errorMessages}
+            path={ENDPOINT_ROOT}
+            element={<Header isCurrentUserLoggedIn={isCurrentUserLoggedIn} />}
+          >
+            <Route index element={<Main />} />
+            <Route
+              path={ENDPOINT_MOVIES}
+              element={
+                <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                  <Movies
+                    movies={filteredAllMovies}
+                    onSearch={searchMovie}
+                    searchFormValue={searchFormValue}
+                    setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+                    hasUserSearched={hasUserSearched}
+                    onFilter={setIsFilterCheckboxMoviesChecked}
+                    isFilterCheckboxChecked={isFilterCheckboxMoviesChecked}
+                    onMovieSelect={handleMovieSelected}
+                    onLoad={areMoviesLoading}
+                    error={errorMessages}
+                  />
+                </ProtectedRoute>
+              }
             />
-          }
-        />
-        <Route
-          path={ENDPOINT_SIGNIN}
-          element={
-            <Login
-              onAuthorization={handleUserAuthorization}
-              onLoad={isProcessLoading}
-              error={errorMessages}
+            <Route
+              path={ENDPOINT_SAVED_MOVIES}
+              element={
+                <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                  <SavedMovies
+                    movies={
+                      isFilterCheckboxSavedMoviesChecked ||
+                      searchFormValueSavedMovies
+                        ? filteredSavedMovies
+                        : savedMovies
+                    }
+                    onSearch={searchMovie}
+                    searchFormValue={searchFormValueSavedMovies}
+                    setIsSearchRequestInProgress={setIsSearchRequestInProgress}
+                    hasUserSearched={hasUserSearched}
+                    onMovieSelect={handleMovieSelected}
+                    onFilter={setIsFilterCheckboxSavedMoviesChecked}
+                    isFilterCheckboxChecked={isFilterCheckboxSavedMoviesChecked}
+                  />
+                </ProtectedRoute>
+              }
             />
-          }
-        />
+            <Route
+              path={ENDPOINT_PROFILE}
+              element={
+                <ProtectedRoute isUserLoggedIn={isCurrentUserLoggedIn}>
+                  <Profile
+                    setIsCurrentUserLoggedIn={setIsCurrentUserLoggedIn}
+                    setSearchFormValueSavedMovies={
+                      setSearchFormValueSavedMovies
+                    }
+                    setIsFilterCheckboxSavedMoviesChecked={
+                      setIsFilterCheckboxSavedMoviesChecked
+                    }
+                    setCurrentUser={setCurrentUser}
+                    onUpdate={updateUserInfo}
+                    isBtnSaveVisible={isBtnSaveVisible}
+                    setIsBtnSaveVisible={setIsBtnSaveVisible}
+                    onLoad={isProcessLoading}
+                    onSuccessMessages={successMessages}
+                    setSuccessMessages={setSuccessMessages}
+                    error={errorMessages}
+                    setErrorMessages={setErrorMessages}
+                  />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
 
-        <Route path={ENDPOINT_ASTERISK} element={<PageNotFound />} />
-      </Routes>
-    </CurrentUserContext.Provider>
+          {!isCurrentUserLoggedIn && (
+            <>
+              <Route
+                path={ENDPOINT_SIGNUP}
+                element={
+                  <Register
+                    onRegistration={handleUserRegistration}
+                    onLoad={isProcessLoading}
+                    error={errorMessages}
+                  />
+                }
+              />
+              <Route
+                path={ENDPOINT_SIGNIN}
+                element={
+                  <Login
+                    onAuthorization={handleUserAuthorization}
+                    onLoad={isProcessLoading}
+                    error={errorMessages}
+                  />
+                }
+              />
+            </>
+          )}
+
+          <Route
+            path={ENDPOINT_ASTERISK}
+            element={
+              <PageNotFound isCurrentUserLoggedIn={isCurrentUserLoggedIn} />
+            }
+          />
+        </Routes>
+      </CurrentUserContext.Provider>
+    )
   );
 }
