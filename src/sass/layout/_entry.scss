@@ -16,15 +16,23 @@
       max-width: 260px;
 
       padding-top: 18%;
-      padding-bottom: 18%;
+      padding-bottom: 9%;
     }
   }
 
-  &__form {
-    $font-size: 1rem;
-
+  &__wrapper-btn {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
+    min-height: 84px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    $font-size: 1rem;
 
     @include font(
       $size: $font-size,
@@ -36,19 +44,19 @@
 
   &__fieldset {
     padding: 0;
-    margin: 0 0 125px;
+    margin: 0 0 85px;
 
     border: none;
 
     @media screen and (max-width: $media-mobile-l) {
-      margin-bottom: 216px;
+      margin-bottom: 174px;
     }
 
     &_margin_big {
-      margin-bottom: 194px;
+      margin-bottom: 155px;
 
       @media screen and (max-width: $media-mobile-l) {
-        margin-bottom: 285px;
+        margin-bottom: 243px;
       }
     }
   }

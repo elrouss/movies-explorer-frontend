@@ -20,6 +20,12 @@
     font-size: $font-size-mobile;
     line-height: calc(1.6rem / $font-size-mobile);
   }
+
+  &_type_error {
+    max-width: 600px;
+
+    text-align: center;
+  }
 }
 
 .paragraph-s {

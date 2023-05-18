@@ -17,16 +17,23 @@
 
   &__wrapper {
     position: relative;
-    bottom: 28px;
+    bottom: 12px;
 
-    margin-top: 60px;
+    height: 20px;
+    margin-top: 24px;
+
+    border-radius: 20px;
 
     @media screen and (max-width: $media-tablet) {
-      margin-top: 57px;
+      bottom: 9px;
+
+      margin-top: 18px;
     }
 
     @media screen and (max-width: $media-mobile-l) {
-      margin-top: 69px;
+      bottom: -2px;
+
+      margin-top: 8px;
     }
   }
 

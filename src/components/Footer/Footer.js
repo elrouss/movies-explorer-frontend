@@ -1,9 +1,17 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 function Footer() {
+  const location = useLocation();
+  const pathSavedMovies = location.pathname === "/saved-movies";
+
   return (
     <footer className="footer">
-      <div className="wrapper footer__wrapper">
+      <div
+        className={`wrapper footer__wrapper${
+          (pathSavedMovies && " footer__wrapper_padding_xl") || ""
+        }`}
+      >
         <h2 className="footer__heading">
           Учебный проект Яндекс.Практикум х BeatFilm.
         </h2>

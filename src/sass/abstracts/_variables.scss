@@ -25,7 +25,7 @@ $font-size-l: 3rem;
 $font-size-m: 2.2rem;
 $font-size-s: 1.4rem;
 
-// MEDIA QUERIES
+// MEDIA QUERIES (SEE ALSO CONSTANTS IN UTILS JS)
 $media-desktop: 1279px;
 $media-laptop: 1024px;
 $media-tablet: 768px;
@@ -40,6 +40,7 @@ $entry-form-width: 396px;
 // DECORATIVE
 $opacity-strong: 80%;
 $opacity-medium: 70%;
+$opacity-btn-disabled: 60%;
 
 $border-radius: 1rem;
 $border-radius-m: 0.6rem;

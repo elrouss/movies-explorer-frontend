@@ -1,0 +1,19 @@
+.success {
+  $font-size: 1rem;
+
+  display: none;
+
+  @include font(
+    $size: $font-size,
+    $line-height: calc(1.9rem / $font-size),
+    $letter-spacing: 0
+  );
+  color: $color-accent-1;
+
+  &_visible {
+    display: inline;
+    margin-bottom: 20px;
+
+    text-align: center;
+  }
+}

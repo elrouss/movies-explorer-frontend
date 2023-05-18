@@ -11,6 +11,11 @@
   &:hover {
     opacity: $opacity-strong;
   }
+
+  &:disabled {
+    opacity: $opacity-btn-disabled;
+    cursor: default;
+  }
 }
 
 .btn-auth {
@@ -40,6 +45,15 @@
 
   background-color: $color-accent-2;
   border-radius: $border-radius-s;
+
+  transition: none;
+  transition: opacity 0.3s ease-in;
+}
+
+.btn-save {
+  @media screen and (max-width: $media-tablet) {
+    margin-bottom: 155px;
+  }
 }
 
 .btn-search {
@@ -112,13 +126,16 @@
     font-size: $font-size-mobile;
     line-height: calc(1.5rem / $font-size-mobile);
   }
+
+  transition: none;
+  transition: opacity 0.3s ease-in;
 }
 
 .btn-profile-exit {
   $font-size: 1.3rem;
 
   margin: 0;
-  padding: 0;
+  padding: 0 0 140px;
 
   @include font(
     $family: "Inter-Medium",

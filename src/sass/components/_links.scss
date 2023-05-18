@@ -164,6 +164,8 @@
   );
   color: $color-accent-2;
 
+  background-color: transparent;
+
   @media screen and (max-width: $media-mobile-l) {
     $font-size: 1.2rem;
 

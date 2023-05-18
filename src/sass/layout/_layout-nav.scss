@@ -4,11 +4,11 @@
 
   @media screen and (max-width: $media-tablet) {
     flex-direction: column;
-    row-gap: 60.5vh;
+    row-gap: 30vh;
   }
 
   @media screen and (max-width: $media-mobile-l) {
     flex-direction: column;
-    row-gap: 57vh;
+    row-gap: 28.5vh;
   }
 }

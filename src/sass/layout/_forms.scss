@@ -1,15 +1,19 @@
 .search-film {
   width: 100%;
+  min-height: 68px;
 
-  display: flex;
-  justify-content: space-between;
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    width: inherit;
 
-  @include border-bottom($color: $color-border-dark);
+    @include border-bottom($color: $color-border-dark);
 
-  @extend %animation;
+    @extend %animation;
 
-  &:focus-within {
-    border-bottom-color: $color-accent-2;
+    &:focus-within {
+      border-bottom-color: $color-accent-2;
+    }
   }
 
   &__input {
