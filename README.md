@@ -29,8 +29,6 @@ IP: 158.160.47.171
 <br>
 Frontend (деплой): https://elrouss.movies.nomoredomains.monster/
 <br>
-Pull-request: https://github.com/elrouss/movies-explorer-frontend/pull/8
-<br>
 Backend: https://api.elrouss.movies.nomoredomains.monster/
 
 <b>Макет:</b> https://disk.yandex.ru/d/tLqZ9NlxEjOxWQ
